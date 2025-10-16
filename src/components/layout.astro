@@ -135,7 +135,8 @@ const { title, description, home = false } = Astro.props;
     .nav-container {
       position: fixed;
       left: 2rem;
-      top: calc(15vh + 2rem);
+      top: 50%; /* Center in entire viewport */
+      transform: translateY(-50%); /* Perfect vertical center */
       z-index: 1000;
     }
 
