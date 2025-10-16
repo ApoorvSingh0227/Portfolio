@@ -14,8 +14,8 @@ const { title, description, home = false } = Astro.props;
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest" />
 
-  <meta name="msapplication-TileColor" content="#5cebdf" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="msapplication-TileColor" content="#000000" />
+  <meta name="theme-color" content="#000000" />
   <title>{title}</title>
 
   <link rel="stylesheet" href="/global.css">
@@ -28,70 +28,71 @@ const { title, description, home = false } = Astro.props;
       font-display: swap;
     }
 
-    :root {
-    
-      --heading: var(--neutral-dark-900);
-      --text: var(--neutral-dark-900);
-      --text-muted: var(--neutral-dark-600);
-      --primary: var(--blue-700);
-      --primary-darker: var(--blue-800);
-      --highlight: var(--teal-300);
-      --button:var(--neutral-light-000);
-      --lightBorder: var(--neutral-light-200);
-      --light: var(--neutral-light-100);
-      --white: var(--neutral-light-000);
-      --card-radius: var(--border-radius-3);
-      --font-primary: Inter, sans-serif;
-      --font-secondary: Inter, sans-serif;
+    @font-face {
+      font-family: 'Inter';
+      src: url('/fonts/Inter-Bold.woff2') format('woff2');
+      font-weight: bold;
+      font-style: normal;
+      font-display: swap;
+    }
 
+    @font-face {
+      font-family: 'Inter';
+      src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --black: #000000;
+      --dark-bg: #0F1A1C;
+      --white: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.7);
+      --card-radius: 16px;
+      --font-primary: 'Inter', sans-serif;
+      --font-secondary: 'Inter', sans-serif;
     }
 
     * {
       box-sizing: border-box;
+      transition: all 0.3s ease;
     }
 
-    html,
-    body {
-
-      color: var(--text);
+    html, body {
+      color: var(--white);
       font-family: var(--font-secondary);
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1.45;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
     }
 
     body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 5rem 0 4rem;
+      background: 
+        linear-gradient(
+          180deg,
+          var(--black) 0%,
+          var(--dark-bg) 80%,
+          #1a2a32 100%
+        ) fixed; /* This makes the gradient fixed to viewport */
+      background-size: cover;
+      background-attachment: fixed; /* Ensures it stays fixed during scroll */
     }
 
-    h1, h2, h3 {
+    h1, h2, h3, h4, h5, h6 {
       font-family: var(--font-primary);
-    }
-
-    a:link,
-    a:visited {
-      color: var(--text);
-      text-decoration: underline;
-      text-decoration-color: var(--text);
       font-weight: 600;
     }
-    a:hover,
-    a:focus {
-      text-decoration-color: var(--highlight);
+
+    a:link, a:visited {
+      color: var(--white);
+      text-decoration: none;
     }
 
-    main {
-      background: var(--light);
-      margin-bottom: 2rem;
-      margin-top: 3rem;
-      padding: 2rem max(5vw, 50vw - 60ch / 2);
-      width: 100vw;
-      border-style: none;
+    a:hover, a:focus {
+      opacity: 0.8;
     }
 
     .sr-only:not(:focus):not(:active) {
@@ -104,119 +105,535 @@ const { title, description, home = false } = Astro.props;
       width: 1px;
     }
 
-    .button,
-    a.button {
-      background: var(--primary);
-      border-radius: 4px;
-      color: var(--white);
-      display: inline-block;
-      font-weight: 800;
-      padding: 0.5rem 1rem;
-      text-decoration: none;
-      width: max-content;
-      transition-duration: .2s;
-      text-decoration: none;
-      margin-top: auto;
-    }
-
-    a.button:hover,
-    a.button:focus,
-    .button:hover,
-    .button:focus {
-      background: var(--primary-darker);
-    }
-
-
-    .container,
-    .footer {
-      margin: 0 auto;
-      text-align: center;
-      width: min(90vw, 900px);
-    }
-
-    .heading {
-      color: var(--heading);
-      font-size: 2.5rem;
-      margin: 0;
-      text-align: center;
-    }
-
-    .footer {
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      margin-top: 4rem;
-    }
-
-    .footer a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .footer a:focus,
-    .footer a:hover {
-      text-decoration: underline;
-    }
-
-    .footer ul {
+    /* Header Styles */
+    .main-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 15vh;
+      background: var(--black);
+      border-bottom: 2px solid;
+      border-image: linear-gradient(90deg, white 0%, white 30%, red 65%, rgb(29, 119, 255) 100%) 1;
+      padding: 0 2rem;
       display: flex;
-      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: flex-start;
+      z-index: 100;
+    }
+
+    .name {
+      font-family: var(--font-primary);
+      font-size: 3rem;
+      font-weight: bold;
+      color: var(--white);
+      margin-bottom: 1rem;
+      margin-left: 10%;
+    }
+
+    /* Navigation Styles */
+    .nav-container {
+      position: fixed;
+      left: 2rem;
+      top: calc(15vh + 2rem);
+      z-index: 1000;
+    }
+
+    .nav-menu {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 25px;
+      padding: 1rem 0.5rem;
+      width: 60px;
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-menu.expanded {
+      width: 180px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .nav-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 20px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.7);
+      z-index: 2;
+      transition: color 0.3s ease;
+    }
+
+    .nav-item:hover {
+      color: white;
+    }
+
+    .nav-item.active {
+      color: white;
+    }
+
+    .highlight {
+      position: absolute;
+      left: 0.5rem;
+      right: 0.5rem;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      z-index: 1;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      top: 0.5rem;
+      
+      /* Glass effect for highlight */
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* When menu is collapsed, make highlight circular and perfectly centered */
+    .nav-menu:not(.expanded) .highlight {
+      width: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 50%;
+    }
+
+    .nav-menu.expanded .highlight {
+      width: auto; /* Take full width minus padding */
+      left: 0.5rem;
+      right: 0.5rem;
+      transform: none;
+      border-radius: 20px;
+    }
+
+    .nav-icon {
+      font-size: 1.25rem;
+      width: 24px;
+      height: 24px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      list-style-type: none;
+      z-index: 3; /* Above highlight */
     }
 
-    .footer li {
-      margin: 0 1em;
+    .nav-icon-img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+      z-index: 3; /* Above highlight */
     }
 
-    .heart {
-      display: inline-block;
-      vertical-align: top;
-      width: 1.1rem;
+    .nav-item:hover .nav-icon-img,
+    .nav-item.active .nav-icon-img {
+      opacity: 1;
     }
 
-    .heart img {
-      display: block;
+    .nav-label {
+      opacity: 0;
+      white-space: nowrap;
+      font-weight: 500;
+      font-family: var(--font-primary);
+      z-index: 3; /* Above highlight */
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-menu.expanded .nav-label {
+      opacity: 1;
+    }
+
+    /* Main content area */
+    .main-content {
+      margin-top: 15vh;
+      padding: 2rem 2rem; 
+      min-height: 100vh;
+      margin-left: auto;
+      margin-right: auto;
       width: 100%;
+      max-width: 1200px;
+    }
+    
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .project-card {
+      position: relative;
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      display: flex;
+      gap: 1.5rem;
+      height: 100%;
+      overflow: hidden;
+      isolation: isolate; /* Creates new stacking context */
+      
+      /* TRUE Glass Morphism - transparent background */
+      background: rgba(255, 255, 255, 0.05);
+      
+      /* Enhanced glass effect */
+      backdrop-filter: 
+        blur(20px) 
+        saturate(180%) 
+        contrast(120%) 
+        brightness(110%);
+      -webkit-backdrop-filter: 
+        blur(20px) 
+        saturate(180%) 
+        contrast(120%) 
+        brightness(110%);
+      
+      /* Glass border */
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      
+      /* Subtle shadow for depth */
+      box-shadow: 
+        0 8px 32px 0 rgba(0, 0, 0, 0.36),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* Light reflection - this creates the glass shine */
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 40%,
+        transparent 60%,
+        rgba(255, 255, 255, 0.02) 100%
+      );
+      border-radius: 24px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Background noise/texture for glass distortion */
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      right: -50%;
+      bottom: -50%;
+      background-image: 
+        radial-gradient(
+          ellipse at 30% 20%,
+          rgba(197, 197, 197, 0.3) 0%,
+          transparent 50%
+        ),
+        radial-gradient(
+          ellipse at 70% 80%,
+          rgba(255, 255, 255, 0.2) 0%,
+          transparent 50%
+        );
+      opacity: 0.4;
+      animation: glassShift 15s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+      mix-blend-mode: overlay;
+    }
+
+    @keyframes glassShift {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      25% {
+        transform: translate(2px, -1px) scale(1.01);
+      }
+      50% {
+        transform: translate(-1px, 2px) scale(1.02);
+      }
+      75% {
+        transform: translate(1px, 1px) scale(1.01);
+      }
+    }
+
+    .project-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      min-width: 80px;
+      z-index: 2; /* Above glass effects */
+    }
+
+    .project-icon {
+      font-size: 2rem;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      backdrop-filter: blur(8px) saturate(180%);
+      -webkit-backdrop-filter: blur(8px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
+        0 4px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .project-type {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-align: center;
+      font-family: var(--font-primary);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+      letter-spacing: 0.5px;
+    }
+
+    .project-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      z-index: 2; /* Above glass effects */
+    }
+
+    .project-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0 0 1.2rem 0;
+      font-family: var(--font-primary);
+      background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .project-description {
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.7;
+      margin: 0;
+      flex: 1;
+      font-size: 1rem;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      font-weight: 400;
+    }
+
+    /* Section styles */
+    .section-label {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-align: left;
+      font-family: var(--font-primary);
+    }
+
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+      margin: 2rem 0;
+    }
+
+    .hero-section {
+      margin: 4rem 0;
+      text-align: center;
+    }
+
+    .hero-graphic {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .projects-section {
+      margin: 4rem 0;
     }
   </style>
 </head>
 <body>
-  <header class="container">
-    <h1 class="heading">{title}</h1>
-
-    <p class="description">{description}</p>
-
-    {home !== true && (
-      <p>
-        <a href="/">&larr; back to home</a>
-      </p>
-    )}
+  <!-- Fixed Header -->
+  <header class="main-header">
+    <div class="name">Apoorv Singh</div>
   </header>
 
-  <slot />
-
-  <footer class="footer">
-    <nav>
-      <ul>
-        <li>
-          <a class="footer-link" href="https://www.netlify.com/trust-center/">Trust Center</a>
+  <!-- Navigation Menu -->
+  <div class="nav-container">
+    <nav class="nav-menu" id="navMenu">
+      <ul class="nav-list">
+        <li class="nav-item active" data-item="home">
+          <div class="nav-icon">
+            <img src="/images/home.png" alt="Home" class="nav-icon-img" />
+          </div>
+          <span class="nav-label">Home</span>
         </li>
-        <li>
-          <a class="footer-link" href="https://www.netlify.com/privacy/">Privacy</a>
+        <li class="nav-item" data-item="projects">
+          <div class="nav-icon">
+            <img src="/images/case studies.png" alt="Projects" class="nav-icon-img" />
+          </div>
+          <span class="nav-label">Projects</span>
         </li>
-        <li>
-          <a class="footer-link" href="https://www.netlify.com/security/">Security</a>
+        <li class="nav-item" data-item="about">
+          <div class="nav-icon">
+            <img src="/images/gallery.png" alt="Gallery" class="nav-icon-img" />
+          </div>
+          <span class="nav-label">Gallery</span>
         </li>
-        <li>
-          <a class="footer-link" href="https://www.netlify.com/gdpr-ccpa/">GDPR/CCPA</a>
+        <li class="nav-item" data-item="contact">
+          <div class="nav-icon">
+            <img src="/images/about.png" alt="About" class="nav-icon-img" />
+          </div>
+          <span class="nav-label">About</span>
         </li>
-        <li>
-          <a class="footer-link" href="mailto:fraud@netlify.com?subject=Abuse%20report&body=Please%20include%20the%20site%20URL%20and%20reason%20for%20your%20report%2C%20and%20we%20will%20reply%20promptly." target="_blank" rel="noopener noreferrer">Abuse</a>
-        </li>
+        <div class="highlight" id="navHighlight"></div>
       </ul>
     </nav>
-  </footer>
+  </div>
 
+  <!-- Page Content -->
+  <div class="main-content">
+    <slot />
+  </div>
+
+  <script>
+    const menu = document.getElementById('navMenu');
+    const highlight = document.getElementById('navHighlight');
+    let isExpanded = false;
+
+    function updateHighlight() {
+      const activeItem = document.querySelector('.nav-item.active');
+      const highlight = document.getElementById('navHighlight');
+      const menu = document.getElementById('navMenu');
+      
+      if (!activeItem || !highlight || !menu) return;
+      
+      const navItems = document.querySelectorAll('.nav-item');
+      let activeIndex = -1;
+      
+      // Find the index of the active item
+      navItems.forEach((item, index) => {
+        if (item === activeItem) {
+          activeIndex = index;
+        }
+      });
+      
+      if (activeIndex >= 0) {
+        // Calculate position based on index
+        const itemHeight = 56; // height of each nav item with padding and gap
+        const position = activeIndex * itemHeight;
+        
+        if (menu.classList.contains('expanded')) {
+          // Expanded state
+          highlight.style.transform = `translateY(${position}px)`;
+          highlight.style.width = 'auto';
+          highlight.style.bottom = '0.5rem';
+          highlight.style.left = '0.1rem';
+          highlight.style.right = '0.9rem';
+          highlight.style.borderRadius = '20px';
+        } else {
+          // Collapsed state - perfectly centered circular highlight
+          highlight.style.transform = `translateY(${position}px)`;
+          highlight.style.width = '40px';
+          highlight.style.left = '50%';
+          highlight.style.transform = `translateX(-50%) translateY(${position}px)`;
+          highlight.style.borderRadius = '50%';
+        }
+      }
+    }
+
+    function expandMenu() {
+      const menu = document.getElementById('navMenu');
+      if (menu) {
+        menu.classList.add('expanded');
+        // Small delay to ensure CSS transition completes
+        setTimeout(updateHighlight, 50);
+      }
+    }
+
+    function collapseMenu() {
+      const menu = document.getElementById('navMenu');
+      if (menu) {
+        menu.classList.remove('expanded');
+        // Reset to active page when mouse leaves
+        const activeItem = document.querySelector('.nav-item.active');
+        if (activeItem) {
+          document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+          });
+          activeItem.classList.add('active');
+        }
+        // Small delay to ensure CSS transition completes
+        setTimeout(updateHighlight, 50);
+      }
+    }
+
+    function highlightItem(element) {
+      const menu = document.getElementById('navMenu');
+      if (menu && menu.classList.contains('expanded')) {
+        const activeItem = document.querySelector('.nav-item.active');
+        if (activeItem) {
+          activeItem.classList.remove('active');
+        }
+        element.classList.add('active');
+        updateHighlight();
+      }
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      const menu = document.getElementById('navMenu');
+      if (menu) {
+        menu.addEventListener('mouseenter', expandMenu);
+        menu.addEventListener('mouseleave', collapseMenu);
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.addEventListener('mouseenter', function() {
+            highlightItem(this);
+          });
+          
+          item.addEventListener('click', function() {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+            updateHighlight();
+          });
+        });
+
+        // Initialize highlight position
+        setTimeout(updateHighlight, 100);
+      }
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', updateHighlight);
+  </script>
 </body>
 </html>
