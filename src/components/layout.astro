@@ -125,7 +125,7 @@ const { title, description, home = false } = Astro.props;
     .name {
       font-family: var(--font-primary);
       font-size: 3rem;
-      font-weight: bold;
+      font-weight: 700;
       color: var(--white);
       margin-bottom: 1rem;
       margin-left: 10%;
@@ -195,7 +195,7 @@ const { title, description, home = false } = Astro.props;
       background: rgba(255, 255, 255, 0.15);
       border-radius: 20px;
       z-index: 1;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       top: 0.5rem;
       
       /* Glass effect for highlight */
@@ -206,11 +206,16 @@ const { title, description, home = false } = Astro.props;
         0 4px 12px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
+    
+    .nav-menu:not(.expanded){
+      padding-left: 10%;
+    }
 
     /* When menu is collapsed, make highlight circular and perfectly centered */
     .nav-menu:not(.expanded) .highlight {
       width: 40px;
       left: 50%;
+      top: 3%;
       transform: translateX(-50%);
       border-radius: 50%;
     }
@@ -218,6 +223,7 @@ const { title, description, home = false } = Astro.props;
     .nav-menu.expanded .highlight {
       width: auto; /* Take full width minus padding */
       left: 0.5rem;
+      top: 3%;
       right: 0.5rem;
       transform: none;
       border-radius: 20px;
@@ -530,8 +536,10 @@ const { title, description, home = false } = Astro.props;
     const highlight = document.getElementById('navHighlight');
     let isExpanded = false;
 
+    let currentActiveItem = 'home'; // Track the actual active page
+
     function updateHighlight() {
-      const activeItem = document.querySelector('.nav-item.active');
+      const activeItem = document.querySelector(`.nav-item[data-item="${currentActiveItem}"]`);
       const highlight = document.getElementById('navHighlight');
       const menu = document.getElementById('navMenu');
       
@@ -542,30 +550,33 @@ const { title, description, home = false } = Astro.props;
       
       // Find the index of the active item
       navItems.forEach((item, index) => {
-        if (item === activeItem) {
+        if (item.getAttribute('data-item') === currentActiveItem) {
           activeIndex = index;
         }
       });
       
       if (activeIndex >= 0) {
         // Calculate position based on index
-        const itemHeight = 56; // height of each nav item with padding and gap
+        const itemHeight = 56;
         const position = activeIndex * itemHeight;
         
         if (menu.classList.contains('expanded')) {
-          // Expanded state
-          highlight.style.transform = `translateY(${position}px)`;
-          highlight.style.width = 'auto';
-          highlight.style.bottom = '0.5rem';
-          highlight.style.left = '0.1rem';
-          highlight.style.right = '0.9rem';
+          // Expanded state - use current hover/active state
+          const visualActiveItem = document.querySelector('.nav-item.active');
+          if (visualActiveItem) {
+            const visualIndex = Array.from(navItems).indexOf(visualActiveItem);
+            highlight.style.transform = `translateY(${visualIndex * itemHeight}px)`;
+          } else {
+            highlight.style.transform = `translateY(${position}px)`;
+          }
+          highlight.style.width = 'calc(100% - 1rem)';
+          highlight.style.left = '0.5rem';
           highlight.style.borderRadius = '20px';
         } else {
-          // Collapsed state - perfectly centered circular highlight
-          highlight.style.transform = `translateY(${position}px)`;
+          // Collapsed state - always show the actual active page
+          highlight.style.transform = `translateX(-50%) translateY(${position}px)`;
           highlight.style.width = '40px';
           highlight.style.left = '50%';
-          highlight.style.transform = `translateX(-50%) translateY(${position}px)`;
           highlight.style.borderRadius = '50%';
         }
       }
@@ -575,8 +586,7 @@ const { title, description, home = false } = Astro.props;
       const menu = document.getElementById('navMenu');
       if (menu) {
         menu.classList.add('expanded');
-        // Small delay to ensure CSS transition completes
-        setTimeout(updateHighlight, 50);
+        updateHighlight();
       }
     }
 
@@ -584,16 +594,20 @@ const { title, description, home = false } = Astro.props;
       const menu = document.getElementById('navMenu');
       if (menu) {
         menu.classList.remove('expanded');
-        // Reset to active page when mouse leaves
-        const activeItem = document.querySelector('.nav-item.active');
-        if (activeItem) {
-          document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
-          });
-          activeItem.classList.add('active');
+        
+        // Remove any temporary active classes from hovering
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+          item.classList.remove('active');
+        });
+        
+        // Re-add active class to the actual active page
+        const actualActiveItem = document.querySelector(`.nav-item[data-item="${currentActiveItem}"]`);
+        if (actualActiveItem) {
+          actualActiveItem.classList.add('active');
         }
-        // Small delay to ensure CSS transition completes
-        setTimeout(updateHighlight, 50);
+        
+        updateHighlight();
       }
     }
 
@@ -609,6 +623,19 @@ const { title, description, home = false } = Astro.props;
       }
     }
 
+    // Set active page permanently on click
+    function setActivePage(element) {
+      const itemId = element.getAttribute('data-item');
+      currentActiveItem = itemId; // Update the actual active page
+      
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => {
+        item.classList.remove('active');
+      });
+      element.classList.add('active');
+      updateHighlight();
+    }
+
     // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
       const menu = document.getElementById('navMenu');
@@ -622,14 +649,12 @@ const { title, description, home = false } = Astro.props;
           });
           
           item.addEventListener('click', function() {
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            updateHighlight();
+            setActivePage(this);
           });
         });
 
-        // Initialize highlight position
-        setTimeout(updateHighlight, 100);
+        // Initialize with home as active
+        updateHighlight();
       }
     });
 
