@@ -76,9 +76,9 @@ const { title, description, home = false } = Astro.props;
           var(--black) 0%,
           var(--dark-bg) 80%,
           #1a2a32 100%
-        ) fixed; /* This makes the gradient fixed to viewport */
+        ) fixed;
       background-size: cover;
-      background-attachment: fixed; /* Ensures it stays fixed during scroll */
+      background-attachment: fixed;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -135,8 +135,8 @@ const { title, description, home = false } = Astro.props;
     .nav-container {
       position: fixed;
       left: 2rem;
-      top: 50%; /* Center in entire viewport */
-      transform: translateY(-50%); /* Perfect vertical center */
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 1000;
     }
 
@@ -197,8 +197,6 @@ const { title, description, home = false } = Astro.props;
       z-index: 1;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       top: 0.5rem;
-      
-      /* Glass effect for highlight */
       backdrop-filter: blur(10px) saturate(180%);
       -webkit-backdrop-filter: blur(10px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -206,12 +204,11 @@ const { title, description, home = false } = Astro.props;
         0 4px 12px rgba(0, 0, 0, 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
-    
+
     .nav-menu:not(.expanded){
       padding-left: 10%;
     }
 
-    /* When menu is collapsed, make highlight circular and perfectly centered */
     .nav-menu:not(.expanded) .highlight {
       width: 40px;
       left: 50%;
@@ -221,10 +218,8 @@ const { title, description, home = false } = Astro.props;
     }
 
     .nav-menu.expanded .highlight {
-      width: auto; /* Take full width minus padding */
-      left: 0.5rem;
+      width: auto;
       top: 3%;
-      right: 0.5rem;
       transform: none;
       border-radius: 20px;
     }
@@ -233,19 +228,20 @@ const { title, description, home = false } = Astro.props;
       font-size: 1.25rem;
       width: 24px;
       height: 24px;
+      padding-right: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 3; /* Above highlight */
+      z-index: 3;
     }
 
     .nav-icon-img {
       width: 24px;
-      height: 24px;
+      height: 24px; 
       filter: brightness(0) invert(1);
       opacity: 0.7;
       transition: opacity 0.3s ease;
-      z-index: 3; /* Above highlight */
+      z-index: 3;
     }
 
     .nav-item:hover .nav-icon-img,
@@ -258,7 +254,7 @@ const { title, description, home = false } = Astro.props;
       white-space: nowrap;
       font-weight: 500;
       font-family: var(--font-primary);
-      z-index: 3; /* Above highlight */
+      z-index: 3;
       transition: opacity 0.3s ease;
     }
 
@@ -289,41 +285,22 @@ const { title, description, home = false } = Astro.props;
       }
     }
 
+    /* Project Card Base Styles */
     .project-card {
       position: relative;
       border-radius: 24px;
       padding: 2.5rem 2rem;
-      display: flex;
-      gap: 1.5rem;
-      height: 100%;
       overflow: hidden;
-      isolation: isolate; /* Creates new stacking context */
-      
-      /* TRUE Glass Morphism - transparent background */
+      isolation: isolate;
       background: rgba(255, 255, 255, 0.05);
-      
-      /* Enhanced glass effect */
-      backdrop-filter: 
-        blur(20px) 
-        saturate(180%) 
-        contrast(120%) 
-        brightness(110%);
-      -webkit-backdrop-filter: 
-        blur(20px) 
-        saturate(180%) 
-        contrast(120%) 
-        brightness(110%);
-      
-      /* Glass border */
+      backdrop-filter: blur(20px) saturate(180%) contrast(120%) brightness(110%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%) contrast(120%) brightness(110%);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      
-      /* Subtle shadow for depth */
       box-shadow: 
         0 8px 32px 0 rgba(0, 0, 0, 0.36),
         inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
     }
 
-    /* Light reflection - this creates the glass shine */
     .project-card::before {
       content: '';
       position: absolute;
@@ -343,7 +320,6 @@ const { title, description, home = false } = Astro.props;
       z-index: 1;
     }
 
-    /* Background noise/texture for glass distortion */
     .project-card::after {
       content: '';
       position: absolute;
@@ -384,35 +360,84 @@ const { title, description, home = false } = Astro.props;
       }
     }
 
-    .project-left {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      min-width: 80px;
-      z-index: 2; /* Above glass effects */
+    /* Standard Project Card */
+    .project-card.standard-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      height: auto;
     }
 
-    .project-icon {
-      font-size: 2rem;
+    .project-icon-container {
       background: rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
+      border-radius: 16px;
       width: 70px;
       height: 70px;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      backdrop-filter: blur(8px) saturate(180%);
-      -webkit-backdrop-filter: blur(8px) saturate(180%);
+      backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
-        0 4px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .project-icon-img {
+      width: 70px;
+      height: 70px;
+      mix-blend-mode: overlay;
+      object-fit: contain;
+      border-radius: 15px;
+    }
+
+    .project-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      width: 100%;
+      gap: 1rem;
+    }
+
+    .project-title-container {
+      flex: 1;
+    }
+
+    .project-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 0.5rem 0;
+      font-family: var(--font-primary);
+      background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .project-timeframe {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+      margin-bottom: 0;
+      font-weight: 500;
+      font-style: italic;
+      font-family: var(--font-primary);
+    }
+
+    .project-description {
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.7;
+      margin: 0;
+      flex: 1;
+      font-size: 1rem;
     }
 
     .project-type {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #667eea50 0%, #764ba250 100%);
       padding: 0.5rem 1.2rem;
       border-radius: 20px;
       font-size: 0.75rem;
@@ -425,35 +450,80 @@ const { title, description, home = false } = Astro.props;
       border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
       letter-spacing: 0.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 0;
+      align-self: flex-start;
     }
 
-    .project-right {
-      flex: 1;
+    /* Featured Project Card */
+    .featured-card {
+      grid-column: 1 / -1;
+      padding: 0;
+    }
+
+    .featured-desktop {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 0;
+      height: 400px;
+    }
+
+    .featured-info {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2rem;
       display: flex;
       flex-direction: column;
-      z-index: 2; /* Above glass effects */
+      gap: 1.5rem;
     }
 
-    .project-title {
-      font-size: 1.4rem;
+    .project-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .featured-highlight {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+    }
+
+    .featured-gradient {
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, transparent 100%);
+    }
+
+    .featured-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+      color: white;
+    }
+
+    .featured-title {
+      font-size: 2rem;
       font-weight: 700;
-      margin: 0 0 1.2rem 0;
-      font-family: var(--font-primary);
-      background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 0.5rem;
     }
 
-    .project-description {
-      color: rgba(255, 255, 255, 0.85);
-      line-height: 1.7;
-      margin: 0;
-      flex: 1;
-      font-size: 1rem;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    .featured-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.7;
+      margin-top: -0.5rem;
       font-weight: 400;
+    }
+
+    /* Mobile Layouts */
+    .featured-mobile {
+      display: none;
     }
 
     /* Section styles */
@@ -484,6 +554,207 @@ const { title, description, home = false } = Astro.props;
 
     .projects-section {
       margin: 4rem 0;
+    }
+
+    /* Mobile Responsive Design */
+    @media (max-width: 768px) {
+      .main-header {
+        height: 12vh;
+        padding: 0 1rem;
+      }
+      
+      .name {
+        font-size: 2rem;
+        margin-left: 5%;
+        margin-bottom: 0.5rem;
+      }
+      
+      .nav-container {
+        left: 1rem;
+      }
+      
+      .nav-menu {
+        width: 50px;
+        padding: 0.5rem 0.25rem;
+      }
+      
+      .nav-menu.expanded {
+        width: 160px;
+      }
+      
+      .main-content {
+        padding: 1rem;
+        margin-top: 12vh;
+      }
+      
+      .projects-section {
+        margin: 2rem 0;
+      }
+      
+      .section-label {
+        font-size: 1.8rem !important; /* Force font size change */
+        margin-bottom: 1rem;
+      }
+      
+      .project-card {
+        padding: 1.5rem 1rem;
+      }
+      
+      .project-card.standard-card {
+        grid-template-columns: auto 1fr;
+        gap: 1rem;
+        align-items: start;
+      }
+      
+      .project-icon-container {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+      }
+      
+      .project-icon-img {
+        width: 50px;
+        height: 50px;
+        mix-blend-mode: overlay;
+      }
+      
+      .project-content {
+        grid-column: 2;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .project-header {
+        flex-direction: row; /* Keep inline on mobile */
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .project-title-container {
+        margin-right: 0;
+      }
+      
+      .project-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
+      }
+      
+      .project-timeframe {
+        font-size: 0.8rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .project-description {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      
+      .project-type {
+        margin-top: 0 !important;
+        align-self: flex-start;
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+      }
+      
+      /* Featured card mobile */
+      .featured-desktop {
+        display: none;
+      }
+      
+      .featured-mobile {
+        display: block;
+      }
+
+      .featured-top {
+        height: 325px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        margin: -5%;
+        padding: 0;
+      }
+
+      .mobile-details .project-header {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .mobile-details .project-title-container {
+        flex: 1;
+      }
+      
+      .mobile-project-info .project-type {
+        margin-top: 0;
+        align-self: flex-start;
+      }
+
+      .mobile-gradient {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 70%;
+        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+      }
+
+      .mobile-featured-content {
+        position: relative;
+        z-index: 2;
+        padding: 1.5rem;
+        color: white;
+        /* Ensure content stays within image bounds */
+        width: 100%;
+      }
+
+      .featured-bottom {
+        margin-top: 2.5rem;
+        margin-bottom: -1rem;
+      }
+      
+      .mobile-project-info {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 1rem;
+        align-items: center;
+      }
+      
+      .mobile-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+      }
+      
+      .mobile-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0rem;
+      }
+      
+      .project-short-description {
+        font-size: 0.8rem;
+        opacity: 0.8;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .projects-grid {
+        gap: 1.5rem;
+      }
+      
+      .project-card {
+        padding: 1.25rem 0.875rem;
+      }
     }
   </style>
 </head>
@@ -536,7 +807,7 @@ const { title, description, home = false } = Astro.props;
     const highlight = document.getElementById('navHighlight');
     let isExpanded = false;
 
-    let currentActiveItem = 'home'; // Track the actual active page
+    let currentActiveItem = 'home';
 
     function updateHighlight() {
       const activeItem = document.querySelector(`.nav-item[data-item="${currentActiveItem}"]`);
@@ -548,7 +819,6 @@ const { title, description, home = false } = Astro.props;
       const navItems = document.querySelectorAll('.nav-item');
       let activeIndex = -1;
       
-      // Find the index of the active item
       navItems.forEach((item, index) => {
         if (item.getAttribute('data-item') === currentActiveItem) {
           activeIndex = index;
@@ -556,12 +826,10 @@ const { title, description, home = false } = Astro.props;
       });
       
       if (activeIndex >= 0) {
-        // Calculate position based on index
         const itemHeight = 56;
         const position = activeIndex * itemHeight;
         
         if (menu.classList.contains('expanded')) {
-          // Expanded state - use current hover/active state
           const visualActiveItem = document.querySelector('.nav-item.active');
           if (visualActiveItem) {
             const visualIndex = Array.from(navItems).indexOf(visualActiveItem);
@@ -573,7 +841,6 @@ const { title, description, home = false } = Astro.props;
           highlight.style.left = '0.5rem';
           highlight.style.borderRadius = '20px';
         } else {
-          // Collapsed state - always show the actual active page
           highlight.style.transform = `translateX(-50%) translateY(${position}px)`;
           highlight.style.width = '40px';
           highlight.style.left = '50%';
@@ -595,13 +862,11 @@ const { title, description, home = false } = Astro.props;
       if (menu) {
         menu.classList.remove('expanded');
         
-        // Remove any temporary active classes from hovering
         const navItems = document.querySelectorAll('.nav-item');
         navItems.forEach(item => {
           item.classList.remove('active');
         });
         
-        // Re-add active class to the actual active page
         const actualActiveItem = document.querySelector(`.nav-item[data-item="${currentActiveItem}"]`);
         if (actualActiveItem) {
           actualActiveItem.classList.add('active');
@@ -623,10 +888,9 @@ const { title, description, home = false } = Astro.props;
       }
     }
 
-    // Set active page permanently on click
     function setActivePage(element) {
       const itemId = element.getAttribute('data-item');
-      currentActiveItem = itemId; // Update the actual active page
+      currentActiveItem = itemId;
       
       const navItems = document.querySelectorAll('.nav-item');
       navItems.forEach(item => {
@@ -636,7 +900,6 @@ const { title, description, home = false } = Astro.props;
       updateHighlight();
     }
 
-    // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
       const menu = document.getElementById('navMenu');
       if (menu) {
@@ -653,13 +916,9 @@ const { title, description, home = false } = Astro.props;
           });
         });
 
-        // Initialize with home as active
         updateHighlight();
       }
     });
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', updateHighlight);
   </script>
 </body>
 </html>

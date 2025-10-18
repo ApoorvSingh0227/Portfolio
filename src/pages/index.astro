@@ -1,35 +1,46 @@
 ---
 import Layout from '../components/layout.astro';
 
-// Your project data
+// Project data
 const projects = [
   {
-    title: "E-Commerce App Design",
+    title: "Statera",
     description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
+    shortDescription: "Modern e-commerce app with intuitive UX",
     type: "app",
     icon: "/images/Asset-3.png",
-    timeframe: "Jan 2024 - Mar 2024"
+    timeframe: "Jan 2024 - Mar 2024",
+    featured: true,
+    highlightImage: "/images/ecommerce-featured.jpg",
+    featureTitle: "Gain work-life balance",
+    featureSubtitle: "Split and schedule your tasks with complete control"
   },
   {
     title: "Portfolio Website UI", 
     description: "Created a responsive portfolio website design with modern aesthetics and smooth interactions. Focused on accessibility and mobile-first design.",
+    shortDescription: "Responsive portfolio with modern design",
     type: "website",
     icon: "/images/Asset-2.png",
-    timeframe: "Jan 2024 - Mar 2024"
+    timeframe: "Jan 2024 - Mar 2024",
+    featured: false
   },
   {
     title: "Mobile Game Interface",
     description: "Designed user interface for a mobile puzzle game with engaging interactions and smooth animations. Created design system and component library.",
+    shortDescription: "Mobile game UI with engaging interactions",
     type: "game", 
     icon: "/images/Asset-4.png",
-    timeframe: "Jan 2024 - Mar 2024"
+    timeframe: "Jan 2024 - Mar 2024",
+    featured: false
   },
   {
     title: "Dashboard Redesign",
     description: "Redesigned analytics dashboard for better data visualization and user workflow. Improved information architecture and user flow.",
+    shortDescription: "Analytics dashboard with better visualization",
     type: "web app",
     icon: "/images/Asset-3.png",
-    timeframe: "Jan 2024 - Mar 2024"
+    timeframe: "Jan 2024 - Mar 2024",
+    featured: false
   }
 ];
 ---
@@ -50,7 +61,7 @@ const projects = [
     width: 100%;
     max-width: none;
     margin: 0 auto;
-    padding: 0 1rem; /* 1rem padding for the image only */
+    padding: 0 1rem;
   }
 
   .hero-image {
@@ -70,12 +81,12 @@ const projects = [
     gap: 1.5rem;
     z-index: 10;
     width: 100%;
-    max-width: 1200px; /* Same as main content */
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem; /* 2rem padding for text/buttons to align with content */
+    padding: 0 2rem;
     box-sizing: border-box;
-    left: 50%; /* Center the content container */
-    transform: translateX(-50%); /* Center the content container */
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .hero-text {
@@ -84,16 +95,11 @@ const projects = [
     line-height: 1.1;
     text-align: right;
     padding: 0rem 0.5rem;
-    
-    /* Responsive font scaling that works for 3 lines */
     font-size: clamp(1.25rem, 3vw + 0.5rem, 2.5rem);
-    
-    /* Ensure text stays within bounds */
     max-width: 600px;
     margin-left: auto;
   }
 
-  /* Rest of your button styles remain exactly the same */
   .hero-buttons {
     display: flex;
     gap: 1rem;
@@ -111,81 +117,83 @@ const projects = [
     -webkit-backdrop-filter: blur(10px);
   }
 
+  /* Circle Button with Gradient Border */
   .hero-btn.circle {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    isolation: isolate; /* Creates new stacking context */
-      
-      /* TRUE Glass Morphism - transparent background */
-      background: rgba(255, 255, 255, 0.05);
-      
-      /* Enhanced glass effect */
-      backdrop-filter: 
-        blur(10px) 
-        saturate(180%) 
-        contrast(120%) 
-        brightness(110%);
-      -webkit-backdrop-filter: 
-        blur(10px) 
-        saturate(180%) 
-        contrast(120%) 
-        brightness(110%);
-      
-      /* Glass border */
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      
-      /* Subtle shadow for depth */
-      box-shadow: 
-        0 8px 32px 0 rgba(0, 0, 0, 0.36),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    isolation: isolate;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    transition: all 0.4s ease;
   }
 
   .hero-btn.circle::before {
     content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0.05) 40%,
-        transparent 60%,
-        rgba(255, 255, 255, 0.02) 100%
-      );
-      border-radius: 24px;
-      pointer-events: none;
-      z-index: 1;
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+      45deg,
+      #667eea60 0%,
+      #764ba260 25%,
+      #f193fb60 50%,
+      #f5576c60 75%,
+      #667eea60 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0%;
   }
 
   .hero-btn.circle::after {
     content: '';
-      position: absolute;
-      top: 0%;
-      left: 0%;
-      right: 0%;
-      bottom: 0%;
-      border-radius: 50%;
-      background-image: 
-        radial-gradient(
-          ellipse at 30% 20%,
-          rgba(194, 194, 194, 0.3) 0%,
-          transparent 50%
-        ),
-        radial-gradient(
-          ellipse at 70% 80%,
-          rgba(255, 255, 255, 0.2) 0%,
-          transparent 50%
-        );
-      opacity: 0.4;
-      animation: glassShift 15s ease-in-out infinite;
-      pointer-events: none;
-      z-index: -1;
-      mix-blend-mode: overlay;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 40%,
+      transparent 60%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
   }
 
+  .hero-btn.circle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(
+      15deg,
+      #e4e4e460 0%,
+      #dfae4460 10%,
+      #d46e3e60 20%,
+      #eb394860 30%,
+      #216bcc60 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 4s ease infinite;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .hero-btn.circle:hover::before {
+    opacity: 0;
+  }
+
+  /* Rectangle Button */
   .hero-btn.rectangle {
     height: 60px;
     padding: 0 2rem;
@@ -197,76 +205,73 @@ const projects = [
     isolation: isolate;
     position: relative;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.05); /* Transparent background initially */
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px) saturate(180%);
     -webkit-backdrop-filter: blur(10px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.24);
     transition: all 0.4s ease;
-    
-    /* Animated gradient border using pseudo-element */
-    &::before {
-      content: '';
-      position: absolute;
-      top: -2px; /* Border width */
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(
-        45deg,
-        #667eea60 0%,
-        #764ba260 25%,
-        #f193fb60 50%,
-        #f5576c60 75%,
-        #667eea60 100%
-      );
-      background-size: 400% 400%;
-      animation: gradientShift 8s ease infinite;
-      border-radius: 32px; /* Slightly larger to account for border */
-      z-index: -1;
-    }
-    
-    /* Glass overlay */
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0.05) 40%,
-        transparent 60%,
-        rgba(255, 255, 255, 0.08) 100%
-      );
-      border-radius: 30px;
-      pointer-events: none;
-      z-index: 1;
-    }
   }
 
-  /* Hover state - gradient fills background */
+  .hero-btn.rectangle::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+      45deg,
+      #667eea60 0%,
+      #764ba260 25%,
+      #f193fb60 50%,
+      #f5576c60 75%,
+      #667eea60 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    border-radius: 32px;
+    z-index: -1;
+    opacity: 0%;
+  }
+
+  .hero-btn.rectangle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 40%,
+      transparent 60%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    border-radius: 30px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
   .hero-btn.rectangle:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
     color: rgba(255, 255, 255, 1);
     background: linear-gradient(
       15deg,
-      #e4e4e440 0%,
-        #dfae4440 10%,
-        #d46e3e40 20%,
-        #eb394840 30%,
-        #216bcc40 100%
+      #e4e4e460 0%,
+      #dfae4460 10%,
+      #d46e3e60 20%,
+      #eb394860 30%,
+      #216bcc60 100%
     );
     background-size: 400% 400%;
-    animation: gradientShift 4s ease infinite; /* Faster animation on hover */
-    border: 1px solid rgba(255, 255, 255, 0.5); /* Solid white border on hover */
-    
-    /* Remove the border gradient on hover */
-    &::before {
-      opacity: 0;
-    }
+    animation: gradientShift 4s ease infinite;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .hero-btn.rectangle:hover::before {
+    opacity: 0;
   }
 
   /* Gradient animation */
@@ -282,71 +287,6 @@ const projects = [
     }
   }
 
-  /* Enhanced hover effect */
-  .hero-btn.rectangle:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
-    animation-duration: 4s; /* Speed up animation on hover */
-    color: rgba(255, 255, 255, 1);
-    border-color: rgba(255, 255, 255, 0.5);
-  }
-
-  /* Glass overlay for the button */
-  .hero-btn.rectangle::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0.05) 40%,
-      transparent 60%,
-      rgba(255, 255, 255, 0.08) 100%
-    );
-    border-radius: 30px;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .hero-btn.rectangle::after {
-    content: '';
-      position: absolute;
-      top: 0%;
-      left: 0%;
-      right: 0%;
-      bottom: 0%;
-      border-radius: 30%;
-      background-image: 
-        radial-gradient(
-          ellipse at 30% 20%,
-          rgba(184, 184, 184, 0.3) 0%,
-          transparent 50%
-        ),
-        radial-gradient(
-          ellipse at 70% 80%,
-          rgba(252, 252, 252, 0.2) 0%,
-          transparent 50%
-        );
-      opacity: 0.4;
-      animation: glassShift 15s ease-in-out infinite;
-      pointer-events: none;
-      z-index: -1;
-      mix-blend-mode: overlay;
-  }
-
-  .hero-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  }
-
-  .hero-btn.circle:hover {
-    background: rgba(70, 70, 70, 0.8);
-    border-color: rgba(255, 255, 255, 0.5);
-  }
-
   .btn-icon {
     width: 24px;
     height: 24px;
@@ -356,79 +296,12 @@ const projects = [
   .hero-btn.circle:hover .btn-icon {
     opacity: 100%;
   }
-  
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .hero-container {
-      padding: 0 1rem; /* Keep 1rem padding for image */
-    }
-    
-    .hero-content {
-      bottom: 1.5rem;
-      gap: 1rem;
-      padding: 0 1rem; /* Match image padding on mobile if needed */
-    }
-    
-    .hero-text {
-      font-size: clamp(1.1rem, 4vw, 1.5rem);
-      line-height: 1.2;
-    }
-    
-    .hero-btn.circle {
-      width: 50px;
-      height: 50px;
-    }
-    
-    .hero-btn.rectangle {
-      height: 50px;
-      padding: 0 1.5rem;
-      font-size: 0.9rem;
-    }
-    
-    .btn-icon {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .hero-content {
-      bottom: 1rem;
-    }
-    
-    .hero-text {
-      font-size: 1rem;
-      max-width: 300px;
-    }
-  }
-
-  .projects-section {
-    margin: 4rem 0;
-  }
-
-  .project-icon-img {
-    width: 70px;
-    height: 70px;
-    object-fit: contain;
-    border-radius: 20px;
-    mix-blend-mode: overlay;
-  }
-
-  .project-timeframe {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    font-weight: 500;
-    font-style: italic;
-    font-family: var(--font-primary);
-  }
 
   .section-label {
-    font-size: 2.5rem;
-    font-weight: 800;
+    font-size: 2rem;
+    font-weight: 700;
     opacity: 85%;
-    margin-bottom: 1rem;
+    margin-bottom: -1.5rem;
     text-align: left;
   }
 
@@ -438,33 +311,60 @@ const projects = [
     margin: 2rem 0 3rem 0;
   }
 
-  /* Temporary hero placeholder */
-  .hero-placeholder {
-    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-    border-radius: 20px;
-    padding: 4rem 2rem;
-    border: 1px solid rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .hero-container {
+      padding: 0 0.5rem;
+    }
+    
+    .hero-content {
+      padding: 0 1rem;
+      top: 20%;
+      gap: 1rem;
+    }
+    
+    .hero-text {
+      font-size: clamp(1rem, 4vw, 1.3rem);
+      line-height: 1.2;
+      max-width: 280px;
+    }
+    
+    .hero-buttons {
+      gap: 0.75rem;
+    }
+    
+    .hero-btn.circle {
+      width: 45px;
+      height: 45px;
+    }
+    
+    .hero-btn.rectangle {
+      height: 45px;
+      padding: 0 1.25rem;
+      font-size: 0.85rem;
+    }
+    
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .section-label {
+      font-size: 1.3rem !important;
+      margin-bottom: -1.5rem;
+    }
   }
 
-  .hero-title {
-    font-size: 3rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    margin-left: 2rem;
-    background: linear-gradient(45deg, #fff, #a0a0a0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  @media (max-width: 480px) {
+    .hero-content {
+      top: 15%;
+    }
+    
+    .hero-text {
+      font-size: 0.9rem;
+      max-width: 250px;
+    }
   }
-
-  .hero-subtitle {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 2rem;
-  }
-
-
 </style>
 
 <Layout
@@ -476,11 +376,10 @@ const projects = [
     <div class="hero-container">
       <img src="/images/Grid Updated.png" alt="Apoorv Singh - UX Design Intern" class="hero-image" />
       
-      <!-- Text and buttons container -->
       <div class="hero-content">
         <div class="hero-text">
-          I am a UX Designer focused <br />
-          on creating accessible and<br />
+          I am a UX Designer focused
+          on creating accessible and
           engaging user experiences
         </div>
         <div class="hero-buttons">
@@ -493,30 +392,86 @@ const projects = [
     </div>
   </section>
 
-<!-- Projects Section -->
-<section class="projects-section">
-  <h2 class="section-label">Projects</h2>
-  <div class="divider"></div>
-  
-  <!-- Project Cards Grid -->
-  <div class="projects-grid">
-    {projects.map(project => (
-      <article class="project-card">
-      <div class="project-left">
-        <div class="project-icon">
-          <img src={project.icon} alt={project.title} class="project-icon-img" />
-        </div>
-        <span class="project-type">{project.type}</span>
-      </div>
-      <div class="project-right">
-        <h3 class="project-title">{project.title}</h3>
-        <div class="project-timeframe">{project.timeframe}</div>
-        <p class="project-description">
-          {project.description}
-        </p>
-      </div>
-    </article>
-    ))}
-  </div>
-</section>
+  <!-- Projects Section -->
+  <section class="projects-section">
+    <h2 class="section-label">Projects</h2>
+    <div class="divider"></div>
+    
+    <div class="projects-grid">
+      {projects.map(project => (
+        project.featured ? (
+          <!-- Featured Project Card -->
+          <article class="project-card featured-card">
+            <!-- Desktop Layout -->
+            <div class="featured-desktop">
+              <div class="featured-info">
+                <div class="project-icon-container">
+                  <img src={project.icon} alt={project.title} class="project-icon-img" />
+                </div>
+                <div class="project-meta">
+                  <div class="project-header">
+                    <div class="project-title-container">
+                      <h3 class="project-title">{project.title}</h3>
+                      <div class="project-timeframe">{project.timeframe}</div>
+                    </div>
+                    <span class="project-type">{project.type}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="featured-highlight" style={`background-image: url('/images/stat ft.jpg`}>
+                <div class="featured-gradient"></div>
+                <div class="featured-content">
+                  <h4 class="featured-title">{project.featureTitle}</h4>
+                  <p class="featured-subtitle">{project.featureSubtitle}</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Mobile Layout -->
+            <div class="featured-mobile">
+              <div class="featured-top" style={`background-image: url('/images/stat ft.jpg')`}>
+                <div class="mobile-gradient"></div>
+                <div class="mobile-featured-content">
+                  <h4 class="featured-title">{project.featureTitle}</h4>
+                  <p class="featured-subtitle">{project.featureSubtitle}</p>
+                </div>
+              </div>
+              <div class="featured-bottom">
+                <div class="mobile-project-info">
+                  <img src={project.icon} alt={project.title} class="mobile-icon" />
+                  <div class="mobile-details">
+                    <div class="project-header">
+                      <div class="project-title-container">
+                        <h3 class="project-title">{project.title}</h3>
+                        <div class="project-timeframe">{project.timeframe}</div>
+                      </div>
+                    </div>
+                    <p class="project-short-description">{project.shortDescription}</p>
+                  </div>
+                  <span class="project-type">{project.type}</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        ) : (
+          <!-- Standard Project Card -->
+          <article class="project-card standard-card">
+            <div class="project-icon-container">
+              <img src={project.icon} alt={project.title} class="project-icon-img" />
+            </div>
+            <div class="project-content">
+              <div class="project-header">
+                <div class="project-title-container">
+                  <h3 class="project-title">{project.title}</h3>
+                  <div class="project-timeframe">{project.timeframe}</div>
+                </div>
+                <span class="project-type">{project.type}</span>
+              </div>
+              <p class="project-description">{project.description}</p>
+            </div>
+          </article>
+        )
+      ))}
+    </div>
+  </section>
 </Layout>
