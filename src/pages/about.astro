@@ -1,0 +1,196 @@
+---
+import Layout from '../components/layout.astro';
+---
+
+<Layout
+  title="About - Apoorv Singh"
+  description="Learn more about my background, skills, and experience as a UX designer"
+>
+
+<style>
+  .about-header {
+    margin-bottom: 3rem;
+    width: 100%;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    opacity: 85%;
+    margin-bottom: -1.5rem;
+    text-align: left;
+    font-family: var(--font-primary);
+    color: var(--white);
+  }
+  
+  .page-description {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 100%;
+    margin-top: 2.5rem;
+  }
+  
+  .about-divider {
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.171));
+    margin: 2rem 0 3rem 0;
+    width: 100%;
+  }
+  
+  /* About content sections */
+  .about-section {
+    margin-bottom: 4rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+    font-family: var(--font-primary);
+  }
+  
+  .about-content {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  
+  /* Contact info */
+  .contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .contact-icon {
+    font-size: 1.5rem;
+  }
+  
+  .contact-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .contact-label {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+  
+  .contact-value {
+    font-weight: 500;
+  }
+
+  .btn-icon {
+    width: 24px;
+    height: 24px;
+    opacity: 60%;
+  }
+
+  .btn-icon-down {
+    width: 36px;
+    height: 24px;
+    opacity: 60%;
+  }
+  
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .about-content {
+      padding: 1.5rem;
+    }
+    
+    .contact-info {
+      grid-template-columns: 1fr;
+    }
+
+    .page-title {
+      font-size: 1.3rem !important;
+      margin-bottom: -2rem;
+    }
+
+    .page-description {
+      font-size: 0.9rem !important;
+      margin-bottom: -2rem;
+      line-height: 1.2rem;
+    }
+  }
+</style>
+
+<div class="about-header">
+  <h1 class="page-title">About Me</h1>
+  <p class="page-description">UX Designer focused on creating accessible and engaging digital experiences.</p>
+</div>
+
+<div class="about-divider"></div>
+
+<section class="about-section">
+  <h2 class="section-title">Background</h2>
+  <div class="about-content">
+    <p>I'm a passionate UX Designer with a focus on creating intuitive, accessible, and engaging digital experiences. My approach combines user-centered design principles with modern aesthetics to deliver solutions that not only look great but also solve real user problems.</p>
+    
+    <p>With a background in [Your Background - e.g., Computer Science, Design, etc.], I bring a unique perspective to design problems, balancing technical feasibility with creative solutions. I believe in data-driven design decisions and continuous iteration based on user feedback.</p>
+  </div>
+</section>
+
+<section class="about-section">
+  <h2 class="section-title">Experience</h2>
+  <div class="about-content">
+    <p>[Add your experience here - you mentioned using LinkedIn info]</p>
+    <p>You can structure this section with:</p>
+    <ul>
+      <li>Previous roles and positions</li>
+      <li>Key projects and achievements</li>
+      <li>Skills and methodologies</li>
+      <li>Education and certifications</li>
+    </ul>
+  </div>
+</section>
+
+<section class="about-section">
+  <h2 class="section-title">Contact</h2>
+  <div class="about-content">
+    <p>Feel free to reach out for collaborations, opportunities, or just to chat about design!</p>
+    
+    <div class="contact-info">
+      <a href="mailto:apoorv@example.com" class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-text">
+          <span class="contact-label">Email</span>
+          <span class="contact-value">apoorvsingh0227@gmail.com</span>
+        </div>
+      </a>
+      
+      <a href="https://www.linkedin.com/in/apoorv-singh-87377021b/" target="_blank" class="contact-item">
+        <img src="/images/linked in logo.png" alt="LinkedIn" class="btn-icon" />
+        <div class="contact-text">
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value">Apoorv Singh</span>
+        </div>
+      </a>
+      
+      <a href="/resume.pdf" download class="contact-item">
+        <img src="/images/downicon.png" alt="Download" class="btn-icon-down" />
+        <div class="contact-text">
+          <span class="contact-label">Resume</span>
+          <span class="contact-value">Download PDF</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</Layout>

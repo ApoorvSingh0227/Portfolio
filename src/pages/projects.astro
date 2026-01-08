@@ -1,0 +1,157 @@
+---
+import Layout from '../components/layout.astro';
+
+// All projects data (same as featured + additional)
+const allProjects = [
+  {
+    title: "CitySense",
+    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
+    type: "App",
+    icon: "/images/Asset-5.png",
+    timeframe: "Aug 2025 - Dec 2025",
+    featured: true
+  },
+  {
+    title: "HCIdea",
+    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
+    type: "Website",
+    icon: "/images/Asset-6.png",
+    timeframe: "Aug 2025 - Dec 2025",
+    featured: true
+  },
+  {
+    title: "Movie Lamp",
+    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
+    type: "App",
+    icon: "/images/Asset-7.png",
+    timeframe: "Aug 2025 - Dec 2025",
+    featured: true
+  },
+  {
+    title: "Statera",
+    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
+    type: "App",
+    icon: "/images/Asset-3.png",
+    timeframe: "Jan 2024 - Mar 2024",
+    featured: true
+  },
+  {
+    title: "SMEE",
+    description: "Redesigned analytics dashboard for better data visualization and user workflow. Improved information architecture and user flow.",
+    type: "Web App",
+    icon: "/images/Asset-3.png",
+    timeframe: "Jan 2024 - Mar 2024",
+    featured: false
+  },
+  {
+    title: "Vizfy", 
+    description: "Created a responsive portfolio website design with modern aesthetics and smooth interactions. Focused on accessibility and mobile-first design.",
+    type: "Website",
+    icon: "/images/Asset-2.png",
+    timeframe: "Jan 2024 - Mar 2024",
+    featured: false
+  },
+  {
+    title: "Joyland 24'",
+    description: "Designed user interface for a mobile puzzle game with engaging interactions and smooth animations. Created design system and component library.",
+    type: "Game",
+    icon: "/images/Asset-4.png",
+    timeframe: "Jan 2024 - Mar 2024",
+    featured: false
+  },
+  {
+    title: "Finance Dashboard",
+    description: "Created a comprehensive financial dashboard with real-time data visualization and reporting features.",
+    type: "Web App",
+    icon: "/images/Asset-3.png",
+    timeframe: "Mar 2024 - May 2024",
+    featured: false
+  }
+];
+---
+
+<Layout
+  title="Projects - Apoorv Singh"
+  description="Browse all my UX/UI design projects and case studies"
+>
+
+<style>
+  .projects-header {
+    margin-bottom: 3rem;
+    width: 100%;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    opacity: 85%;
+    margin-bottom: -1.5rem;
+    text-align: left;
+    font-family: var(--font-primary);
+    columns: var(--white);
+  }
+  
+  .page-description {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 100%;
+    margin-top: 2.5rem;
+    padding-right: 0;
+  }
+
+  .projects-divider {
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.171));
+    margin: 2rem 0 3rem 0;
+    width: 100%;
+  }
+  
+  .projects-section {
+    margin: 4rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 1.3rem !important;
+      margin-bottom: -2rem;
+    }
+
+    .page-description {
+      font-size: 0.9rem !important;
+      margin-bottom: -2rem;
+      line-height: 1.2rem;
+    }
+  }
+</style>
+
+<div class="projects-header">
+  <h1 class="page-title">Projects</h1>
+  <p class="page-description">A collection of my UX/UI design work, including case studies, prototypes, and design explorations.</p>
+</div>
+
+<div class="projects-divider"></div>
+
+<section class="projects-section">
+  <div class="projects-grid">
+    {allProjects.map(project => (
+      <article class="project-card standard-card">
+        <div class="project-icon-container">
+          <img src={project.icon} alt={project.title} class="project-icon-img" />
+        </div>
+        <div class="project-content">
+          <div class="project-header">
+            <div class="project-title-container">
+              <h3 class="project-title">{project.title}</h3>
+              <div class="project-timeframe">{project.timeframe}</div>
+            </div>
+            <span class="project-type">{project.type}</span>
+          </div>
+          <p class="project-description">{project.description}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+</Layout>
