@@ -91,6 +91,15 @@ const galleryImages = [
     max-width: 100%;
     margin-top: 2.5rem;
   }
+
+  .gallery-container {
+    padding-bottom: 4rem; 
+    min-height: calc(100vh - 15vh - 70px);
+  }
+
+  .main-content {
+    padding-bottom: 4rem !important;
+  }
   
   .gallery-divider {
     height: 2px;
@@ -393,30 +402,32 @@ const galleryImages = [
 </div-->
 
 <!-- Gallery Grid -->
-<div class="gallery-grid">
-  {galleryImages.map(image => (
-    <div 
-      class="gallery-item"
-      style={`--zoom-level: ${image.zoomLevel};`}
-      data-image-id={image.id}
-    >
-      <div class="gallery-image-container">
-        <img 
-          src={image.image} 
-          alt={image.title}
-          class="gallery-image"
-          loading="lazy"
-          style={`--image-position: ${image.position};`}
-        />
-        <span class="gallery-category">{image.category}</span>
+<div class="gallery-container">
+  <div class="gallery-grid">
+    {galleryImages.map(image => (
+      <div 
+        class="gallery-item"
+        style={`--zoom-level: ${image.zoomLevel};`}
+        data-image-id={image.id}
+      >
+        <div class="gallery-image-container">
+          <img 
+            src={image.image} 
+            alt={image.title}
+            class="gallery-image"
+            loading="lazy"
+            style={`--image-position: ${image.position};`}
+          />
+          <span class="gallery-category">{image.category}</span>
+        </div>
+        <div class="gallery-overlay">
+          <h3 class="gallery-title">{image.title}</h3>
+          <p class="gallery-description">{image.description}</p>
+        </div>
       </div>
-      <div class="gallery-overlay">
-        <h3 class="gallery-title">{image.title}</h3>
-        <p class="gallery-description">{image.description}</p>
-      </div>
-    </div>
-  ))}
-</div>
+    ))}
+  </div>
+</div> 
 
 <!-- Lightbox for larger view -->
 <div class="lightbox" id="lightbox">

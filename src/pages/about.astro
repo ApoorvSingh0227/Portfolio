@@ -100,12 +100,6 @@ import Layout from '../components/layout.astro';
     height: 24px;
     opacity: 60%;
   }
-
-  .btn-icon-down {
-    width: 36px;
-    height: 24px;
-    opacity: 60%;
-  }
   
   /* Mobile adjustments */
   @media (max-width: 768px) {
@@ -167,7 +161,7 @@ import Layout from '../components/layout.astro';
     
     <div class="contact-info">
       <a href="mailto:apoorv@example.com" class="contact-item">
-        <div class="contact-icon">✉️</div>
+        <img src="/images/mail.png" alt="Email" class="btn-icon" />
         <div class="contact-text">
           <span class="contact-label">Email</span>
           <span class="contact-value">apoorvsingh0227@gmail.com</span>
@@ -183,7 +177,7 @@ import Layout from '../components/layout.astro';
       </a>
       
       <a href="/resume.pdf" download class="contact-item">
-        <img src="/images/downicon.png" alt="Download" class="btn-icon-down" />
+        <img src="/images/downicon.png" alt="Download" class="btn-icon" />
         <div class="contact-text">
           <span class="contact-label">Resume</span>
           <span class="contact-value">Download PDF</span>

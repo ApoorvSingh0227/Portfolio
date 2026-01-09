@@ -91,8 +91,16 @@ const { title, description, home = false } = Astro.props;
       text-decoration: none;
     }
 
-    a:hover, a:focus {
-      opacity: 0.8;
+    a:hover:not(.nav-link):not(.mobile-nav-item),
+    a:focus:not(.nav-link):not(.mobile-nav-item) {
+      opacity: 1;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus,
+    .mobile-nav-item:hover,
+    .mobile-nav-item:focus {
+      opacity: 0.4 !important;
     }
 
     .sr-only:not(:focus):not(:active) {
@@ -138,6 +146,7 @@ const { title, description, home = false } = Astro.props;
       top: 50%;
       transform: translateY(-50%);
       z-index: 1000;
+      transition: opacity 0.3s ease;
     }
 
     .nav-menu {
@@ -152,11 +161,13 @@ const { title, description, home = false } = Astro.props;
       border: 1px solid rgba(255, 255, 255, 0.15);
       position: relative;
       overflow: hidden;
+      opacity: 0.6;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .nav-menu.expanded {
       width: 180px;
+      opacity: 1;
     }
 
     .nav-list {
@@ -184,7 +195,7 @@ const { title, description, home = false } = Astro.props;
     }
 
     .nav-item:hover {
-      color: white;
+      color: rgb(255, 255, 255);
     }
 
     .nav-item.active {
@@ -210,20 +221,20 @@ const { title, description, home = false } = Astro.props;
     }
 
     .nav-menu:not(.expanded){
-      padding-left: 10%;
+      padding-left: 3%;
     }
 
     .nav-menu:not(.expanded) .highlight {
       width: 45px;
-      left: 50%;
-      top: 0.75rem;
+      margin-left: 5%;
+      top: 0.5rem;
       transform: translateX(-50%);
       border-radius: 50%;
     }
 
     .nav-menu.expanded .highlight {
       width: auto;
-      top: 3%;
+      top: 4%;
       transform: none;
       border-radius: 20px;
     }
@@ -1293,5 +1304,6 @@ const { title, description, home = false } = Astro.props;
       }
     });
   </script>
+  
 </body>
 </html>
