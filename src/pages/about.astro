@@ -34,13 +34,13 @@ import Layout from '../components/layout.astro';
   .about-divider {
     height: 2px;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.171));
-    margin: 2rem 0 3rem 0;
+    margin: 2rem 0 0rem 0;
     width: 100%;
   }
   
   /* About content sections */
   .about-section {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
   
   .section-title {
@@ -54,6 +54,7 @@ import Layout from '../components/layout.astro';
   .about-content {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
+    padding: 0rem 1.5rem 0.75rem 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     line-height: 1.4;
     color: rgba(255, 255, 255, 0.85);
@@ -76,7 +77,104 @@ import Layout from '../components/layout.astro';
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
+
+  .contact-item:hover {
+    transform: translateY(-5%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
   
+  .contact-methods {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.4s ease;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    isolation: isolate;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .contact-button::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+      45deg,
+      #667eea60 0%,
+      #764ba260 25%,
+      #f193fb60 50%,
+      #f5576c60 75%,
+      #667eea60 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    border-radius: 32px;
+    z-index: -1;
+    opacity: 0%;
+  }
+
+  .contact-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 40%,
+      transparent 60%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    border-radius: 30px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .contact-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 1);
+    background: linear-gradient(
+      15deg,
+      #e4e4e460 0%,
+      #dfae4460 10%,
+      #d46e3e60 20%,
+      #eb394860 30%,
+      #216bcc60 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 4s ease infinite;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .contact-button:hover::before {
+    opacity: 0;
+  }
+
   .contact-icon {
     font-size: 1.5rem;
   }
@@ -103,8 +201,8 @@ import Layout from '../components/layout.astro';
   
   /* Mobile adjustments */
   @media (max-width: 768px) {
-    .about-content {
-      padding: 1.5rem;
+    .about-section {
+      margin-bottom: 2.5rem;
     }
     
     .contact-info {
@@ -120,6 +218,33 @@ import Layout from '../components/layout.astro';
       font-size: 0.9rem !important;
       margin-bottom: -2rem;
       line-height: 1.2rem;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    .about-content {
+      padding: 0rem 0.75rem 1rem 0.75rem;
+      margin-bottom: -1rem;
+      font-size: 0.9rem;
+    }
+
+    .contact-methods {
+      flex-direction: row;
+      align-items: center;
+    }
+    
+    .contact-button {
+      justify-content: center;
+      padding: 0.875rem 1.5rem;
+      font-size: 0.8rem;
+    }
+
+    .contact-button .btn-icon {
+      height: 15px;
+      width: 15px;
     }
   }
 </style>
@@ -155,36 +280,27 @@ import Layout from '../components/layout.astro';
 </section>
 
 <section class="about-section">
-  <h2 class="section-title">Contact</h2>
-  <div class="about-content">
-    <p>Feel free to reach out for collaborations, opportunities, or just to chat about design!</p>
-    
-    <div class="contact-info">
-      <a href="mailto:apoorv@example.com" class="contact-item">
-        <img src="/images/mail.png" alt="Email" class="btn-icon" />
-        <div class="contact-text">
-          <span class="contact-label">Email</span>
-          <span class="contact-value">apoorvsingh0227@gmail.com</span>
-        </div>
-      </a>
+    <h2 class="section-title">Let's Connect</h2>    
+    <div class="about-content">
+      <p>Interested in collaborating or have a project in mind? I'm always open to discussing design opportunities.</p>
       
-      <a href="https://www.linkedin.com/in/apoorv-singh-87377021b/" target="_blank" class="contact-item">
-        <img src="/images/linked in logo.png" alt="LinkedIn" class="btn-icon" />
-        <div class="contact-text">
-          <span class="contact-label">LinkedIn</span>
-          <span class="contact-value">Apoorv Singh</span>
-        </div>
-      </a>
-      
-      <a href="/resume.pdf" download class="contact-item">
-        <img src="/images/downicon.png" alt="Download" class="btn-icon" />
-        <div class="contact-text">
-          <span class="contact-label">Resume</span>
-          <span class="contact-value">Download PDF</span>
-        </div>
-      </a>
+      <div class="contact-methods">
+        <a href="mailto:apoorvsingh0227@gmail.com" class="contact-button email">
+          <img src="/images/mail.png" alt="Email" class="btn-icon" />
+          <span>Email Me</span>
+        </a>
+        
+        <a href="https://www.linkedin.com/in/apoorv-singh-87377021b/" class="contact-button linkedin" target="_blank">
+          <img src="/images/linked in logo.png" alt="LinkedIn" class="btn-icon" />
+          <span>LinkedIn</span>
+        </a>
+        
+        <a href="/resume.pdf" class="contact-button resume download">
+          <img src="/images/downicon.png" alt="Download" class="btn-icon" />
+          <span>Resume</span>
+        </a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
 </Layout>

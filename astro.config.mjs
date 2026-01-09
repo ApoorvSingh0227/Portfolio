@@ -10,4 +10,10 @@ export default defineConfig({
       canonicalURL: 'https://feature-tour.netlify.app'
     })
   ],
+  server: {
+    host: true,
+    port: 4321,
+  },
 });
+
+

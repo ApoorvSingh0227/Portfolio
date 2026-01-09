@@ -311,7 +311,7 @@ const projects = [
   .divider {
     height: 2px;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.171));
-    margin: 2rem 0 3rem 0;
+    margin: 2rem 0 1.5rem 0;
   }
 
   .expertise-section {
@@ -321,49 +321,37 @@ const projects = [
   .expertise-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    gap: 1rem;
+    margin-top: 1rem;
   }
 
   .expertise-card {
     background: rgba(255, 255, 255, 0.05);
     border-radius: var(--card-radius);
-    padding: 2rem;
+    padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
   }
 
-  .expertise-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.3);
-  }
-
-  .expertise-card h3 {
+  .expertise-card h4 {
     color: var(--white);
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     font-family: var(--font-primary);
-    font-size: 1.3rem;
-  }
-
-  .expertise-card p {
-    color: rgba(255, 255, 255, 0.7);
-    line-height: 1.6;
-    margin: 0;
-    font-size: 0.95rem;
+    font-size: 1.2rem;
   }
 
   /* Contact Section */
   .contact-section {
     margin: 4rem 0;
-    text-align: center;
+    text-align: left;
   }
 
   .contact-intro {
-    max-width: 600px;
-    margin: 0 auto 3rem;
+    max-width: 100%;
+    margin: -0.5rem auto 1.5rem;
     color: rgba(255, 255, 255, 0.8);
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     line-height: 1.6;
   }
 
@@ -378,7 +366,7 @@ const projects = [
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem 2rem;
+    padding: 1rem 1.5rem;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 700;
@@ -389,10 +377,12 @@ const projects = [
     border: 1px solid rgba(255, 255, 255, 0.24);
     color: rgba(255, 255, 255, 0.9);
     font-family: var(--font-primary);
-    font-size: 1.1rem;
+    font-size: 1rem;
     isolation: isolate;
     position: relative;
     overflow: hidden;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .contact-button::before {
@@ -456,6 +446,12 @@ const projects = [
   .contact-button:hover::before {
     opacity: 0;
   }
+
+  .expertise-desc {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: -0.75rem;
+    }
 
   /* Mobile adjustments */
   @media (max-width: 768px) {
@@ -528,16 +524,30 @@ const projects = [
     .expertise-card {
       padding: 1.5rem;
     }
+
+    .expertise-desc {
+      font-size: 0.9rem;
+    }
+
+    .expertise-card h4 {
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+    }
     
     .contact-methods {
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
     }
     
     .contact-button {
       justify-content: center;
       padding: 0.875rem 1.5rem;
-      font-size: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .contact-button .btn-icon {
+      height: 15px;
+      width: 15px;
     }
   }
 
@@ -546,6 +556,10 @@ const projects = [
       top: 12%;
       right: 3%;
       left: 3%;
+    }
+
+    .expertise-desc {
+      font-size: 0.8;
     }
     
     .hero-text {
@@ -670,23 +684,23 @@ const projects = [
     
     <div class="expertise-grid">
       <div class="expertise-card">
-        <h3>User Research</h3>
-        <p>Conducting interviews, usability testing, and analyzing user data to inform design decisions.</p>
+        <h4>User Research</h4>
+        <div class="expertise-desc">Conducting interviews, usability testing, and analyzing user data to inform design decisions.</div>
       </div>
       
       <div class="expertise-card">
-        <h3>Interface Design</h3>
-        <p>Creating visually appealing and functional interfaces with focus on usability and accessibility.</p>
+        <h4>Interface Design</h4>
+        <div class="expertise-desc">Creating visually appealing and functional interfaces with focus on usability and accessibility.</div>
       </div>
       
       <div class="expertise-card">
-        <h3>Prototyping</h3>
-        <p>Building interactive prototypes to test concepts and communicate design intent.</p>
+        <h4>Prototyping</h4>
+        <div class="expertise-desc">Building interactive prototypes to test concepts and communicate design intent.</div>
       </div>
       
       <div class="expertise-card">
-        <h3>Design Systems</h3>
-        <p>Developing scalable component libraries and maintaining design consistency across products.</p>
+        <h4>Design Systems</h4>
+        <div class="expertise-desc">Developing scalable component libraries and maintaining design consistency across products.</div>
       </div>
     </div>
   </section>

@@ -10,8 +10,8 @@ const { title, description, home = false } = Astro.props;
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="creed-icon" href="/creed-icon.svg" type="image/svg+xml">
+  <link rel="creed-icon" href="/creed-icon.png">
   <link rel="manifest" href="/site.webmanifest" />
 
   <meta name="msapplication-TileColor" content="#000000" />
@@ -305,7 +305,7 @@ const { title, description, home = false } = Astro.props;
     .projects-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2.5rem;
+      gap: 1rem;
     }
 
     @media (min-width: 768px) {
@@ -373,6 +373,8 @@ const { title, description, home = false } = Astro.props;
       pointer-events: none;
       z-index: -1;
       mix-blend-mode: overlay;
+      overflow: hidden;
+      border-radius: 24px;
     }
 
     @keyframes glassShift {
@@ -397,12 +399,15 @@ const { title, description, home = false } = Astro.props;
       gap: 1.5rem;
       align-items: start;
       height: auto;
+      border-radius: 24px;
     }
 
     .project-card.standard-card:hover {
       transform: translateY(-8px);
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
       border-color: rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      border-radius: 24px;
     }
 
     .project-card.standard-card::before {
@@ -421,18 +426,21 @@ const { title, description, home = false } = Astro.props;
       transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0;
       z-index: 1;
+      border-radius: 24px;
     }
 
     .project-card.standard-card:hover::before {
       height: 120%;
       opacity: 0.3;
       transform: translateY(-15%);
+      border-radius: 24px;
     }
 
     .project-card.featured-card:hover {
       transform: translateY(-8px);
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
       border-color: rgba(255, 255, 255, 0.3);
+      border-radius: 24px;
     }
 
     .project-card.featured-card::before {
@@ -451,18 +459,21 @@ const { title, description, home = false } = Astro.props;
       transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0;
       z-index: 3;
+      border-radius: 24px;
     }
 
     .project-card.featured-card:hover::before {
       height: 120%;
       opacity: 0.4;
       transform: translateY(-10%);
+      border-radius: 24px;
     }
 
     /* Ensure content stays above gradient */
     .project-card > * {
       position: relative;
       z-index: 2;
+      border-radius: 24px;
     }
 
     .project-icon-container {
@@ -482,7 +493,7 @@ const { title, description, home = false } = Astro.props;
       height: 70px;
       mix-blend-mode: overlay;
       object-fit: contain;
-      border-radius: 15px;
+      border-radius: 12px;
     }
 
     .project-content {
@@ -730,6 +741,8 @@ const { title, description, home = false } = Astro.props;
       -webkit-backdrop-filter: blur(10px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.15);
       max-width: 100%;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
     }
 
     .mobile-menu-content {
@@ -826,6 +839,15 @@ const { title, description, home = false } = Astro.props;
       .main-header {
         display: none;
       }
+
+      .featured-title {
+        font-size: 1.8rem;
+      }
+
+      .featured-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 0%;
+      }
       
       .main-content {
         margin-top: 70px !important;
@@ -860,12 +882,55 @@ const { title, description, home = false } = Astro.props;
       
       .project-card {
         padding: 1.5rem 1rem;
+        border-radius: 24px !important;
+        overflow: hidden !important;
+        position: relative;
+      }
+
+      .project-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        right: -50%;
+        bottom: -50%;
+        background-image: 
+          radial-gradient(
+            ellipse at 30% 20%,
+            rgba(197, 197, 197, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 70% 80%,
+            rgba(255, 255, 255, 0.2) 0%,
+            transparent 50%
+          );
+        opacity: 0.4;
+        animation: glassShift 15s ease-in-out infinite;
+        pointer-events: none;
+        z-index: -1;
+        mix-blend-mode: overlay;
+        border-radius: 48px !important; /* DOUBLE the parent radius to fix corners */
+        overflow: hidden !important;
+      }
+
+      .project-card::before {
+        border-radius: 24px !important;
+        overflow: hidden !important;
       }
       
       .project-card.standard-card {
         grid-template-columns: auto 1fr;
         gap: 1rem;
         align-items: start;
+        overflow: hidden !important;
+        border-radius: 24px !important;
+      }
+
+      .project-card.standard-card:hover::before,
+      .project-card.featured-card:hover::before {
+        border-radius: 24px !important;
+        overflow: hidden !important;
       }
       
       .project-icon-container {
@@ -1014,7 +1079,7 @@ const { title, description, home = false } = Astro.props;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        margin-top: 0.25rem;
+        margin-top: -0.5rem;
         line-height: 1.3;
       }
 
@@ -1048,12 +1113,21 @@ const { title, description, home = false } = Astro.props;
     }
 
     @media (max-width: 480px) {
-      .projects-grid {
-        gap: 1.5rem;
+      .project-short-description {
+        margin-top: -0.5rem;
       }
-      
-      .project-card {
-        padding: 1.25rem 0.875rem;
+
+      .featured-title {
+        font-size: 1.4rem;
+      }
+
+      .featured-subtitle {
+        font-size: 0.8rem;
+        margin-bottom: 0%;
+      }
+
+      .projects-grid {
+        gap: 0.75rem;
       }
     }
 
