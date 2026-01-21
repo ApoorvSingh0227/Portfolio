@@ -1,73 +1,8 @@
 ---
 import Layout from '../components/layout.astro';
+import { getAllProjects } from '../data/projects';
 
-// All projects data (same as featured + additional)
-const allProjects = [
-  {
-    title: "Spatoo",
-    description: "Created a comprehensive financial dashboard with real-time data visualization and reporting features.",
-    type: "Game UI",
-    icon: "/images/Asset-9.png",
-    timeframe: "Nov 2025 - Present",
-    featured: false
-  },
-  {
-    title: "CitySense",
-    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
-    type: "App+",
-    icon: "/images/Asset-5.png",
-    timeframe: "Aug 2025 - Dec 2025",
-    featured: true
-  },
-  {
-    title: "HCIdea",
-    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
-    type: "Website",
-    icon: "/images/Asset-6.png",
-    timeframe: "Aug 2025 - Dec 2025",
-    featured: true
-  },
-  {
-    title: "Movie Lamp",
-    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
-    type: "App",
-    icon: "/images/Asset-7.png",
-    timeframe: "Aug 2025 - Dec 2025",
-    featured: true
-  },
-  {
-    title: "SMEE",
-    description: "Redesigned analytics dashboard for better data visualization and user workflow. Improved information architecture and user flow.",
-    type: "Game UX",
-    icon: "/images/Asset-8.png",
-    timeframe: "Feb 2025 - Apr 2025",
-    featured: false
-  },
-  {
-    title: "Statera",
-    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
-    type: "App",
-    icon: "/images/Asset-3.png",
-    timeframe: " Oct 2024 - Dec 2024",
-    featured: true
-  },
-  {
-    title: "Vizfy", 
-    description: "Created a responsive portfolio website design with modern aesthetics and smooth interactions. Focused on accessibility and mobile-first design.",
-    type: "App",
-    icon: "/images/Asset-2.png",
-    timeframe: "Nov 2024 - Dec 2024",
-    featured: false
-  },
-  {
-    title: "Joyland 24'",
-    description: "Designed user interface for a mobile puzzle game with engaging interactions and smooth animations. Created design system and component library.",
-    type: "App",
-    icon: "/images/Asset-4.png",
-    timeframe: "Nov 2024 - Dec 2024",
-    featured: false
-  }
-];
+const allProjects = getAllProjects();
 ---
 
 <Layout
@@ -79,6 +14,25 @@ const allProjects = [
   .projects-header {
     margin-bottom: 3rem;
     width: 100%;
+  }
+
+  .project-card-link {
+    display: contents;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-card.standard-card,
+  .project-card.featured-card {
+    cursor: pointer;
+    position: relative;
+    padding: 1rem;
+  }
+
+  .project-card.standard-card:hover .project-description,
+  .project-card.featured-card:hover .featured-title,
+  .project-card.featured-card:hover .featured-subtitle {
+    color: rgba(255, 255, 255, 1);
   }
   
   .page-title {
@@ -136,6 +90,7 @@ const allProjects = [
   <div class="projects-grid">
     {allProjects.map(project => (
       <article class="project-card standard-card">
+        <a href={`/projects/${project.slug}`} class="project-card-link">
         <div class="project-icon-container">
           <img src={project.icon} alt={project.title} class="project-icon-img" />
         </div>
@@ -149,6 +104,7 @@ const allProjects = [
           </div>
           <p class="project-description">{project.description}</p>
         </div>
+        </a>
       </article>
     ))}
   </div>

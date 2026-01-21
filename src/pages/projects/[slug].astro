@@ -1,0 +1,23 @@
+---
+import ProjectLayout from '../../components/project-layout.astro';
+import { getProjectBySlug, getAllProjects } from '../../data/projects';
+
+// Get the current project slug from the URL
+const { slug } = Astro.params;
+const projectData = getProjectBySlug(slug);
+
+// If no project found, show 404
+if (!projectData) {
+  return Astro.redirect('/404');
+}
+
+// Generate static paths for all projects at build time
+export async function getStaticPaths() {
+  const projects = getAllProjects();
+  return projects.map(project => ({
+    params: { slug: project.slug }
+  }));
+}
+---
+
+<ProjectLayout project={projectData} backLink="/projects" />

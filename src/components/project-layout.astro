@@ -1,0 +1,1077 @@
+---
+const { project, backLink = '/' } = Astro.props;
+
+interface ProjectData {
+  id: number;
+  title: string;
+  description: string;
+  shortDescription: string;
+  type: string;
+  icon: string;
+  timeframe: string;
+  featured?: boolean;
+  // Additional fields for project detail page
+  prototypeLink?: string;
+  githubLink?: string;
+  otherLinks?: Array<{label: string, url: string}>;
+  sections: Array<{
+    id: string;
+    title: string;
+    content: string;
+    subsections?: Array<{
+      title: string;
+      content: string;
+    }>;
+    images?: Array<{
+      src: string;
+      alt: string;
+      type?: 'wide' | 'collage'; // wide = 1 per row, collage = 2 per row on mobile
+    }>;
+  }>;
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{project.title} - Apoorv Singh</title>
+  <style>
+    /* PROJECT PAGE SPECIFIC STYLES */
+    :root {
+      --project-radius: 16px;
+      --section-spacing: 2rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(
+        180deg,
+        #000000 0%,
+        #0F1A1C 80%,
+        #1a2a32 100%
+      ) fixed;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    /* Back Button - FIXED: Add background and proper z-index */
+    .project-back-button {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+    }
+
+    .project-back-button:hover {
+      background: rgb(33, 33, 33);
+      color: rgba(255, 255, 255, 0.8);
+      transform: translateX(-5px);
+    }
+
+    .back-icon {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1);
+    }
+
+    /* Hide/show controls for desktop and mobile layouts */
+    .desktop-only {
+      display: none;
+    }
+    
+    .mobile-only {
+      display: none; /* Changed from block to none */
+    }
+
+    /* DESKTOP LAYOUT (min-width: 769px) */
+    @media (min-width: 769px) {
+      .desktop-only {
+        display: block;
+      }
+      
+      .mobile-only {
+        display: none !important;
+      }
+
+      .project-container {
+        display: grid;
+        grid-template-columns: 15% 85%;
+        grid-template-rows: auto 1fr;
+        height: 100vh;
+        padding: 0rem;
+        gap: 0rem;
+        padding-top: 3.5rem; /* Space for back button */
+      }
+
+      /* Custom scrollbar styling for desktop */
+      .project-nav-section::-webkit-scrollbar,
+      .project-content-section::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .project-nav-section::-webkit-scrollbar-track,
+      .project-content-section::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+      }
+
+      .project-nav-section::-webkit-scrollbar-thumb,
+      .project-content-section::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+      }
+
+      .project-nav-section::-webkit-scrollbar-thumb:hover,
+      .project-content-section::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      /* Firefox scrollbar */
+      .project-nav-section,
+      .project-content-section {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+      }
+
+      /* Top Left: Project Icon */
+      .project-icon-section {
+        grid-column: 1;
+        grid-row: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0.75rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .project-icon-container {
+        width: 60%;
+        aspect-ratio: 1/1;
+        border-radius: 26px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .project-icon {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Top Right: Project Header */
+      .project-header-section {
+        grid-column: 2;
+        grid-row: 1;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .project-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .project-subtitle {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      .project-links {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .project-link-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px) saturate(180%);
+        -webkit-backdrop-filter: blur(10px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-link-button::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(
+          45deg,
+          #667eea60 0%,
+          #764ba260 25%,
+          #f193fb60 50%,
+          #f5576c60 75%,
+          #667eea60 100%
+        );
+        background-size: 400% 400%;
+        animation: gradientShift 8s ease infinite;
+        border-radius: 32px;
+        z-index: -1;
+        opacity: 0%;
+      }
+
+      .project-link-button:hover::before {
+        opacity: 1;
+      }
+
+      .project-link-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Bottom Left: Navigation Index - FIXED: Only scroll this section */
+      .project-nav-section {
+        grid-column: 1;
+        grid-row: 2;
+        padding: 1rem;
+        overflow-y: auto;
+        z-index: 1;
+      }
+
+      .project-nav-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .project-nav-item {
+        margin-bottom: 0rem;
+      }
+
+      .project-nav-link {
+        display: block;
+        padding: 0.5rem 0.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.7);
+        transition: all 0.3s ease;
+        font-weight: 500;
+        text-align: right;
+        padding-right: 0rem;
+      }
+
+      .project-nav-link:hover,
+      .project-nav-link.active {
+        color: rgba(255, 255, 255, 1);
+      }
+
+      /* Bottom Right: Content Area - FIXED: Only scroll this section */
+      .project-content-section {
+        grid-column: 2;
+        grid-row: 2;
+        padding: 0rem 1rem 1rem 1rem;
+        overflow-y: auto;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1;
+      }
+
+      .project-section {
+        margin-bottom: 3rem;
+        scroll-margin-top: 2rem;
+      }
+
+      .project-section-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      .project-subsection-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin: 2rem 0 1rem 0;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .project-section-content {
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.1rem;
+      }
+
+      /* Image Grids */
+      .project-images-grid {
+        display: grid;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+      }
+
+      .project-images-grid.wide {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .project-images-grid.wide:has(.project-image:only-child) {
+        display: flex;
+        justify-content: center;
+        }
+
+    .project-images-grid.wide .project-image:only-child {
+        max-width: 80%; /* Limit width of single image */
+        }
+
+    .project-images-grid.wide {
+        grid-template-columns: repeat(2, 1fr);
+        }
+
+      .project-images-grid.collage {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+      }
+
+      .project-images-grid.collage .project-image {
+        min-height: 150px; /* Minimum height for collage items */
+        }
+
+      .project-image {
+        width: 100%;
+        border-radius: var(--project-radius);
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .project-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+    }
+
+    /* MOBILE LAYOUT (max-width: 768px) */
+    @media (max-width: 768px) {
+      .desktop-only {
+        display: none !important;
+      }
+      
+      .mobile-only {
+        display: block;
+      }
+
+      .project-back-button {
+        top: 1rem;
+        left: 1rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        z-index: 1001;
+        background: rgba(0, 0, 0, 0.9);
+      }
+
+      /* Fixed Header Section */
+      .project-top-section {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px) saturate(180%);
+        -webkit-backdrop-filter: blur(10px) saturate(180%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+        padding: 1rem;
+        margin: 0;
+        padding-top: 4rem; /* Space for back button */
+      }
+
+      /* Divider line below buttons and menu icon */
+      .project-top-section::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 1rem;
+        right: 1rem;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .project-header-row {
+        display: grid;
+        grid-template-columns: 15% 85%;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+        align-items: center;
+      }
+
+      .project-icon-container-mobile {
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: 12px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .project-icon-mobile {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .project-title-mobile {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .project-subtitle-mobile {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.3;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+        margin-bottom: 0.5rem;
+      }
+
+      .project-links-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem;
+        align-items: center;
+        padding-bottom: 0rem;
+      }
+
+      .project-links-mobile {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .project-link-button-mobile {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 0.9rem;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease;
+      }
+
+      .project-link-button-mobile:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Mobile Hamburger Menu - FIXED: Add close button functionality */
+      .project-nav-toggle {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        align-items: center;
+        justify-content: center;
+        z-index: 1002;
+      }
+
+      .project-nav-toggle span {
+        width: 20px;
+        height: 2px;
+        background: white;
+        transition: all 0.3s ease;
+      }
+
+      .project-nav-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(4px, 5px);
+      }
+
+      .project-nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .project-nav-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(4px, -5px);
+      }
+
+      /* Mobile Navigation Overlay - FIXED: Position below divider */
+    .project-nav-mobile {
+        position: fixed;
+        top: 0; /* Position below the fixed header */
+        left: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px) saturate(180%);
+        -webkit-backdrop-filter: blur(10px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        max-width: calc(100% - 2rem); /* Account for left/right margins */
+        border-bottom-left-radius: 24px;
+        border-bottom-right-radius: 24px;
+        z-index: 999;
+        padding: 1rem;
+        line-height: normal;
+        transform: translateY(-100%); /* Start hidden above */
+        opacity: 0;
+        transition: all 0.3s ease;
+        pointer-events: none;
+        height: fit-content;
+        max-height: 70vh; /* Limit max height */
+        overflow-y: auto;
+    }
+
+    .project-nav-mobile.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+    }
+
+      .project-nav-list-mobile {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .project-nav-item-mobile {
+        margin-bottom: 0.5rem;
+      }
+
+      .project-nav-link-mobile {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.05rem; /* Increased font size */
+        font-weight: 500;
+        border-radius: 20px;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        font-family: 'Inter', sans-serif;
+      }
+
+    .project-nav-link-mobile::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+        backdrop-filter: blur(10px) saturate(180%);
+        -webkit-backdrop-filter: blur(10px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 
+            0 4px 12px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .project-nav-link-mobile:hover::before,
+    .project-nav-link-mobile.active::before {
+        opacity: 1;
+    }
+
+      .project-nav-link-mobile:hover,
+      .project-nav-link-mobile.active {
+        background: transparent;
+        transform: translateX(5px);
+        color: white;
+      }
+
+      /* Content Section - FIXED: Scrollable area below fixed header */
+      .project-content-section-mobile {
+        padding: 1rem;
+        padding-bottom: 5rem;
+        margin-top: 180px; /* Height of back button + fixed header */
+        overflow-y: auto;
+        height: calc(100vh - 180px);
+        z-index: 1;
+      }
+
+      /* Custom scrollbar for mobile content */
+      .project-content-section-mobile::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .project-content-section-mobile::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+      }
+
+      .project-content-section-mobile::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+      }
+
+      .project-content-section-mobile::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      /* Firefox scrollbar for mobile */
+      .project-content-section-mobile {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+      }
+
+      .project-section-mobile {
+        margin-bottom: 2.5rem;
+        scroll-margin-top: 2rem;
+      }
+
+      .project-section-title-mobile {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      .project-subsection-title-mobile {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 1.5rem 0 0.75rem 0;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .project-section-content-mobile {
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1rem;
+      }
+
+      /* Mobile Image Grids */
+      .project-images-grid-mobile {
+        display: grid;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .project-images-grid-mobile.wide {
+        grid-template-columns: 1fr;
+      }
+
+      .project-images-grid-mobile.collage {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .project-image-mobile {
+        width: 100%;
+        border-radius: var(--project-radius);
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .project-image-mobile img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Container adjustment */
+      .project-container {
+        padding: 0;
+        height: 100vh;
+      }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Back Button -->
+  <a href={backLink} class="project-back-button">
+    <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    <span>Back</span>
+  </a>
+
+  <!-- Desktop Layout -->
+  <div class="project-container desktop-only">
+    <!-- Top Left: Project Icon -->
+    <div class="project-icon-section">
+      <div class="project-icon-container">
+        <img src={project.icon} alt={project.title} class="project-icon" />
+      </div>
+    </div>
+
+    <!-- Top Right: Project Header -->
+    <div class="project-header-section">
+      <h1 class="project-title">{project.title}</h1>
+      <p class="project-subtitle">{project.description}</p>
+      <div class="project-links">
+        {project.prototypeLink && (
+          <a href={project.prototypeLink} target="_blank" class="project-link-button">
+            <span>View Prototype</span>
+          </a>
+        )}
+        {project.githubLink && (
+          <a href={project.githubLink} target="_blank" class="project-link-button">
+            <span>GitHub</span>
+          </a>
+        )}
+        {/* Add more links as needed */}
+      </div>
+    </div>
+
+    <!-- Bottom Left: Navigation -->
+    <div class="project-nav-section">
+      <ul class="project-nav-list" id="projectNav">
+        {project.sections.map(section => (
+          <li class="project-nav-item">
+            <a href={`#${section.id}`} class="project-nav-link" data-section={section.id}>
+              {section.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Bottom Right: Content -->
+    <div class="project-content-section" id="projectContent">
+      {project.sections.map(section => (
+        <section id={section.id} class="project-section">
+          <h2 class="project-section-title">{section.title}</h2>
+          <div class="project-section-content">
+            {section.content}
+          </div>
+          
+          {/* Subsections */}
+          {section.subsections && section.subsections.map(subsection => (
+            <div class="project-subsection">
+              <h3 class="project-subsection-title">{subsection.title}</h3>
+              <div class="project-section-content">
+                {subsection.content}
+              </div>
+            </div>
+          ))}
+
+          {/* Images */}
+          {section.images && section.images.length > 0 && (
+            <div class={`project-images-grid ${section.images[0]?.type || 'wide'}`}>
+              {section.images.map(image => (
+                <div class="project-image">
+                  <img src={image.src} alt={image.alt} loading="lazy" />
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <!-- Mobile Layout -->
+  <div class="project-container mobile-only">
+    <!-- Fixed Top Section -->
+    <div class="project-top-section">
+      <div class="project-header-row">
+        <div class="project-icon-container-mobile">
+          <img src={project.icon} alt={project.title} class="project-icon-mobile" />
+        </div>
+        <div>
+          <h1 class="project-title-mobile">{project.title}</h1>
+          <p class="project-subtitle-mobile">{project.shortDescription}</p>
+        </div>
+      </div>
+
+      <div class="project-links-row">
+        <div class="project-links-mobile">
+          {project.prototypeLink && (
+            <a href={project.prototypeLink} target="_blank" class="project-link-button-mobile">
+              <span>Prototype</span>
+            </a>
+          )}
+          {project.githubLink && (
+            <a href={project.githubLink} target="_blank" class="project-link-button-mobile">
+              <span>GitHub</span>
+            </a>
+          )}
+        </div>
+        <button class="project-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="project-nav-mobile" id="mobileNav">
+      <ul class="project-nav-list-mobile">
+        {project.sections.map(section => (
+          <li class="project-nav-item-mobile">
+            <a href={`#${section.id}`} class="project-nav-link-mobile" data-section={section.id}>
+              {section.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Scrollable Content Section -->
+    <div class="project-content-section-mobile" id="projectContentMobile">
+      {project.sections.map(section => (
+        <section id={section.id} class="project-section-mobile">
+          <h2 class="project-section-title-mobile">{section.title}</h2>
+          <div class="project-section-content-mobile">
+            {section.content}
+          </div>
+          
+          {/* Subsections */}
+          {section.subsections && section.subsections.map(subsection => (
+            <div class="project-subsection">
+              <h3 class="project-subsection-title-mobile">{subsection.title}</h3>
+              <div class="project-section-content-mobile">
+                {subsection.content}
+              </div>
+            </div>
+          ))}
+
+          {/* Images - Mobile specific layout */}
+          {section.images && section.images.length > 0 && (
+            <div class={`project-images-grid-mobile ${
+              section.images[0]?.type === 'collage' ? 'collage' : 'wide'
+            }`}>
+              {section.images.map(image => (
+                <div class="project-image-mobile">
+                  <img src={image.src} alt={image.alt} loading="lazy" />
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    // Navigation highlighting
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('.project-section, .project-section-mobile');
+      const navLinks = document.querySelectorAll('.project-nav-link, .project-nav-link-mobile');
+      
+      // Highlight active section
+      function highlightActiveSection() {
+        let currentSection = '';
+        
+        sections.forEach(section => {
+          // Get position safely
+          const rect = section.getBoundingClientRect();
+          const sectionTop = rect.top + window.scrollY;
+          const sectionHeight = rect.height;
+          const scrollPosition = window.scrollY + 100;
+          
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSection = section.id;
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+      
+    // Mobile navigation toggle - FIXED: Add close on outside click
+    const mobileNavToggle = document.getElementById('mobileNavToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    const backButton = document.querySelector('.project-back-button');
+
+    if (mobileNavToggle && mobileNav) {
+        // Toggle menu
+        mobileNavToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileNavToggle.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            
+            // Position menu below the divider line when opening
+            if (mobileNav.classList.contains('active')) {
+                // Get the bottom position of the project-top-section (where the divider is)
+                const headerSection = document.querySelector('.project-top-section');
+                if (headerSection) {
+                    const headerRect = headerSection.getBoundingClientRect();
+                    // Position the menu right below the header
+                    mobileNav.style.top = `${headerRect.bottom}px`;
+                }
+            }
+        });
+        
+        // Close nav when clicking a link
+        const mobileNavLinks = mobileNav.querySelectorAll('.project-nav-link-mobile');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Close menu first
+                    mobileNavToggle.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                    
+                    // Then scroll to section
+                    setTimeout(() => {
+                        const rect = targetElement.getBoundingClientRect();
+                        const targetTop = rect.top + window.scrollY;
+                        
+                        window.scrollTo({
+                            top: targetTop - 180, // Adjusted for fixed header
+                            behavior: 'smooth'
+                        });
+                    }, 300);
+                }
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (mobileNav.classList.contains('active')) {
+                // Check if click is outside both the menu and the toggle button
+                const isClickInsideMenu = mobileNav.contains(e.target);
+                const isClickOnToggle = e.target === mobileNavToggle || mobileNavToggle.contains(e.target);
+                
+                if (!isClickInsideMenu && !isClickOnToggle) {
+                    mobileNavToggle.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+        
+        // Prevent back button from closing menu when menu is open
+        if (backButton) {
+            backButton.addEventListener('click', (e) => {
+                if (mobileNav.classList.contains('active')) {
+                    e.stopPropagation();
+                    mobileNavToggle.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = '';
+                    
+                    // Wait a bit then go back
+                    setTimeout(() => {
+                        if (document.referrer && document.referrer.includes(window.location.hostname)) {
+                            window.history.back();
+                        } else {
+                            window.location.href = e.target.closest('a').href;
+                        }
+                    }, 100);
+                    return false;
+                }
+            });
+        }
+    }
+      
+      // Desktop smooth scroll
+      const desktopNavLinks = document.querySelectorAll('.project-nav-link');
+      desktopNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            const contentSection = document.querySelector('.project-content-section');
+            if (contentSection) {
+              // Calculate position relative to content section
+              const contentRect = contentSection.getBoundingClientRect();
+              const targetRect = targetElement.getBoundingClientRect();
+              const scrollTop = targetRect.top - contentRect.top + contentSection.scrollTop;
+              
+              contentSection.scrollTo({
+                top: scrollTop - 20,
+                behavior: 'smooth'
+              });
+            }
+          }
+        });
+      });
+      
+      // Initial highlight
+      highlightActiveSection();
+      
+      // Update on scroll
+      window.addEventListener('scroll', highlightActiveSection);
+      
+      // Also update when content section scrolls (for desktop)
+      const contentSection = document.querySelector('.project-content-section');
+      if (contentSection) {
+        contentSection.addEventListener('scroll', highlightActiveSection);
+      }
+      
+      // Handle back button history
+      if (backButton) {
+        backButton.addEventListener('click', (e) => {
+          if (document.referrer && document.referrer.includes(window.location.hostname)) {
+            e.preventDefault();
+            window.history.back();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

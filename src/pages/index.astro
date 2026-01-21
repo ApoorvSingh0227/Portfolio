@@ -1,57 +1,8 @@
 ---
 import Layout from '../components/layout.astro';
+import { getFeaturedProjects } from '../data/projects';
 
-// Project data
-const projects = [
-  {
-    title: "CitySense",
-    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
-    shortDescription: "Modern e-commerce app with intuitive UX",
-    type: "App",
-    icon: "/images/Asset-5.png",
-    timeframe: "Aug 2025 - Dec 2025",
-    featured: true,
-    highlightImage: "/images/ecommerce-featured.jpg",
-    featureTitle: "Gain work-life balance",
-    featureSubtitle: "Split and schedule your tasks with complete control"
-  },
-  {
-    title: "HCIdea",
-    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
-    shortDescription: "Modern e-commerce app with intuitive UX",
-    type: "Website",
-    icon: "/images/Asset-6.png",
-    timeframe: "Aug 2025 - Dec 2025",
-    featured: true,
-    highlightImage: "/images/ecommerce-featured.jpg",
-    featureTitle: "Gain work-life balance",
-    featureSubtitle: "Split and schedule your tasks with complete control"
-  },
-  {
-    title: "Movie Lamp",
-    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
-    shortDescription: "Modern e-commerce app with intuitive UX",
-    type: "App",
-    icon: "/images/Asset-7.png",
-    timeframe: "Aug 2025 - Dec 2025",
-    featured: true,
-    highlightImage: "/images/ecommerce-featured.jpg",
-    featureTitle: "Gain work-life balance",
-    featureSubtitle: "Split and schedule your tasks with complete control"
-  },
-  {
-    title: "Statera",
-    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
-    shortDescription: "Modern e-commerce app with intuitive UX",
-    type: "app",
-    icon: "/images/Asset-3.png",
-    timeframe: "Jan 2024 - Mar 2024",
-    featured: true,
-    highlightImage: "/images/ecommerce-featured.jpg",
-    featureTitle: "Gain work-life balance",
-    featureSubtitle: "Split and schedule your tasks with complete control"
-  }
-];
+const projects = getFeaturedProjects();
 ---
 
 <style>
@@ -448,10 +399,16 @@ const projects = [
   }
 
   .expertise-desc {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.7);
-      margin-top: -0.75rem;
-    }
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: -0.75rem;
+  }
+
+  .project-card-link {
+    display: contents;
+    text-decoration: none;
+    color: inherit;
+  }
 
   /* Mobile adjustments */
   @media (max-width: 768px) {
@@ -604,6 +561,7 @@ const projects = [
         project.featured ? (
           <!-- Featured Project Card -->
           <article class="project-card featured-card">
+            <a href={`/projects/${project.slug}`} class="project-card-link">
             <!-- Desktop Layout -->
             <div class="featured-desktop">
               <div class="featured-info">
@@ -620,7 +578,7 @@ const projects = [
                   </div>
                 </div>
               </div>
-              <div class="featured-highlight" style={`background-image: url('/images/stat ft.jpg`}>
+              <div class="featured-highlight" style={`background-image: url('/images/stat ft.jpg')`}>
                 <div class="featured-gradient"></div>
                 <div class="featured-content">
                   <h4 class="featured-title">{project.featureTitle}</h4>
@@ -654,23 +612,26 @@ const projects = [
                 </div>
               </div>
             </div>
+            </a>
           </article>
         ) : (
           <!-- Standard Project Card -->
           <article class="project-card standard-card">
-            <div class="project-icon-container">
-              <img src={project.icon} alt={project.title} class="project-icon-img" />
-            </div>
-            <div class="project-content">
-              <div class="project-header">
-                <div class="project-title-container">
-                  <h3 class="project-title">{project.title}</h3>
-                  <div class="project-timeframe">{project.timeframe}</div>
-                </div>
-                <span class="project-type">{project.type}</span>
+            <a href={`/projects/${project.slug}`} class="project-card-link">
+              <div class="project-icon-container">
+                <img src={project.icon} alt={project.title} class="project-icon-img" />
               </div>
-              <p class="project-description">{project.description}</p>
-            </div>
+              <div class="project-content">
+                <div class="project-header">
+                  <div class="project-title-container">
+                    <h3 class="project-title">{project.title}</h3>
+                    <div class="project-timeframe">{project.timeframe}</div>
+                  </div>
+                  <span class="project-type">{project.type}</span>
+                </div>
+                <p class="project-description">{project.description}</p>
+              </div>
+            </a>
           </article>
         )
       ))}

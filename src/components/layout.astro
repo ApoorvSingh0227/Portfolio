@@ -194,6 +194,30 @@ const { title, description, home = false } = Astro.props;
       height: 45px;
     }
 
+    /* Ensure links don't have underlines */
+  .project-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Make sure hover states work with the link */
+  .project-card.standard-card:hover,
+  .project-card.featured-card:hover {
+    cursor: pointer;
+  }
+
+  /* Improve touch targets on mobile */
+  @media (max-width: 768px) {
+    .project-card-link {
+      display: block;
+      padding: 1.5rem 1rem;
+    }
+    
+    .project-card.standard-card {
+      padding: 0;
+    }
+  }
+
     .nav-item:hover {
       color: rgb(255, 255, 255);
     }
