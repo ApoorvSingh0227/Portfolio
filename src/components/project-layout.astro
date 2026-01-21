@@ -905,7 +905,7 @@ interface ProjectData {
   </div>
 
   <script>
-    // Navigation highlighting
+    // Navigation highlighting and functionality
     document.addEventListener('DOMContentLoaded', function() {
       const sections = document.querySelectorAll('.project-section, .project-section-mobile');
       const navLinks = document.querySelectorAll('.project-nav-link, .project-nav-link-mobile');
@@ -915,7 +915,6 @@ interface ProjectData {
         let currentSection = '';
         
         sections.forEach(section => {
-          // Get position safely
           const rect = section.getBoundingClientRect();
           const sectionTop = rect.top + window.scrollY;
           const sectionHeight = rect.height;
@@ -934,109 +933,17 @@ interface ProjectData {
         });
       }
       
-    // Mobile navigation toggle - FIXED: Add close on outside click
-    const mobileNavToggle = document.getElementById('mobileNavToggle');
-    const mobileNav = document.getElementById('mobileNav');
-    const backButton = document.querySelector('.project-back-button');
-
-    if (mobileNavToggle && mobileNav) {
-        // Toggle menu
-        mobileNavToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            mobileNavToggle.classList.toggle('active');
-            mobileNav.classList.toggle('active');
-            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
-            
-            // Position menu below the divider line when opening
-            if (mobileNav.classList.contains('active')) {
-                // Get the bottom position of the project-top-section (where the divider is)
-                const headerSection = document.querySelector('.project-top-section');
-                if (headerSection) {
-                    const headerRect = headerSection.getBoundingClientRect();
-                    // Position the menu right below the header
-                    mobileNav.style.top = `${headerRect.bottom}px`;
-                }
-            }
-        });
-        
-        // Close nav when clicking a link
-        const mobileNavLinks = mobileNav.querySelectorAll('.project-nav-link-mobile');
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    // Close menu first
-                    mobileNavToggle.classList.remove('active');
-                    mobileNav.classList.remove('active');
-                    document.body.style.overflow = '';
-                    
-                    // Then scroll to section
-                    setTimeout(() => {
-                        const rect = targetElement.getBoundingClientRect();
-                        const targetTop = rect.top + window.scrollY;
-                        
-                        window.scrollTo({
-                            top: targetTop - 180, // Adjusted for fixed header
-                            behavior: 'smooth'
-                        });
-                    }, 300);
-                }
-            });
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (mobileNav.classList.contains('active')) {
-                // Check if click is outside both the menu and the toggle button
-                const isClickInsideMenu = mobileNav.contains(e.target);
-                const isClickOnToggle = e.target === mobileNavToggle || mobileNavToggle.contains(e.target);
-                
-                if (!isClickInsideMenu && !isClickOnToggle) {
-                    mobileNavToggle.classList.remove('active');
-                    mobileNav.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            }
-        });
-        
-        // Prevent back button from closing menu when menu is open
-        if (backButton) {
-            backButton.addEventListener('click', (e) => {
-                if (mobileNav.classList.contains('active')) {
-                    e.stopPropagation();
-                    mobileNavToggle.classList.remove('active');
-                    mobileNav.classList.remove('active');
-                    document.body.style.overflow = '';
-                    
-                    // Wait a bit then go back
-                    setTimeout(() => {
-                        if (document.referrer && document.referrer.includes(window.location.hostname)) {
-                            window.history.back();
-                        } else {
-                            window.location.href = e.target.closest('a').href;
-                        }
-                    }, 100);
-                    return false;
-                }
-            });
-        }
-    }
-      
-      // Desktop smooth scroll
+      // Desktop navigation
       const desktopNavLinks = document.querySelectorAll('.project-nav-link');
       desktopNavLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
+        link.addEventListener('click', function(e) {
           e.preventDefault();
-          const targetId = link.getAttribute('href');
+          const targetId = this.getAttribute('href');
           const targetElement = document.querySelector(targetId);
           
           if (targetElement) {
             const contentSection = document.querySelector('.project-content-section');
             if (contentSection) {
-              // Calculate position relative to content section
               const contentRect = contentSection.getBoundingClientRect();
               const targetRect = targetElement.getBoundingClientRect();
               const scrollTop = targetRect.top - contentRect.top + contentSection.scrollTop;
@@ -1050,28 +957,119 @@ interface ProjectData {
         });
       });
       
-      // Initial highlight
-      highlightActiveSection();
+      // Mobile navigation
+      const mobileNavToggle = document.getElementById('mobileNavToggle');
+      const mobileNav = document.getElementById('mobileNav');
+      const backButton = document.querySelector('.project-back-button');
       
-      // Update on scroll
+      if (mobileNavToggle && mobileNav) {
+        // Toggle mobile menu
+        mobileNavToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          this.classList.toggle('active');
+          mobileNav.classList.toggle('active');
+          
+          if (mobileNav.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+            // Position menu below header
+            const headerSection = document.querySelector('.project-top-section');
+            if (headerSection) {
+              const headerRect = headerSection.getBoundingClientRect();
+              mobileNav.style.top = `${headerRect.bottom}px`;
+            }
+          } else {
+            document.body.style.overflow = '';
+          }
+        });
+        
+        // Mobile menu links - scroll to section
+        const mobileNavLinks = mobileNav.querySelectorAll('.project-nav-link-mobile');
+        mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+            // Close menu
+            mobileNavToggle.classList.remove('active');
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Simple scroll to element (no delay)
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            }
+        });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (mobileNav.classList.contains('active')) {
+            // Check if the clicked element is NOT inside the mobile nav AND NOT the toggle button
+            const clickedElement = e.target;
+            const isClickInsideMenu = mobileNav.contains(clickedElement);
+            const isClickOnToggle = clickedElement === mobileNavToggle || 
+                                  (clickedElement && clickedElement.parentNode === mobileNavToggle) ||
+                                  (clickedElement && clickedElement.parentNode && 
+                                   clickedElement.parentNode.parentNode === mobileNavToggle);
+            
+            if (!isClickInsideMenu && !isClickOnToggle) {
+              mobileNavToggle.classList.remove('active');
+              mobileNav.classList.remove('active');
+              document.body.style.overflow = '';
+            }
+          }
+        });
+        
+        // Back button handling
+        if (backButton) {
+          backButton.addEventListener('click', function(e) {
+            if (mobileNav.classList.contains('active')) {
+              e.stopPropagation();
+              mobileNavToggle.classList.remove('active');
+              mobileNav.classList.remove('active');
+              document.body.style.overflow = '';
+              
+              // Go back after menu closes
+              setTimeout(function() {
+                if (document.referrer && document.referrer.includes(window.location.hostname)) {
+                  window.history.back();
+                } else {
+                  window.location.href = backButton.getAttribute('href');
+                }
+              }, 100);
+              
+              return false;
+            }
+          });
+        }
+      }
+      
+      // Handle back button history (for desktop)
+      if (backButton) {
+        backButton.addEventListener('click', function(e) {
+          if (!mobileNav || !mobileNav.classList.contains('active')) {
+            if (document.referrer && document.referrer.includes(window.location.hostname)) {
+              e.preventDefault();
+              window.history.back();
+            }
+          }
+        });
+      }
+      
+      // Initial setup
+      highlightActiveSection();
       window.addEventListener('scroll', highlightActiveSection);
       
-      // Also update when content section scrolls (for desktop)
+      // Desktop content section scrolling
       const contentSection = document.querySelector('.project-content-section');
       if (contentSection) {
         contentSection.addEventListener('scroll', highlightActiveSection);
       }
-      
-      // Handle back button history
-      if (backButton) {
-        backButton.addEventListener('click', (e) => {
-          if (document.referrer && document.referrer.includes(window.location.hostname)) {
-            e.preventDefault();
-            window.history.back();
-          }
-        });
-      }
     });
-  </script>
+</script>
 </body>
 </html>
