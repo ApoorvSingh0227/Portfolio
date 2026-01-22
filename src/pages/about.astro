@@ -15,7 +15,7 @@ import Layout from '../components/layout.astro';
   }
 
   .about-header {
-    margin-bottom: 3rem;
+    margin-bottom: 0rem;
     width: 100%;
   }
   
@@ -72,6 +72,7 @@ import Layout from '../components/layout.astro';
     display: grid;
     grid-template-columns: 20% 80%;
     gap: 3rem;
+    margin-top: -1.5rem;
     margin-bottom: var(--section-spacing);
     align-items: start;
   }
@@ -264,12 +265,6 @@ import Layout from '../components/layout.astro';
     transition: all 0.3s ease;
   }
 
-  .skill-tag:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-  }
-
   /* Toolkit Section */
   .toolkit-section {
     margin-bottom: var(--section-spacing);
@@ -411,6 +406,10 @@ import Layout from '../components/layout.astro';
 
   /* ========== MOBILE RESPONSIVE ========== */
 @media (max-width: 768px) {
+  .about-header {
+    margin-bottom: 3rem;
+  }
+
   .page-title {
     font-size: 1.3rem !important;
     margin-bottom: -2rem;
