@@ -1,65 +1,21 @@
 ---
 import Layout from '../components/layout.astro';
+import { getFeaturedProjects } from '../data/projects';
 
-// Project data
-const projects = [
-  {
-    title: "Statera",
-    description: "Designed a modern e-commerce application with focus on user experience and intuitive navigation. Conducted user research and created wireframes and prototypes.",
-    shortDescription: "Modern e-commerce app with intuitive UX",
-    type: "app",
-    icon: "/images/Asset-3.png",
-    timeframe: "Jan 2024 - Mar 2024",
-    featured: true,
-    highlightImage: "/images/ecommerce-featured.jpg",
-    featureTitle: "Gain work-life balance",
-    featureSubtitle: "Split and schedule your tasks with complete control"
-  },
-  {
-    title: "Portfolio Website UI", 
-    description: "Created a responsive portfolio website design with modern aesthetics and smooth interactions. Focused on accessibility and mobile-first design.",
-    shortDescription: "Responsive portfolio with modern design",
-    type: "website",
-    icon: "/images/Asset-2.png",
-    timeframe: "Jan 2024 - Mar 2024",
-    featured: false
-  },
-  {
-    title: "Mobile Game Interface",
-    description: "Designed user interface for a mobile puzzle game with engaging interactions and smooth animations. Created design system and component library.",
-    shortDescription: "Mobile game UI with engaging interactions",
-    type: "game", 
-    icon: "/images/Asset-4.png",
-    timeframe: "Jan 2024 - Mar 2024",
-    featured: false
-  },
-  {
-    title: "Dashboard Redesign",
-    description: "Redesigned analytics dashboard for better data visualization and user workflow. Improved information architecture and user flow.",
-    shortDescription: "Analytics dashboard with better visualization",
-    type: "web app",
-    icon: "/images/Asset-3.png",
-    timeframe: "Jan 2024 - Mar 2024",
-    featured: false
-  }
-];
+const projects = getFeaturedProjects();
 ---
 
 <style>
   .hero-section {
     margin: 2rem 0 4rem 0;
-    width: 100vw;
+    width: 100%;
     position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
   }
 
   .hero-container {
     position: relative;
     width: 100%;
-    max-width: none;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 1rem;
   }
@@ -74,19 +30,17 @@ const projects = [
   .hero-content {
     position: absolute;
     top: 25%;
-    right: 0;
+    right: 5%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 1.5rem;
     z-index: 10;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    width: auto;
+    max-width: 600px;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    left: 50%;
-    transform: translateX(-50%);
   }
 
   .hero-text {
@@ -95,7 +49,7 @@ const projects = [
     line-height: 1.1;
     text-align: right;
     padding: 0rem 0.5rem;
-    font-size: clamp(1.25rem, 3vw + 0.5rem, 2.5rem);
+    font-size: clamp(1.25rem, 3vw + 0.1rem, 2.5rem);
     max-width: 600px;
     margin-left: auto;
   }
@@ -308,29 +262,194 @@ const projects = [
   .divider {
     height: 2px;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.171));
-    margin: 2rem 0 3rem 0;
+    margin: 2rem 0 1.5rem 0;
+  }
+
+  .expertise-section {
+    margin: 4rem 0;
+  }
+
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .expertise-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .expertise-card h4 {
+    color: var(--white);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-primary);
+    font-size: 1.2rem;
+  }
+
+  /* Contact Section */
+  .contact-section {
+    margin: 4rem 0;
+    text-align: left;
+  }
+
+  .contact-intro {
+    max-width: 100%;
+    margin: -0.5rem auto 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .contact-methods {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.4s ease;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    isolation: isolate;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .contact-button::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+      45deg,
+      #667eea60 0%,
+      #764ba260 25%,
+      #f193fb60 50%,
+      #f5576c60 75%,
+      #667eea60 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    border-radius: 32px;
+    z-index: -1;
+    opacity: 0%;
+  }
+
+  .contact-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 40%,
+      transparent 60%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    border-radius: 30px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .contact-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 1);
+    background: linear-gradient(
+      15deg,
+      #e4e4e460 0%,
+      #dfae4460 10%,
+      #d46e3e60 20%,
+      #eb394860 30%,
+      #216bcc60 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientShift 4s ease infinite;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .contact-button:hover::before {
+    opacity: 0;
+  }
+
+  .expertise-desc {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: -0.75rem;
+  }
+
+  .project-card-link {
+    display: contents;
+    text-decoration: none;
+    color: inherit;
   }
 
   /* Mobile adjustments */
   @media (max-width: 768px) {
+    .hero-section {
+      margin: 1rem 0 2rem 0;
+      width: 100%;
+    }
+
     .hero-container {
       padding: 0 0.5rem;
     }
     
     .hero-content {
-      padding: 0 1rem;
-      top: 20%;
+      position: absolute;
+      top: 15%;
+      right: 5%;
+      left: 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
       gap: 1rem;
+      z-index: 10;
+      width: auto;
+      max-width: none;
+      margin: 0;
+      padding: 0;
     }
     
     .hero-text {
-      font-size: clamp(1rem, 4vw, 1.3rem);
+      font-size: clamp(1rem, 3vw, 1.3rem);
       line-height: 1.2;
-      max-width: 280px;
+      max-width: 270px;
+      text-align: right;
+      margin-left: auto;
+      margin-right: 0;
     }
     
     .hero-buttons {
       gap: 0.75rem;
+      justify-content: flex-end;
+      width: 100%;
     }
     
     .hero-btn.circle {
@@ -353,16 +472,56 @@ const projects = [
       font-size: 1.3rem !important;
       margin-bottom: -1.5rem;
     }
+
+    .expertise-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .expertise-card {
+      padding: 1.5rem;
+    }
+
+    .expertise-desc {
+      font-size: 0.9rem;
+    }
+
+    .expertise-card h4 {
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+    }
+    
+    .contact-methods {
+      flex-direction: row;
+      align-items: center;
+    }
+    
+    .contact-button {
+      justify-content: center;
+      padding: 0.875rem 1.5rem;
+      font-size: 0.8rem;
+    }
+
+    .contact-button .btn-icon {
+      height: 15px;
+      width: 15px;
+    }
   }
 
   @media (max-width: 480px) {
     .hero-content {
-      top: 15%;
+      top: 12%;
+      right: 3%;
+      left: 3%;
+    }
+
+    .expertise-desc {
+      font-size: 0.8;
     }
     
     .hero-text {
       font-size: 0.9rem;
-      max-width: 250px;
+      max-width: 220px;
     }
   }
 </style>
@@ -402,6 +561,7 @@ const projects = [
         project.featured ? (
           <!-- Featured Project Card -->
           <article class="project-card featured-card">
+            <a href={`/projects/${project.slug}`} class="project-card-link">
             <!-- Desktop Layout -->
             <div class="featured-desktop">
               <div class="featured-info">
@@ -418,7 +578,7 @@ const projects = [
                   </div>
                 </div>
               </div>
-              <div class="featured-highlight" style={`background-image: url('/images/stat ft.jpg`}>
+              <div class="featured-highlight" style={`background-image: url('/images/stat ft.jpg')`}>
                 <div class="featured-gradient"></div>
                 <div class="featured-content">
                   <h4 class="featured-title">{project.featureTitle}</h4>
@@ -452,26 +612,84 @@ const projects = [
                 </div>
               </div>
             </div>
+            </a>
           </article>
         ) : (
           <!-- Standard Project Card -->
           <article class="project-card standard-card">
-            <div class="project-icon-container">
-              <img src={project.icon} alt={project.title} class="project-icon-img" />
-            </div>
-            <div class="project-content">
-              <div class="project-header">
-                <div class="project-title-container">
-                  <h3 class="project-title">{project.title}</h3>
-                  <div class="project-timeframe">{project.timeframe}</div>
-                </div>
-                <span class="project-type">{project.type}</span>
+            <a href={`/projects/${project.slug}`} class="project-card-link">
+              <div class="project-icon-container">
+                <img src={project.icon} alt={project.title} class="project-icon-img" />
               </div>
-              <p class="project-description">{project.description}</p>
-            </div>
+              <div class="project-content">
+                <div class="project-header">
+                  <div class="project-title-container">
+                    <h3 class="project-title">{project.title}</h3>
+                    <div class="project-timeframe">{project.timeframe}</div>
+                  </div>
+                  <span class="project-type">{project.type}</span>
+                </div>
+                <p class="project-description">{project.description}</p>
+              </div>
+            </a>
           </article>
         )
       ))}
+    </div>
+  </section>
+
+  <!-- Expertise Section -->
+  <section class="expertise-section">
+    <h2 class="section-label">Design Expertise</h2>
+    <div class="divider"></div>
+    
+    <div class="expertise-grid">
+      <div class="expertise-card">
+        <h4>User Research</h4>
+        <div class="expertise-desc">Conducting interviews, usability testing, and analyzing user data to inform design decisions.</div>
+      </div>
+      
+      <div class="expertise-card">
+        <h4>Interface Design</h4>
+        <div class="expertise-desc">Creating visually appealing and functional interfaces with focus on usability and accessibility.</div>
+      </div>
+      
+      <div class="expertise-card">
+        <h4>Prototyping</h4>
+        <div class="expertise-desc">Building interactive prototypes to test concepts and communicate design intent.</div>
+      </div>
+      
+      <div class="expertise-card">
+        <h4>Design Systems</h4>
+        <div class="expertise-desc">Developing scalable component libraries and maintaining design consistency across products.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact/CTA Section -->
+  <section class="contact-section">
+    <h2 class="section-label">Let's Connect</h2>
+    <div class="divider"></div>
+    
+    <div class="contact-content">
+      <p class="contact-intro">Interested in collaborating or have a project in mind? I'm always open to discussing design opportunities.</p>
+      
+      <div class="contact-methods">
+        <a href="mailto:apoorvsingh0227@gmail.com" class="contact-button email">
+          <img src="/images/mail.png" alt="Email" class="btn-icon" />
+          <span>Email Me</span>
+        </a>
+        
+        <a href="https://www.linkedin.com/in/apoorv-singh-87377021b/" class="contact-button linkedin" target="_blank">
+          <img src="/images/linked in logo.png" alt="LinkedIn" class="btn-icon" />
+          <span>LinkedIn</span>
+        </a>
+        
+        <a href="/resume.pdf" class="contact-button resume download">
+          <img src="/images/downicon.png" alt="Download" class="btn-icon" />
+          <span>Resume</span>
+        </a>
+      </div>
     </div>
   </section>
 </Layout>

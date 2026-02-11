@@ -10,8 +10,8 @@ const { title, description, home = false } = Astro.props;
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="creed-icon" href="/creed-icon.svg" type="image/svg+xml">
+  <link rel="creed-icon" href="/creed-icon.png">
   <link rel="manifest" href="/site.webmanifest" />
 
   <meta name="msapplication-TileColor" content="#000000" />
@@ -91,8 +91,16 @@ const { title, description, home = false } = Astro.props;
       text-decoration: none;
     }
 
-    a:hover, a:focus {
-      opacity: 0.8;
+    a:hover:not(.nav-link):not(.mobile-nav-item),
+    a:focus:not(.nav-link):not(.mobile-nav-item) {
+      opacity: 1;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus,
+    .mobile-nav-item:hover,
+    .mobile-nav-item:focus {
+      opacity: 0.4 !important;
     }
 
     .sr-only:not(:focus):not(:active) {
@@ -138,29 +146,35 @@ const { title, description, home = false } = Astro.props;
       top: 50%;
       transform: translateY(-50%);
       z-index: 1000;
+      transition: opacity 0.3s ease;
     }
 
     .nav-menu {
       background: rgba(255, 255, 255, 0.08);
       border-radius: 25px;
-      padding: 1rem 0.5rem;
+      padding: 0.75rem 0.5rem;
       width: 60px;
+      height: auto;
+      min-height: 240px;
       backdrop-filter: blur(10px) saturate(180%);
       -webkit-backdrop-filter: blur(10px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.15);
       position: relative;
       overflow: hidden;
+      opacity: 0.6;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .nav-menu.expanded {
       width: 180px;
+      opacity: 1;
     }
 
     .nav-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.25rem;
       margin: 0;
       padding: 0;
       position: relative;
@@ -169,18 +183,43 @@ const { title, description, home = false } = Astro.props;
     .nav-item {
       position: relative;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 0.75rem;
-      padding: 0.75rem;
+      padding: 0.5rem;
       border-radius: 20px;
       cursor: pointer;
       color: rgba(255, 255, 255, 0.7);
       z-index: 2;
       transition: color 0.3s ease;
+      height: 45px;
     }
 
+    /* Ensure links don't have underlines */
+  .project-card a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Make sure hover states work with the link */
+  .project-card.standard-card:hover,
+  .project-card.featured-card:hover {
+    cursor: pointer;
+  }
+
+  /* Improve touch targets on mobile */
+  @media (max-width: 768px) {
+    .project-card-link {
+      display: block;
+      padding: 1.5rem 1rem;
+    }
+    
+    .project-card.standard-card {
+      padding: 0;
+    }
+  }
+
     .nav-item:hover {
-      color: white;
+      color: rgb(255, 255, 255);
     }
 
     .nav-item.active {
@@ -191,12 +230,12 @@ const { title, description, home = false } = Astro.props;
       position: absolute;
       left: 0.5rem;
       right: 0.5rem;
-      height: 40px;
+      height: 45px;
       background: rgba(255, 255, 255, 0.15);
       border-radius: 20px;
       z-index: 1;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      top: 0.5rem;
+      top: 0.75rem;
       backdrop-filter: blur(10px) saturate(180%);
       -webkit-backdrop-filter: blur(10px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -206,20 +245,20 @@ const { title, description, home = false } = Astro.props;
     }
 
     .nav-menu:not(.expanded){
-      padding-left: 10%;
+      padding-left: 3%;
     }
 
     .nav-menu:not(.expanded) .highlight {
-      width: 40px;
-      left: 50%;
-      top: 3%;
+      width: 45px;
+      margin-left: 5%;
+      top: 0.5rem;
       transform: translateX(-50%);
       border-radius: 50%;
     }
 
     .nav-menu.expanded .highlight {
       width: auto;
-      top: 3%;
+      top: 4%;
       transform: none;
       border-radius: 20px;
     }
@@ -255,7 +294,21 @@ const { title, description, home = false } = Astro.props;
       font-weight: 500;
       font-family: var(--font-primary);
       z-index: 3;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.2s ease 0.1s;
+    }
+
+    .nav-menu.expanded .nav-label {
+      opacity: 1;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+      width: 100%;
     }
 
     .nav-menu.expanded .nav-label {
@@ -276,7 +329,7 @@ const { title, description, home = false } = Astro.props;
     .projects-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2.5rem;
+      gap: 1rem;
     }
 
     @media (min-width: 768px) {
@@ -299,6 +352,7 @@ const { title, description, home = false } = Astro.props;
       box-shadow: 
         0 8px 32px 0 rgba(0, 0, 0, 0.36),
         inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.4s ease;
     }
 
     .project-card::before {
@@ -343,6 +397,8 @@ const { title, description, home = false } = Astro.props;
       pointer-events: none;
       z-index: -1;
       mix-blend-mode: overlay;
+      overflow: hidden;
+      border-radius: 24px;
     }
 
     @keyframes glassShift {
@@ -367,6 +423,81 @@ const { title, description, home = false } = Astro.props;
       gap: 1.5rem;
       align-items: start;
       height: auto;
+      border-radius: 24px;
+    }
+
+    .project-card.standard-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .project-card.standard-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        transparent 100%
+      );
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      z-index: 1;
+      border-radius: 24px;
+    }
+
+    .project-card.standard-card:hover::before {
+      height: 120%;
+      opacity: 0.3;
+      transform: translateY(-15%);
+      border-radius: 24px;
+    }
+
+    .project-card.featured-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.3);
+      border-radius: 24px;
+    }
+
+    .project-card.featured-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.1) 40%,
+        transparent 80%
+      );
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      z-index: 3;
+      border-radius: 24px;
+    }
+
+    .project-card.featured-card:hover::before {
+      height: 120%;
+      opacity: 0.4;
+      transform: translateY(-10%);
+      border-radius: 24px;
+    }
+
+    /* Ensure content stays above gradient */
+    .project-card > * {
+      position: relative;
+      z-index: 2;
+      border-radius: 24px;
     }
 
     .project-icon-container {
@@ -386,7 +517,7 @@ const { title, description, home = false } = Astro.props;
       height: 70px;
       mix-blend-mode: overlay;
       object-fit: contain;
-      border-radius: 15px;
+      border-radius: 12px;
     }
 
     .project-content {
@@ -556,17 +687,195 @@ const { title, description, home = false } = Astro.props;
       margin: 4rem 0;
     }
 
+    .mobile-header {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: var(--black);
+      border-bottom: 2px solid;
+      border-image: linear-gradient(90deg, white 0%, white 30%, red 65%, rgb(29, 119, 255) 100%) 1;
+      z-index: 1000;
+      padding: 0 1rem;
+    }
+
+    .mobile-header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .mobile-name {
+      font-family: var(--font-primary);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    /* Hamburger Button */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 1001;
+    }
+
+    .hamburger-line {
+      width: 25px;
+      height: 2px;
+      background: var(--white);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Mobile Menu Overlay */
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .mobile-nav {
+      position: absolute;
+      top: 70px;
+      left: 0rem;
+      right: 0rem;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      max-width: 100%;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+
+    .mobile-menu-content {
+      padding: 1rem;
+      line-height: 0%;
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .mobile-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 20px;
+      margin-bottom: 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      font-family: var(--font-primary);
+    }
+
+    .mobile-nav-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+      backdrop-filter: blur(10px) saturate(180%);
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-nav-item:hover::before,
+    .mobile-nav-item.active::before {
+      opacity: 1;
+    }
+
+    .mobile-nav-item:hover,
+    .mobile-nav-item.active {
+      background: transparent;
+      transform: translateX(5px);
+    }
+
+    .mobile-nav-icon {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+
+    .mobile-nav-item:hover .mobile-nav-icon,
+    .mobile-nav-item.active .mobile-nav-icon {
+      opacity: 1;
+    }
+
+    .mobile-nav-label {
+      font-family: var(--font-primary);
+      font-weight: 500;
+      z-index: 2;
+    }
+
+    /* Hamburger Animation */
+    .hamburger.active .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 4px);
+    }
+
+    .hamburger.active .hamburger-line:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-10px);
+    }
+
+    .hamburger.active .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -4px);
+    }
+
     /* Mobile Responsive Design */
     @media (max-width: 768px) {
       .main-header {
-        height: 12vh;
-        padding: 0 1rem;
+        display: none;
+      }
+
+      .featured-title {
+        font-size: 1.8rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .featured-subtitle {
+        font-size: 0.9rem;
+        line-height: 0.8rem;
       }
       
-      .name {
-        font-size: 2rem;
-        margin-left: 5%;
-        margin-bottom: 0.5rem;
+      .main-content {
+        margin-top: 70px !important;
       }
       
       .nav-container {
@@ -598,12 +907,55 @@ const { title, description, home = false } = Astro.props;
       
       .project-card {
         padding: 1.5rem 1rem;
+        border-radius: 24px !important;
+        overflow: hidden !important;
+        position: relative;
+      }
+
+      .project-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        right: -50%;
+        bottom: -50%;
+        background-image: 
+          radial-gradient(
+            ellipse at 30% 20%,
+            rgba(197, 197, 197, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 70% 80%,
+            rgba(255, 255, 255, 0.2) 0%,
+            transparent 50%
+          );
+        opacity: 0.4;
+        animation: glassShift 15s ease-in-out infinite;
+        pointer-events: none;
+        z-index: -1;
+        mix-blend-mode: overlay;
+        border-radius: 48px !important; /* DOUBLE the parent radius to fix corners */
+        overflow: hidden !important;
+      }
+
+      .project-card::before {
+        border-radius: 24px !important;
+        overflow: hidden !important;
       }
       
       .project-card.standard-card {
         grid-template-columns: auto 1fr;
         gap: 1rem;
         align-items: start;
+        overflow: hidden !important;
+        border-radius: 24px !important;
+      }
+
+      .project-card.standard-card:hover::before,
+      .project-card.featured-card:hover::before {
+        border-radius: 24px !important;
+        overflow: hidden !important;
       }
       
       .project-icon-container {
@@ -667,27 +1019,33 @@ const { title, description, home = false } = Astro.props;
       
       .featured-mobile {
         display: block;
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
       }
 
       .featured-top {
-        height: 325px;
+        height: 150px;
         background-size: cover;
         background-position: center;
         position: relative;
         display: flex;
         align-items: flex-end;
         margin: -5%;
-        padding: 0;
+        margin-top: -7%;
+        overflow: hidden;
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
       }
 
       .mobile-details .project-header {
-        flex-direction: row;
+        flex-direction: column;
+        display: flex;
         align-items: flex-start;
-        gap: 0.75rem;
+        gap: 0rem;
       }
 
       .mobile-details .project-title-container {
-        flex: 1;
+        margin-bottom: 0rem;
       }
       
       .mobile-project-info .project-type {
@@ -707,7 +1065,7 @@ const { title, description, home = false } = Astro.props;
       .mobile-featured-content {
         position: relative;
         z-index: 2;
-        padding: 1.5rem;
+        padding: 1rem;
         color: white;
         /* Ensure content stays within image bounds */
         width: 100%;
@@ -722,7 +1080,7 @@ const { title, description, home = false } = Astro.props;
         display: grid;
         grid-template-columns: auto 1fr auto;
         gap: 1rem;
-        align-items: center;
+        align-items: start;
       }
       
       .mobile-icon {
@@ -735,30 +1093,117 @@ const { title, description, home = false } = Astro.props;
         display: flex;
         flex-direction: column;
         gap: 0rem;
+        justify-content: flex-start;
+        align-items: flex-start;
       }
       
       .project-short-description {
         font-size: 0.8rem;
         opacity: 0.8;
         display: -webkit-box;
-        -webkit-line-clamp: 1;
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        margin-top: -0.5rem;
+        line-height: 1.3;
+      }
+
+      .nav-container {
+        display: none;
+      }
+      
+      .main-header {
+        display: none;
+      }
+      
+      /* Show mobile header */
+      .mobile-header {
+        display: block;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      /* Adjust main content padding for mobile header */
+      .main-content {
+        margin-top: 70px !important;
+        padding: 1rem !important;
+      }
+      
+      /* Adjust hero section margin */
+      .hero-section {
+        margin: 1rem 0 2rem 0 !important;
       }
     }
 
     @media (max-width: 480px) {
+      .project-short-description {
+        margin-top: -0.5rem;
+      }
+
+      .featured-title {
+        font-size: 1.4rem;
+      }
+
+      .featured-subtitle {
+        font-size: 0.8rem;
+        margin-bottom: 0%;
+      }
+
       .projects-grid {
-        gap: 1.5rem;
+        gap: 0.75rem;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-header {
+        display: none;
       }
       
-      .project-card {
-        padding: 1.25rem 0.875rem;
+      .mobile-menu-overlay {
+        display: none !important;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <nav class="mobile-nav">
+      <div class="mobile-menu-content">
+        <a href="/" class="mobile-nav-item active">
+          <img src="/images/home.png" alt="Home" class="mobile-nav-icon" />
+          <span class="mobile-nav-label">Home</span>
+        </a>
+        <a href="/projects" class="mobile-nav-item">
+          <img src="/images/case studies.png" alt="Projects" class="mobile-nav-icon" />
+          <span class="mobile-nav-label">Projects</span>
+        </a>
+        <a href="/gallery" class="mobile-nav-item">
+          <img src="/images/gallery.png" alt="Gallery" class="mobile-nav-icon" />
+          <span class="mobile-nav-label">Gallery</span>
+        </a>
+        <a href="/about" class="mobile-nav-item">
+          <img src="/images/about.png" alt="About" class="mobile-nav-icon" />
+          <span class="mobile-nav-label">About</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile Header with Hamburger -->
+  <header class="mobile-header">
+    <div class="mobile-header-container">
+      <div class="mobile-name">Apoorv Singh</div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </header>
+
   <!-- Fixed Header -->
   <header class="main-header">
     <div class="name">Apoorv Singh</div>
@@ -768,29 +1213,37 @@ const { title, description, home = false } = Astro.props;
   <div class="nav-container">
     <nav class="nav-menu" id="navMenu">
       <ul class="nav-list">
-        <li class="nav-item active" data-item="home">
-          <div class="nav-icon">
-            <img src="/images/home.png" alt="Home" class="nav-icon-img" />
-          </div>
-          <span class="nav-label">Home</span>
+        <li class="nav-item" data-item="home">
+          <a href="/" class="nav-link">
+            <div class="nav-icon">
+              <img src="/images/home.png" alt="Home" class="nav-icon-img" />
+            </div>
+            <span class="nav-label">Home</span>
+          </a>
         </li>
         <li class="nav-item" data-item="projects">
-          <div class="nav-icon">
-            <img src="/images/case studies.png" alt="Projects" class="nav-icon-img" />
-          </div>
-          <span class="nav-label">Projects</span>
+          <a href="/projects" class="nav-link">
+            <div class="nav-icon">
+              <img src="/images/case studies.png" alt="Projects" class="nav-icon-img" />
+            </div>
+            <span class="nav-label">Projects</span>
+          </a>
+        </li>
+        <li class="nav-item" data-item="gallery">
+          <a href="/gallery" class="nav-link">
+            <div class="nav-icon">
+              <img src="/images/gallery.png" alt="Gallery" class="nav-icon-img" />
+            </div>
+            <span class="nav-label">Gallery</span>
+          </a>
         </li>
         <li class="nav-item" data-item="about">
-          <div class="nav-icon">
-            <img src="/images/gallery.png" alt="Gallery" class="nav-icon-img" />
-          </div>
-          <span class="nav-label">Gallery</span>
-        </li>
-        <li class="nav-item" data-item="contact">
-          <div class="nav-icon">
-            <img src="/images/about.png" alt="About" class="nav-icon-img" />
-          </div>
-          <span class="nav-label">About</span>
+          <a href="/about" class="nav-link">
+            <div class="nav-icon">
+              <img src="/images/about.png" alt="About" class="nav-icon-img" />
+            </div>
+            <span class="nav-label">About</span>
+          </a>
         </li>
         <div class="highlight" id="navHighlight"></div>
       </ul>
@@ -803,122 +1256,158 @@ const { title, description, home = false } = Astro.props;
   </div>
 
   <script>
-    const menu = document.getElementById('navMenu');
-    const highlight = document.getElementById('navHighlight');
-    let isExpanded = false;
-
-    let currentActiveItem = 'home';
-
-    function updateHighlight() {
-      const activeItem = document.querySelector(`.nav-item[data-item="${currentActiveItem}"]`);
-      const highlight = document.getElementById('navHighlight');
-      const menu = document.getElementById('navMenu');
-      
-      if (!activeItem || !highlight || !menu) return;
-      
-      const navItems = document.querySelectorAll('.nav-item');
-      let activeIndex = -1;
-      
-      navItems.forEach((item, index) => {
-        if (item.getAttribute('data-item') === currentActiveItem) {
-          activeIndex = index;
-        }
-      });
-      
-      if (activeIndex >= 0) {
-        const itemHeight = 56;
-        const position = activeIndex * itemHeight;
-        
-        if (menu.classList.contains('expanded')) {
-          const visualActiveItem = document.querySelector('.nav-item.active');
-          if (visualActiveItem) {
-            const visualIndex = Array.from(navItems).indexOf(visualActiveItem);
-            highlight.style.transform = `translateY(${visualIndex * itemHeight}px)`;
-          } else {
-            highlight.style.transform = `translateY(${position}px)`;
-          }
-          highlight.style.width = 'calc(100% - 1rem)';
-          highlight.style.left = '0.5rem';
-          highlight.style.borderRadius = '20px';
-        } else {
-          highlight.style.transform = `translateX(-50%) translateY(${position}px)`;
-          highlight.style.width = '40px';
-          highlight.style.left = '50%';
-          highlight.style.borderRadius = '50%';
-        }
-      }
-    }
-
-    function expandMenu() {
-      const menu = document.getElementById('navMenu');
-      if (menu) {
-        menu.classList.add('expanded');
-        updateHighlight();
-      }
-    }
-
-    function collapseMenu() {
-      const menu = document.getElementById('navMenu');
-      if (menu) {
-        menu.classList.remove('expanded');
-        
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-          item.classList.remove('active');
-        });
-        
-        const actualActiveItem = document.querySelector(`.nav-item[data-item="${currentActiveItem}"]`);
-        if (actualActiveItem) {
-          actualActiveItem.classList.add('active');
-        }
-        
-        updateHighlight();
-      }
-    }
-
-    function highlightItem(element) {
-      const menu = document.getElementById('navMenu');
-      if (menu && menu.classList.contains('expanded')) {
-        const activeItem = document.querySelector('.nav-item.active');
-        if (activeItem) {
-          activeItem.classList.remove('active');
-        }
-        element.classList.add('active');
-        updateHighlight();
-      }
-    }
-
-    function setActivePage(element) {
-      const itemId = element.getAttribute('data-item');
-      currentActiveItem = itemId;
-      
-      const navItems = document.querySelectorAll('.nav-item');
-      navItems.forEach(item => {
-        item.classList.remove('active');
-      });
-      element.classList.add('active');
-      updateHighlight();
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
-      const menu = document.getElementById('navMenu');
-      if (menu) {
-        menu.addEventListener('mouseenter', expandMenu);
-        menu.addEventListener('mouseleave', collapseMenu);
-
-        document.querySelectorAll('.nav-item').forEach(item => {
-          item.addEventListener('mouseenter', function() {
-            highlightItem(this);
-          });
+      // ========== DESKTOP NAVIGATION ==========
+      const desktopMenu = document.getElementById('navMenu');
+      const desktopHighlight = document.getElementById('navHighlight');
+      const desktopNavItems = document.querySelectorAll('.nav-item');
+      
+      // ========== MOBILE NAVIGATION ==========
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+      
+      // ========== GET CURRENT PAGE ==========
+      const currentPath = window.location.pathname;
+      let currentPage = 'home';
+      
+      // More precise page detection
+      if (currentPath === '/projects' || currentPath === '/projects/') {
+        currentPage = 'projects';
+      } else if (currentPath === '/gallery' || currentPath === '/gallery/') {
+        currentPage = 'gallery';
+      } else if (currentPath === '/about' || currentPath === '/about/') {
+        currentPage = 'about';
+      }
+      // Default is 'home'
+      
+      console.log('Current path:', currentPath, 'Detected page:', currentPage);
+      
+      // ========== SET ACTIVE DESKTOP ITEM ==========
+      desktopNavItems.forEach(item => {
+        const itemId = item.getAttribute('data-item');
+        console.log('Checking item:', itemId, 'against:', currentPage);
+        
+        if (itemId === currentPage) {
+          item.classList.add('active');
+          console.log('Activated:', itemId);
+        } else {
+          item.classList.remove('active');
+        }
+      });
+      
+      // ========== SET ACTIVE MOBILE ITEM ==========
+      mobileNavItems.forEach(item => {
+        const href = item.getAttribute('href');
+        // Handle exact matches and home page
+        if (href === currentPath || 
+            (href === '/' && (currentPath === '/' || currentPath === '')) ||
+            (href === '/projects' && currentPath.startsWith('/projects')) ||
+            (href === '/gallery' && currentPath.startsWith('/gallery')) ||
+            (href === '/about' && currentPath.startsWith('/about'))) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+      
+      // ========== UPDATE DESKTOP HIGHLIGHT ==========
+      function updateDesktopHighlight() {
+        const activeItem = document.querySelector('.nav-item.active');
+        if (!activeItem || !desktopHighlight || !desktopMenu) return;
+        
+        const desktopNavItems = document.querySelectorAll('.nav-item');
+        const activeIndex = Array.from(desktopNavItems).indexOf(activeItem);
+        
+        if (activeIndex >= 0) {
+          const itemHeight = 45; // Match the CSS height (45px)
+          const position = activeIndex * (itemHeight + 4); // 4px gap between items
           
-          item.addEventListener('click', function() {
-            setActivePage(this);
+          console.log('Updating highlight. Active index:', activeIndex, 'Position:', position);
+          
+          if (desktopMenu.classList.contains('expanded')) {
+            desktopHighlight.style.transform = `translateY(${position}px)`;
+            desktopHighlight.style.width = 'calc(100% - 1rem)';
+            desktopHighlight.style.left = '0.5rem';
+            desktopHighlight.style.borderRadius = '20px';
+          } else {
+            desktopHighlight.style.transform = `translateX(-50%) translateY(${position}px)`;
+            desktopHighlight.style.width = '45px';
+            desktopHighlight.style.left = '50%';
+            desktopHighlight.style.borderRadius = '50%';
+          }
+        }
+      }
+      
+      // ========== DESKTOP MENU INTERACTIONS ==========
+      if (desktopMenu) {
+        // Check if we should keep menu expanded (from previous page)
+        const wasExpanded = sessionStorage.getItem('navExpanded') === 'true';
+        if (wasExpanded) {
+          desktopMenu.classList.add('expanded');
+        }
+        
+        // Hover to expand
+        desktopMenu.addEventListener('mouseenter', function() {
+          this.classList.add('expanded');
+          sessionStorage.setItem('navExpanded', 'true');
+          updateDesktopHighlight();
+        });
+        
+        // Hover to collapse
+        desktopMenu.addEventListener('mouseleave', function() {
+          this.classList.remove('expanded');
+          sessionStorage.setItem('navExpanded', 'false');
+          updateDesktopHighlight();
+        });
+        
+        // Click on nav items - don't collapse on click
+        desktopNavItems.forEach(item => {
+          const link = item.querySelector('.nav-link');
+          if (link) {
+            link.addEventListener('click', function(e) {
+              // Don't prevent default - let the link work
+              // Save expanded state before navigation
+              sessionStorage.setItem('navExpanded', desktopMenu.classList.contains('expanded') ? 'true' : 'false');
+            });
+          }
+        });
+        
+        // Initialize highlight position
+        setTimeout(() => {
+          updateDesktopHighlight();
+        }, 100); // Small delay to ensure DOM is ready
+      }
+      
+      // ========== MOBILE MENU INTERACTIONS ==========
+      if (hamburger && mobileMenu) {
+        // Toggle mobile menu
+        hamburger.addEventListener('click', function() {
+          this.classList.toggle('active');
+          mobileMenu.classList.toggle('active');
+          document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // Close menu when clicking on a link
+        mobileNavItems.forEach(link => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
           });
         });
-
-        updateHighlight();
+        
+        // Close menu when clicking outside
+        mobileMenu.addEventListener('click', (e) => {
+          if (e.target === mobileMenu) {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        });
       }
     });
   </script>
+  
 </body>
 </html>

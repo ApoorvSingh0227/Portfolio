@@ -1,0 +1,117 @@
+---
+import Layout from '../components/layout.astro';
+import { getAllProjects } from '../data/projects';
+
+const allProjects = getAllProjects();
+---
+
+<Layout
+  title="Projects - Apoorv Singh"
+  description="Browse all my UX/UI design projects and case studies"
+>
+
+<style>
+  .projects-header {
+    margin-bottom: 0rem;
+    width: 100%;
+  }
+
+  .project-card-link {
+    display: contents;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-card.standard-card,
+  .project-card.featured-card {
+    cursor: pointer;
+    position: relative;
+    padding: 1rem;
+  }
+
+  .project-card.standard-card:hover .project-description,
+  .project-card.featured-card:hover .featured-title,
+  .project-card.featured-card:hover .featured-subtitle {
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    opacity: 85%;
+    margin-bottom: -1.5rem;
+    text-align: left;
+    font-family: var(--font-primary);
+    columns: var(--white);
+  }
+  
+  .page-description {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 100%;
+    margin-top: 2.5rem;
+    padding-right: 0;
+  }
+
+  .projects-divider {
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.171));
+    margin: 2rem 0 -2.5rem 0;
+    width: 100%;
+  }
+  
+  .projects-section {
+    margin: 4rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .projects-header {
+      margin-bottom: 3rem;
+    }
+
+    .page-title {
+      font-size: 1.3rem !important;
+      margin-bottom: -2rem;
+    }
+
+    .page-description {
+      font-size: 0.9rem !important;
+      margin-bottom: -2rem;
+      line-height: 1.2rem;
+    }
+  }
+</style>
+
+<div class="projects-header">
+  <h1 class="page-title">Projects</h1>
+  <p class="page-description">A collection of my UX/UI design work, including case studies, prototypes, and design explorations.</p>
+</div>
+
+<div class="projects-divider"></div>
+
+<section class="projects-section">
+  <div class="projects-grid">
+    {allProjects.map(project => (
+      <article class="project-card standard-card">
+        <a href={`/projects/${project.slug}`} class="project-card-link">
+        <div class="project-icon-container">
+          <img src={project.icon} alt={project.title} class="project-icon-img" />
+        </div>
+        <div class="project-content">
+          <div class="project-header">
+            <div class="project-title-container">
+              <h3 class="project-title">{project.title}</h3>
+              <div class="project-timeframe">{project.timeframe}</div>
+            </div>
+            <span class="project-type">{project.type}</span>
+          </div>
+          <p class="project-description">{project.description}</p>
+        </div>
+        </a>
+      </article>
+    ))}
+  </div>
+</section>
+
+</Layout>

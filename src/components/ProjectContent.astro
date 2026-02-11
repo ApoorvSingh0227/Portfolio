@@ -1,0 +1,25 @@
+---
+const { content } = Astro.props;
+---
+
+{content.split('\n\n').map(paragraph => {
+  const trimmed = paragraph.trim();
+  if (!trimmed) return null;
+  
+  // Check if the paragraph starts with bullet points
+  const lines = trimmed.split('\n');
+  const hasBullets = lines.some(line => line.trim().startsWith('•') || line.trim().startsWith('-'));
+  
+  if (hasBullets) {
+    return (
+      <ul class="simple-list">
+        {lines.filter(line => line.trim()).map(line => {
+          const text = line.trim().replace(/^[•\-]\s*/, '');
+          return <li class="simple-list-item">{text}</li>;
+        })}
+      </ul>
+    );
+  }
+  
+  return <p>{trimmed}</p>;
+})}

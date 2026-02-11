@@ -1,0 +1,547 @@
+---
+import Layout from '../components/layout.astro';
+
+// Gallery images data - customized for positioning and zoom
+const galleryImages = [
+  {
+    id: 1,
+    title: "Visual Design 1",
+    category: "UI Design",
+    image: "/images/gallery/design1.jpg",
+    // Positioning: object-position values (x% y%)
+    position: "50% 50%", // center by default
+    // Zoom level: controls the scale transform
+    zoomLevel: 1.1,
+    description: "Modern interface design with vibrant colors"
+  },
+  {
+    id: 2,
+    title: "Branding Project",
+    category: "Branding",
+    image: "/images/gallery/design2.jpg",
+    position: "30% 20%", // focus on top-left area
+    zoomLevel: 1.2,
+    description: "Complete brand identity system"
+  },
+  {
+    id: 3,
+    title: "Mobile App UI",
+    category: "Mobile",
+    image: "/images/gallery/design3.jpg",
+    position: "70% 50%", // focus on right side
+    zoomLevel: 1.05,
+    description: "Fitness app interface design"
+  },
+  {
+    id: 4,
+    title: "Illustration Set",
+    category: "Illustration",
+    image: "/images/gallery/design4.jpg",
+    position: "50% 30%", // focus on top area
+    zoomLevel: 1.15,
+    description: "Custom illustrations for digital product"
+  },
+  {
+    id: 5,
+    title: "Dashboard Design",
+    category: "Web App",
+    image: "/images/gallery/design5.jpg",
+    position: "50% 50%", // center
+    zoomLevel: 1,
+    description: "Analytics dashboard with data visualization"
+  },
+  {
+    id: 6,
+    title: "Typography Study",
+    category: "Typography",
+    image: "/images/gallery/design6.jpg",
+    position: "20% 50%", // focus on left side
+    zoomLevel: 1.08,
+    description: "Experimental typography layout"
+  },
+  // Add more images as needed...
+];
+---
+
+<Layout
+  title="Gallery - Apoorv Singh"
+  description="Visual design work, illustrations, and design explorations"
+>
+
+<style>
+  .gallery-header {
+    margin-bottom: -1rem;
+    width: 100%;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    opacity: 85%;
+    margin-bottom: -1.5rem;
+    text-align: left;
+    font-family: var(--font-primary);
+    color: var(--white);
+  }
+  
+  .page-description {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 100%;
+    margin-top: 2.5rem;
+  }
+
+  .gallery-container {
+    padding-bottom: 4rem; 
+    min-height: calc(100vh - 15vh - 70px);
+  }
+
+  .main-content {
+    padding-bottom: 4rem !important;
+  }
+  
+  .gallery-divider {
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.171));
+    margin: 3rem 0 -0.5rem 0;
+    width: 100%;
+  }
+  
+  /* Gallery Grid */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+  
+  /* Gallery Item */
+  .gallery-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1; /* Always square */
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Image container */
+  .gallery-image-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Custom positioning and zoom styling */
+  .gallery-image {
+    object-position: var(--image-position, 50% 50%);
+  }
+  
+  .gallery-item:hover .gallery-image {
+    transform: scale(var(--zoom-level, 1.1));
+  }
+  
+  /* Overlay with info */
+  .gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    padding: 1.5rem;
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+  }
+  
+  .gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .gallery-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Category tag */
+  .gallery-category {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Overlay content */
+  .gallery-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-primary);
+  }
+  
+  .gallery-description {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* Positioning Guide for easy reference */
+  .positioning-guide {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .positioning-guide h3 {
+    margin-top: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .positioning-guide ul {
+    padding-left: 1.2rem;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .positioning-guide li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .positioning-guide code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+  
+  /* Lightbox styles */
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .lightbox.active {
+    display: flex;
+  }
+  
+  .lightbox-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  
+  .lightbox-close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+  }
+
+  .lightbox-nav {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
+    z-index: 2001;
+  }
+
+  .lightbox-nav-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+
+  .lightbox-nav-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+      gap: 0.5rem;
+    }
+    
+    .gallery-overlay {
+      transform: translateY(0);
+      opacity: 1;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 60%);
+      padding: 1rem;
+    }
+    
+    .gallery-title {
+      font-size: 0.9rem;
+    }
+    
+    .gallery-description {
+      font-size: 0.75rem;
+      display: none; /* Hide description on mobile to save space */
+    }
+    
+    .gallery-category {
+      font-size: 0.6rem;
+      padding: 0.3rem 0.6rem;
+    }
+
+    .positioning-guide {
+      padding: 1rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .lightbox-nav {
+      padding: 0 1rem;
+    }
+
+    .lightbox-nav-button {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+    
+    .page-title {
+      font-size: 1.3rem !important;
+      margin-bottom: -2rem;
+    }
+
+    .page-description {
+      font-size: 0.9rem !important;
+      margin-bottom: -2rem;
+      line-height: 1.2rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .gallery-grid {
+      grid-template-columns: 1fr; /* 1 column on very small screens */
+    }
+
+    .gallery-header {
+      margin-bottom: 3rem;
+    }
+  }
+</style>
+
+<div class="gallery-header">
+  <h1 class="page-title">Gallery</h1>
+  <p class="page-description">A visual collection of my design work, including UI designs, illustrations, and branding projects.</p>
+</div>
+
+<div class="gallery-divider"></div>
+
+<!-- Positioning Guide -->
+<!--div class="positioning-guide">
+  <h3>Image Positioning Guide</h3>
+  <p>Each image can be customized with specific positioning and zoom:</p>
+  <ul>
+    <li><code>position: "50% 50%"</code> - Centers the image (default)</li>
+    <li><code>position: "30% 20%"</code> - Focuses on top-left area</li>
+    <li><code>position: "70% 50%"</code> - Focuses on right side</li>
+    <li><code>zoomLevel: 1.1</code> - 10% zoom on hover</li>
+    <li><code>zoomLevel: 1.2</code> - 20% zoom on hover</li>
+  </ul>
+  <p>Edit the <code>position</code> and <code>zoomLevel</code> values in the image data array to customize each image.</p>
+</div-->
+
+<!-- Gallery Grid -->
+<div class="gallery-container">
+  <div class="gallery-grid">
+    {galleryImages.map(image => (
+      <div 
+        class="gallery-item"
+        style={`--zoom-level: ${image.zoomLevel};`}
+        data-image-id={image.id}
+      >
+        <div class="gallery-image-container">
+          <img 
+            src={image.image} 
+            alt={image.title}
+            class="gallery-image"
+            loading="lazy"
+            style={`--image-position: ${image.position};`}
+          />
+          <span class="gallery-category">{image.category}</span>
+        </div>
+        <div class="gallery-overlay">
+          <h3 class="gallery-title">{image.title}</h3>
+          <p class="gallery-description">{image.description}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div> 
+
+<!-- Lightbox for larger view -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">&times;</button>
+  <div class="lightbox-nav">
+    <button class="lightbox-nav-button" id="lightboxPrev">←</button>
+    <button class="lightbox-nav-button" id="lightboxNext">→</button>
+  </div>
+  <img class="lightbox-image" id="lightboxImage" />
+</div>
+
+<script>
+  // Lightbox functionality with proper TypeScript-compatible code
+  document.addEventListener('DOMContentLoaded', function() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage') as HTMLImageElement;
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    
+    // Store all gallery images for navigation
+    const galleryImages = Array.from(galleryItems);
+    let currentImageIndex = 0;
+    
+    // Type-safe function to get image source and alt
+    function getImageInfo(element: HTMLElement) {
+      const imgElement = element.querySelector('.gallery-image') as HTMLImageElement;
+      return {
+        src: imgElement?.src || '',
+        alt: imgElement?.alt || ''
+      };
+    }
+    
+    // Open lightbox on image click
+    galleryItems.forEach((item, index) => {
+      item.addEventListener('click', function() {
+        const imgInfo = getImageInfo(this as HTMLElement);
+        if (lightboxImage) {
+          lightboxImage.src = imgInfo.src;
+          lightboxImage.alt = imgInfo.alt;
+        }
+        currentImageIndex = index;
+        lightbox?.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    
+    // Close lightbox
+    lightboxClose?.addEventListener('click', function() {
+      lightbox?.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+    
+    // Close on outside click
+    lightbox?.addEventListener('click', function(e) {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+    
+    // Navigation functions
+    function showImage(index: number) {
+      if (index >= 0 && index < galleryImages.length) {
+        const imgInfo = getImageInfo(galleryImages[index]);
+        if (lightboxImage) {
+          lightboxImage.src = imgInfo.src;
+          lightboxImage.alt = imgInfo.alt;
+        }
+        currentImageIndex = index;
+      }
+    }
+    
+    // Previous image
+    lightboxPrev?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      let newIndex = currentImageIndex - 1;
+      if (newIndex < 0) newIndex = galleryImages.length - 1;
+      showImage(newIndex);
+    });
+    
+    // Next image
+    lightboxNext?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      let newIndex = currentImageIndex + 1;
+      if (newIndex >= galleryImages.length) newIndex = 0;
+      showImage(newIndex);
+    });
+    
+    // Close with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lightbox?.classList.contains('active')) {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      // Arrow key navigation
+      if (lightbox?.classList.contains('active')) {
+        if (e.key === 'ArrowLeft') {
+          let newIndex = currentImageIndex - 1;
+          if (newIndex < 0) newIndex = galleryImages.length - 1;
+          showImage(newIndex);
+        } else if (e.key === 'ArrowRight') {
+          let newIndex = currentImageIndex + 1;
+          if (newIndex >= galleryImages.length) newIndex = 0;
+          showImage(newIndex);
+        }
+      }
+    });
+  });
+</script>
+
+</Layout>
