@@ -12,25 +12,27 @@ export const projects = [
     highlightImage: "/images/ecommerce-featured.jpg",
     featureTitle: "Gain work-life balance",
     featureSubtitle: "Split and schedule your tasks with complete control",
-    prototypeLink: "https://figma.com/prototype/link",
-    githubLink: "https://github.com/username/citysense",
+    prototypeLink: "https://www.figma.com/proto/awECjuN5DhIZBcOR3mSsjw/CitySense--Copy-?node-id=18-6084&t=ZRX36UHduO4n9fiV-1",
+    otherLinks: [
+      { label: "Full Report", url: "/images/projects/citysense/freport.pdf" }
+    ],
     sections: [
       {
         id: "introduction",
         title: "Introduction",
-        content: "CitySense is a modern e-commerce platform designed to provide an intuitive shopping experience. The project focused on creating a seamless user journey from product discovery to checkout.",
+        content: "As cities modernize by moving utility infrastructure underground into utilidor systems, a critical challenge arises. The invisibility of these systems erodes public awareness, trust, and connection to civic maintenance. Through generative research with New York City residents, we identified a strong desire for transparent, real-time communication about underground work and recognition of the workers involved. In response, we designed and developed CitySense, a civic transparency platform comprising a mobile app and physical street installations. CitySense provides real-time visibility into utility health, an interactive underground map, issue reporting, and worker profiles. We conducted a 10-day field study with 10 participants, combining quantitative usage logging with qualitative interviews. Findings show that while transparency is highly valued, unclear labels and detached social features hindered usability. Users sought personalized, location-aware alerts and better integration of community engagement tools. We contribute design implications for civic transparency platforms, emphasizing clarity, contextual integration of social features, and personalized information filtering to foster public trust and participation in smart city infrastructure",
         images: [
-          { src: "/images/projects/citysense/intro-1.jpg", alt: "CitySense App Overview", type: "wide" }
+          { src: "/images/projects/citysense/citysense-1.jpg", alt: "CitySense App Overview", type: "wide" }
         ]
       },
       {
         id: "research",
         title: "Research",
-        content: "Conducted extensive user research including interviews, surveys, and competitive analysis to understand user pain points and market opportunities.",
+        content: "To ground our design in lived experiences, we first conducted a generative research study with five diverse New York City residents (see Table 1 for demographics). Methods included semi-structured interviews and a participatory design activity where participants ranked utility metrics for a public display.",
         subsections: [
           {
-            title: "User Interviews",
-            content: "Interviewed 15 potential users to understand their shopping habits and frustrations with existing platforms."
+            title: "Key Research Findings",
+            content: "• True • False"
           },
           {
             title: "Competitive Analysis",

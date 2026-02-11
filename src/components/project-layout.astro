@@ -1,4 +1,5 @@
 ---
+import ProjectContent from './ProjectContent.astro';
 const { project, backLink = '/' } = Astro.props;
 
 interface ProjectData {
@@ -108,6 +109,35 @@ interface ProjectData {
     
     .mobile-only {
       display: none; /* Changed from block to none */
+    }
+
+    /* Simple List Styling */
+    .simple-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .simple-list-item {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
+    }
+
+    .simple-list-item::before {
+      content: "•";
+      color: rgba(255, 255, 255, 0.6);
+      position: absolute;
+      left: 0;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .simple-list-item {
+        padding-left: 1.25rem;
+      }
     }
 
     /* DESKTOP LAYOUT (min-width: 769px) */
@@ -324,7 +354,7 @@ interface ProjectData {
       }
 
       .project-subsection-title {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         font-weight: 600;
         margin: 2rem 0 1rem 0;
         color: rgba(255, 255, 255, 0.9);
@@ -681,7 +711,7 @@ interface ProjectData {
       }
 
       .project-subsection-title-mobile {
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 600;
         margin: 1.5rem 0 0.75rem 0;
         color: rgba(255, 255, 255, 0.9);
@@ -769,7 +799,11 @@ interface ProjectData {
             <span>GitHub</span>
           </a>
         )}
-        {/* Add more links as needed */}
+        {project.otherLinks && project.otherLinks.map(link => (
+          <a href={link.url} target="_blank" class="project-link-button">
+            <span>{link.label}</span>
+          </a>
+        ))}
       </div>
     </div>
 
@@ -792,15 +826,15 @@ interface ProjectData {
         <section id={section.id} class="project-section">
           <h2 class="project-section-title">{section.title}</h2>
           <div class="project-section-content">
-            {section.content}
+            <ProjectContent content={section.content} />
           </div>
           
           {/* Subsections */}
           {section.subsections && section.subsections.map(subsection => (
             <div class="project-subsection">
-              <h3 class="project-subsection-title">{subsection.title}</h3>
+              <h4 class="project-subsection-title">{subsection.title}</h4>
               <div class="project-section-content">
-                {subsection.content}
+                <ProjectContent content={subsection.content} />
               </div>
             </div>
           ))}
@@ -846,6 +880,11 @@ interface ProjectData {
               <span>GitHub</span>
             </a>
           )}
+          {project.otherLinks && project.otherLinks.map(link => (
+            <a href={link.url} target="_blank" class="project-link-button-mobile">
+              <span>{link.label}</span>
+            </a>
+          ))}
         </div>
         <button class="project-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation menu">
           <span></span>
@@ -874,15 +913,15 @@ interface ProjectData {
         <section id={section.id} class="project-section-mobile">
           <h2 class="project-section-title-mobile">{section.title}</h2>
           <div class="project-section-content-mobile">
-            {section.content}
+            <ProjectContent content={section.content} />
           </div>
           
           {/* Subsections */}
           {section.subsections && section.subsections.map(subsection => (
             <div class="project-subsection">
-              <h3 class="project-subsection-title-mobile">{subsection.title}</h3>
+              <h4 class="project-subsection-title-mobile">{subsection.title}</h4>
               <div class="project-section-content-mobile">
-                {subsection.content}
+                <ProjectContent content={subsection.content} />
               </div>
             </div>
           ))}
