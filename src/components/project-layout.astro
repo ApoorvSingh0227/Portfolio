@@ -825,17 +825,21 @@ interface ProjectData {
       {project.sections.map(section => (
         <section id={section.id} class="project-section">
           <h2 class="project-section-title">{section.title}</h2>
+          {section.content && (
           <div class="project-section-content">
             <ProjectContent content={section.content} />
           </div>
+          )}
           
           {/* Subsections */}
           {section.subsections && section.subsections.map(subsection => (
             <div class="project-subsection">
               <h4 class="project-subsection-title">{subsection.title}</h4>
+              {subsection.content && (
               <div class="project-section-content">
                 <ProjectContent content={subsection.content} />
               </div>
+              )}
             </div>
           ))}
 
@@ -912,17 +916,21 @@ interface ProjectData {
       {project.sections.map(section => (
         <section id={section.id} class="project-section-mobile">
           <h2 class="project-section-title-mobile">{section.title}</h2>
+          {section.content && (
           <div class="project-section-content-mobile">
             <ProjectContent content={section.content} />
           </div>
+          )}
           
           {/* Subsections */}
           {section.subsections && section.subsections.map(subsection => (
             <div class="project-subsection">
               <h4 class="project-subsection-title-mobile">{subsection.title}</h4>
+              {subsection.content && (
               <div class="project-section-content-mobile">
                 <ProjectContent content={subsection.content} />
               </div>
+              )}
             </div>
           ))}
 
