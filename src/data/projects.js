@@ -9,7 +9,7 @@ export const projects = [
   icon: "/images/Asset-6.png",
   timeframe: "Sep 2025 - Dec 2025",
   featured: true,
-  highlightImage: "/images/projects/hcidea/featured.jpg",
+  highlightImage: "/images/projects/hcidea/mh.png",
   featureTitle: "From Ideation to Innovation",
   featureSubtitle: "Helping HCD students discover and refine research topics with AI assistance",
   prototypeLink: "https://www.figma.com/proto/AKLCuhU6sZ7dh0UgkHq0jM/HCIdea-Wireframe?node-id=3603-3&p=f&t=XRoYzbydpFDSMxXb-1&scaling=scale-down&content-scaling=fixed&page-id=3604%3A2&starting-point-node-id=3603%3A3&show-proto-sidebar=1",
@@ -399,7 +399,7 @@ Given more time, we would like to transform this into a community tool, integrat
     icon: "/images/Asset-5.png",
     timeframe: "Aug 2025 - Dec 2025",
     featured: true,
-    highlightImage: "/images/projects/citysense/featured.jpg",
+    highlightImage: "/images/projects/citysense/featured.png",
     featureTitle: "Making the Invisible Visible",
     featureSubtitle: "Building public trust through transparent infrastructure visualization",
     prototypeLink: "https://www.figma.com/proto/awECjuN5DhIZBcOR3mSsjw/CitySense--Copy-?node-id=18-6084&t=ZRX36UHduO4n9fiV-1",
@@ -676,7 +676,7 @@ Course: IS 628 Research Methods for UX`,
     otherLinks: [
     { label: "Presentation Slides", url: "/images/projects/statera/presentation.pdf" }
     ],
-    highlightImage: "/images/ecommerce-featured.jpg",
+    highlightImage: "/images/projects/statera/featured.jpg",
     featureTitle: "Balance productivity",
     featureSubtitle: "Optimize your workflow with smart tools",
     sections: [

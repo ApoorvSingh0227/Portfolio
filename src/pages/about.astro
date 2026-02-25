@@ -122,12 +122,7 @@ import Layout from '../components/layout.astro';
 
   .experience-icon {
     width: 100%;
-    height: 100%;
-    aspect-ratio: 1/1;
-    border-radius: 12px;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -135,8 +130,8 @@ import Layout from '../components/layout.astro';
 
   .experience-icon img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
   }
 
   .experience-content {
@@ -481,17 +476,15 @@ import Layout from '../components/layout.astro';
 
   .experience-icon {
     width: 100%;
-    height: 50px; /* Horizontal banner */
-    aspect-ratio: unset;
-    border-radius: 12px;
+    height: auto;
     margin-bottom: 0;
     order: 1;
   }
 
   .experience-icon img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
   }
 
   .experience-content {
@@ -594,7 +587,7 @@ import Layout from '../components/layout.astro';
 
 <div class="about-header">
   <h1 class="page-title">About Me</h1>
-  <p class="page-description">Learn a bit about me.</p>
+  <p class="page-description">I'm a UX Designer who started as an artist and ended up with a Computer Science degree, which means I can sketch an idea, test it with users, build it in Unity, and still talk code with engineers. My work lives at the intersection of creative intuition and technical feasibility.</p>
 </div>
 
 <div class="about-divider"></div>
@@ -618,36 +611,47 @@ import Layout from '../components/layout.astro';
     <div class="experience-grid">
       <!-- Experience Icon (10% width) -->
       <div class="experience-icon">
-        <!-- Replace with your experience icon -->
-        <img src="/images/experience-icon.png" alt="Experience" />
+        <picture>
+          <!-- Mobile: timelineH.png (horizontal/full width) -->
+          <source media="(max-width: 768px)" srcset="/images/timelineH.png">
+          <!-- Desktop: timelineV.png (vertical/10% width) -->
+          <img src="/images/timelineV.png" alt="Work Experience Timeline">
+        </picture>
       </div>
 
       <!-- Experience Content (70% width) -->
       <div class="experience-content">
         <!-- Job 1 -->
         <div class="job-experience">
-          <h3 class="job-title">UX Design Intern</h3>
-          <div class="job-company">Company Name</div>
-          <div class="job-timeframe">Aug 2023 - Present</div>
+          <h3 class="job-title">UI Designer</h3>
+          <div class="job-company">Hydrametry Software · New York City, NY (Remote)</div>
+          <div class="job-timeframe">Nov 2025 - Present</div>
           <ul class="job-responsibilities">
-            <li>Conducted user research and usability testing to inform design decisions
-            </li>
-            <li>Designed and prototyped user interfaces for web and mobile applications
-            </li>
-            <li>Collaborated with developers to ensure design implementation quality</li>
+            <li>Collaborate with dev team to redesign UI/UX for "Spatoo jr," a 3D space shooter game</li>
+            <li>Lead design from concept sketches to hi-fi mockups based on research and team feedback</li>
+            <li>Implement final designs in Unity and work with programming team to tweak C# scripts, ensuring seamless integration into the staging version of the game</li>
           </ul>
         </div>
 
         <!-- Job 2 -->
         <div class="job-experience">
-          <h3 class="job-title">UI/UX Designer</h3>
-          <div class="job-company">Previous Company</div>
-          <div class="job-timeframe">Jan 2022 - Jul 2023</div>
+          <h3 class="job-title">Freelance Visual Designer</h3>
+          <div class="job-company">Remote</div>
+          <div class="job-timeframe">Aug 2018 - Present</div>
           <ul class="job-responsibilities">
-            <li>Redesigned client dashboard improving user engagement by 40%</li>
-            <li>Created design systems and component libraries
-            </li>
-            <li>Conducted A/B testing to optimize user flows</li>
+            <li>Created 30+ high-impact graphics and thumbnails for YouTube channels, consistently meeting tight deadlines often within 1-2 days to support timely content launches and client marketing goals</li>
+            <li>Delivered a wide range of design solutions including logos, posters, illustrations, and concept sketches tailored to client brand identity and project requirements</li>
+          </ul>
+        </div>
+
+        <!-- Job 3 -->
+        <div class="job-experience">
+          <h3 class="job-title">Graphic Design Lead</h3>
+          <div class="job-company">Student Videography Association · State College, PA</div>
+          <div class="job-timeframe">Aug 2024 - May 2025</div>
+          <ul class="job-responsibilities">
+            <li>Designed compelling posters and digital graphics for promotional events, achieving a 13% increase in click-through rates on advertised links through targeted visual communication</li>
+            <li>Collaborated closely with sales and event teams to align visual materials with promotional strategy, enhancing event visibility and supporting cross-functional event coordination</li>
           </ul>
         </div>
 
@@ -661,11 +665,11 @@ import Layout from '../components/layout.astro';
 <section class="background-section">
   <h2 class="section-title">Background</h2>
   <div class="background-content">
-    <p>I'm a passionate UX Designer with a background in Human-Computer Interaction and Visual Design. My approach combines user-centered design principles with modern aesthetics to deliver solutions that not only look great but also solve real user problems.</p>
+    <p>I'm a UX Designer with a unique interdisciplinary background rooted in visual arts, trained in Computer Science, and now focused on Human-Centered Design. This combination allows me to navigate comfortably between creative, technical, and business conversations, ensuring my designs are not only intuitive but also feasible to build and aligned with project goals.</p>
     
-    <p>With experience across various industries, I bring a unique perspective to design challenges, balancing technical feasibility with creative solutions. I believe in data-driven design decisions and continuous iteration based on user feedback and analytics.</p>
+    <p>Recent projects include <strong>CitySense</strong>, a civic transparency platform where I contributed to a 10-day field study with NYC residents, translating research insights into design decisions that make underground infrastructure visible and trustworthy. For <strong>HCIdea</strong>, I co-designed an AI-assisted ideation tool that received an 86.25 SUS score after usability testing, helping students overcome decision paralysis in their projects. Currently, I'm working as a UI Designer for <strong>Spatoo jr</strong>, a 3D space shooter where I lead design from concept sketches to Unity implementation, collaborating directly with developers to refine C# scripts and ensure seamless integration.</p>
     
-    <p>My design philosophy centers around empathy, accessibility, and creating intuitive experiences that make technology more human-centered and approachable for everyone.</p>
+    <p>My approach balances research rigor with creative intuition, whether conducting user interviews, prototyping in Figma, or sketching concepts, I focus on solutions that are both human-centered and practically executable.</p>
   </div>
 </section>
 
@@ -740,7 +744,7 @@ import Layout from '../components/layout.astro';
 <section class="connect-section">
   <h2 class="section-title">Let's Connect</h2>
   <div class="connect-content">
-    <p>Interested in collaborating or have a project in mind? I'm always open to discussing design opportunities.</p>
+    <p>I'm always open to discussing design opportunities.</p>
     
     <div class="contact-methods">
       <a href="mailto:apoorvsingh0227@gmail.com" class="contact-button email">
@@ -753,10 +757,10 @@ import Layout from '../components/layout.astro';
         <span>LinkedIn</span>
       </a>
       
-      <a href="/resume.pdf" class="contact-button resume download">
-        <img src="/images/downicon.png" alt="Download" class="btn-icon" />
-        <span>Resume</span>
-      </a>
+      <a href="/resume.pdf" class="contact-button resume download" target="_blank">
+          <img src="/images/downicon.png" alt="Download" class="btn-icon" />
+          <span>Resume</span>
+        </a>
     </div>
   </div>
 </section>
