@@ -410,6 +410,133 @@ const projects = getFeaturedProjects();
     color: inherit;
   }
 
+  /* Toolkit Overlay Styles */
+  .toolkit-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .toolkit-overlay.active {
+    display: flex;
+  }
+
+  .toolkit-container {
+    background: rgba(20, 25, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 32px;
+    max-width: 900px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  .toolkit-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+    transition: all 0.2s ease;
+  }
+
+  .toolkit-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+  }
+
+  .toolkit-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    margin-top: 0;
+    color: rgba(255, 255, 255, 0.95);
+    font-family: var(--font-primary);
+  }
+
+  .toolkit-category {
+    margin-bottom: 2.5rem;
+  }
+
+  .toolkit-category h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+  }
+
+  .toolkit-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+  }
+
+  .toolkit-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .toolkit-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0rem;
+    transition: all 0.3s ease;
+  }
+
+  .toolkit-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .toolkit-item:hover .toolkit-icon {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  .toolkit-item span {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+  }
+
   /* Mobile adjustments */
   @media (max-width: 768px) {
     .hero-section {
@@ -506,6 +633,39 @@ const projects = getFeaturedProjects();
       height: 15px;
       width: 15px;
     }
+
+    /* Toolkit Overlay Mobile */
+    .toolkit-container {
+      padding: 1.5rem;
+      max-height: 70vh;
+    }
+
+    .toolkit-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .toolkit-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .toolkit-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .toolkit-item span {
+      font-size: 0.75rem;
+    }
+
+    .toolkit-close {
+      top: 1rem;
+      right: 1rem;
+      width: 35px;
+      height: 35px;
+      font-size: 1.2rem;
+    }
   }
 
   @media (max-width: 480px) {
@@ -522,6 +682,24 @@ const projects = getFeaturedProjects();
     .hero-text {
       font-size: 0.9rem;
       max-width: 220px;
+    }
+
+    .toolkit-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .toolkit-container {
+      padding: 1.25rem;
+    }
+
+    .toolkit-title {
+      font-size: 1.3rem;
+    }
+
+    .toolkit-category h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
     }
   }
 </style>
@@ -545,7 +723,7 @@ const projects = getFeaturedProjects();
           <a href="https://www.linkedin.com/in/apoorv-singh-87377021b/" class="hero-btn circle" target="_blank">
             <img src="/images/linked in logo.png" alt="LinkedIn" class="btn-icon" />
           </a>
-          <button class="hero-btn rectangle">Toolkit</button>
+          <button class="hero-btn rectangle" id="toolkitBtn">Toolkit</button>
         </div>
       </div>
     </div>
@@ -693,3 +871,138 @@ const projects = getFeaturedProjects();
     </div>
   </section>
 </Layout>
+
+<!-- Toolkit Overlay - Placed outside Layout component -->
+<div class="toolkit-overlay" id="toolkitOverlay">
+  <div class="toolkit-container">
+    <button class="toolkit-close" id="toolkitClose">&times;</button>
+    <h2 class="toolkit-title">My Toolkit</h2>
+    
+    <!-- Design Software Category -->
+    <div class="toolkit-category">
+      <h3>Design Software</h3>
+      <div class="toolkit-grid">
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon4.png" alt="Figma" />
+          </div>
+          <span>Figma</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon3.png" alt="Adobe XD" />
+          </div>
+          <span>Adobe XD</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon1.png" alt="Illustrator" />
+          </div>
+          <span>Illustrator</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon2.png" alt="Photoshop" />
+          </div>
+          <span>Photoshop</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon6.png" alt="InDesign" />
+          </div>
+          <span>InDesign</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon7.png" alt="Unity" />
+          </div>
+          <span>Unity</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon5.png" alt="Blender" />
+          </div>
+          <span>Blender</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coding Category -->
+    <div class="toolkit-category">
+      <h3>Coding</h3>
+      <div class="toolkit-grid">
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon8.png" alt="Python" />
+          </div>
+          <span>Python</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon9.png" alt="C++" />
+          </div>
+          <span>C++</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon10.png" alt="JavaScript" />
+          </div>
+          <span>JavaScript</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon11.png" alt="MySQL" />
+          </div>
+          <span>MySQL</span>
+        </div>
+        <div class="toolkit-item">
+          <div class="toolkit-icon">
+            <img src="/images/icon12.png" alt="HTML" />
+          </div>
+          <span>HTML</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const toolkitBtn = document.getElementById('toolkitBtn');
+    const toolkitOverlay = document.getElementById('toolkitOverlay');
+    const toolkitClose = document.getElementById('toolkitClose');
+
+    // Make sure elements exist before adding event listeners
+    if (toolkitBtn && toolkitOverlay && toolkitClose) {
+      // Open overlay
+      toolkitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        toolkitOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+
+      // Close with X button
+      toolkitClose.addEventListener('click', function(e) {
+        e.preventDefault();
+        toolkitOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      // Close when clicking outside the container
+      toolkitOverlay.addEventListener('click', function(e) {
+        if (e.target === toolkitOverlay) {
+          toolkitOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Close with Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && toolkitOverlay.classList.contains('active')) {
+          toolkitOverlay.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  });
+</script>
