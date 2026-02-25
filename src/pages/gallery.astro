@@ -1,65 +1,148 @@
 ---
 import Layout from '../components/layout.astro';
 
-// Gallery images data - customized for positioning and zoom
+// Gallery images data - using your actual files, shuffled by type
 const galleryImages = [
+  // Illustration 1
   {
     id: 1,
-    title: "Visual Design 1",
-    category: "UI Design",
-    image: "/images/gallery/design1.jpg",
-    // Positioning: object-position values (x% y%)
-    position: "50% 50%", // center by default
-    // Zoom level: controls the scale transform
+    title: "Character Illustration",
+    category: "Illustration",
+    image: "/images/gallery/ill1.jpg",
+    position: "50% 50%",
     zoomLevel: 1.1,
-    description: "Modern interface design with vibrant colors"
+    description: "Digital character illustration"
   },
+  // Render 1
   {
     id: 2,
-    title: "Branding Project",
-    category: "Branding",
-    image: "/images/gallery/design2.jpg",
-    position: "30% 20%", // focus on top-left area
-    zoomLevel: 1.2,
-    description: "Complete brand identity system"
+    title: "3D Render",
+    category: "3D Art",
+    image: "/images/gallery/rend1.png",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "3D rendered scene"
   },
+  // Poster 1
   {
     id: 3,
-    title: "Mobile App UI",
-    category: "Mobile",
-    image: "/images/gallery/design3.jpg",
-    position: "70% 50%", // focus on right side
-    zoomLevel: 1.05,
-    description: "Fitness app interface design"
+    title: "Poster Design",
+    category: "Graphic Design",
+    image: "/images/gallery/poster1.jpg",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Event poster design"
   },
+  // Thumbnail 1
   {
     id: 4,
-    title: "Illustration Set",
-    category: "Illustration",
-    image: "/images/gallery/design4.jpg",
-    position: "50% 30%", // focus on top area
-    zoomLevel: 1.15,
-    description: "Custom illustrations for digital product"
+    title: "YouTube Thumbnail",
+    category: "Thumbnail Design",
+    image: "/images/gallery/thumb1.png",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Custom thumbnail design"
   },
+  // Illustration 2
   {
     id: 5,
-    title: "Dashboard Design",
-    category: "Web App",
-    image: "/images/gallery/design5.jpg",
-    position: "50% 50%", // center
-    zoomLevel: 1,
-    description: "Analytics dashboard with data visualization"
+    title: "Digital Sketch",
+    category: "Illustration",
+    image: "/images/gallery/ill2.jpg",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Digital sketch work"
   },
+  // Render 2
   {
     id: 6,
-    title: "Typography Study",
-    category: "Typography",
-    image: "/images/gallery/design6.jpg",
-    position: "20% 50%", // focus on left side
-    zoomLevel: 1.08,
-    description: "Experimental typography layout"
+    title: "3D Render",
+    category: "3D Art",
+    image: "/images/gallery/rend2.jpeg",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "3D rendered environment"
   },
-  // Add more images as needed...
+  // Thumbnail 2
+  {
+    id: 7,
+    title: "Video Thumbnail",
+    category: "Thumbnail Design",
+    image: "/images/gallery/thumb2.png",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Engaging thumbnail design"
+  },
+  // Illustration 3
+  {
+    id: 8,
+    title: "Concept Art",
+    category: "Illustration",
+    image: "/images/gallery/ill3.jpg",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Concept art piece"
+  },
+  // Animation/GIF
+  {
+    id: 9,
+    title: "Motion Graphics",
+    category: "Animation",
+    image: "/images/gallery/pfft.gif",
+    position: "50% 50%",
+    zoomLevel: 1,
+    description: "Animated sequence"
+  },
+  // Poster 2
+  {
+    id: 10,
+    title: "Poster Design",
+    category: "Graphic Design",
+    image: "/images/gallery/poster2.png",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Promotional poster"
+  },
+  // Thumbnail 3
+  {
+    id: 11,
+    title: "Thumbnail Design",
+    category: "Thumbnail Design",
+    image: "/images/gallery/thumb3.jpg",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Eye-catching thumbnail"
+  },
+  // Illustration 4
+  {
+    id: 12,
+    title: "Illustration",
+    category: "Illustration",
+    image: "/images/gallery/ill4.jpg",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Digital illustration"
+  },
+  // Illustration 5
+  {
+    id: 13,
+    title: "Character Design",
+    category: "Illustration",
+    image: "/images/gallery/ill5.jpg",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Character concept"
+  },
+  // Illustration 6
+  {
+    id: 14,
+    title: "Illustration",
+    category: "Illustration",
+    image: "/images/gallery/ill6.JPG",
+    position: "50% 50%",
+    zoomLevel: 1.1,
+    description: "Digital artwork"
+  }
 ];
 ---
 
@@ -206,42 +289,6 @@ const galleryImages = [
     line-height: 1.4;
     margin: 0;
   }
-
-  /* Positioning Guide for easy reference */
-  .positioning-guide {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .positioning-guide h3 {
-    margin-top: 0;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-
-  .positioning-guide ul {
-    padding-left: 1.2rem;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  .positioning-guide li {
-    margin-bottom: 0.5rem;
-    line-height: 1.5;
-  }
-
-  .positioning-guide code {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-family: monospace;
-    font-size: 0.9em;
-  }
   
   /* Lightbox styles */
   .lightbox {
@@ -345,12 +392,6 @@ const galleryImages = [
       padding: 0.3rem 0.6rem;
     }
 
-    .positioning-guide {
-      padding: 1rem;
-      margin-top: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
     .lightbox-nav {
       padding: 0 1rem;
     }
@@ -386,24 +427,10 @@ const galleryImages = [
 
 <div class="gallery-header">
   <h1 class="page-title">Gallery</h1>
-  <p class="page-description">A visual collection of my design work, including UI designs, illustrations, and branding projects.</p>
+  <p class="page-description">A visual collection of my illustration and design work.</p>
 </div>
 
 <div class="gallery-divider"></div>
-
-<!-- Positioning Guide -->
-<!--div class="positioning-guide">
-  <h3>Image Positioning Guide</h3>
-  <p>Each image can be customized with specific positioning and zoom:</p>
-  <ul>
-    <li><code>position: "50% 50%"</code> - Centers the image (default)</li>
-    <li><code>position: "30% 20%"</code> - Focuses on top-left area</li>
-    <li><code>position: "70% 50%"</code> - Focuses on right side</li>
-    <li><code>zoomLevel: 1.1</code> - 10% zoom on hover</li>
-    <li><code>zoomLevel: 1.2</code> - 20% zoom on hover</li>
-  </ul>
-  <p>Edit the <code>position</code> and <code>zoomLevel</code> values in the image data array to customize each image.</p>
-</div-->
 
 <!-- Gallery Grid -->
 <div class="gallery-container">
@@ -444,32 +471,29 @@ const galleryImages = [
 </div>
 
 <script>
-  // Lightbox functionality with proper TypeScript-compatible code
+  // Lightbox functionality
   document.addEventListener('DOMContentLoaded', function() {
     const galleryItems = document.querySelectorAll('.gallery-item');
     const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightboxImage') as HTMLImageElement;
+    const lightboxImage = document.getElementById('lightboxImage');
     const lightboxClose = document.getElementById('lightboxClose');
     const lightboxPrev = document.getElementById('lightboxPrev');
     const lightboxNext = document.getElementById('lightboxNext');
     
-    // Store all gallery images for navigation
     const galleryImages = Array.from(galleryItems);
     let currentImageIndex = 0;
     
-    // Type-safe function to get image source and alt
-    function getImageInfo(element: HTMLElement) {
-      const imgElement = element.querySelector('.gallery-image') as HTMLImageElement;
+    function getImageInfo(element) {
+      const imgElement = element.querySelector('.gallery-image');
       return {
         src: imgElement?.src || '',
         alt: imgElement?.alt || ''
       };
     }
     
-    // Open lightbox on image click
     galleryItems.forEach((item, index) => {
       item.addEventListener('click', function() {
-        const imgInfo = getImageInfo(this as HTMLElement);
+        const imgInfo = getImageInfo(this);
         if (lightboxImage) {
           lightboxImage.src = imgInfo.src;
           lightboxImage.alt = imgInfo.alt;
@@ -480,13 +504,11 @@ const galleryImages = [
       });
     });
     
-    // Close lightbox
     lightboxClose?.addEventListener('click', function() {
       lightbox?.classList.remove('active');
       document.body.style.overflow = '';
     });
     
-    // Close on outside click
     lightbox?.addEventListener('click', function(e) {
       if (e.target === lightbox) {
         lightbox.classList.remove('active');
@@ -494,8 +516,7 @@ const galleryImages = [
       }
     });
     
-    // Navigation functions
-    function showImage(index: number) {
+    function showImage(index) {
       if (index >= 0 && index < galleryImages.length) {
         const imgInfo = getImageInfo(galleryImages[index]);
         if (lightboxImage) {
@@ -506,7 +527,6 @@ const galleryImages = [
       }
     }
     
-    // Previous image
     lightboxPrev?.addEventListener('click', function(e) {
       e.stopPropagation();
       let newIndex = currentImageIndex - 1;
@@ -514,7 +534,6 @@ const galleryImages = [
       showImage(newIndex);
     });
     
-    // Next image
     lightboxNext?.addEventListener('click', function(e) {
       e.stopPropagation();
       let newIndex = currentImageIndex + 1;
@@ -522,13 +541,11 @@ const galleryImages = [
       showImage(newIndex);
     });
     
-    // Close with Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && lightbox?.classList.contains('active')) {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
       }
-      // Arrow key navigation
       if (lightbox?.classList.contains('active')) {
         if (e.key === 'ArrowLeft') {
           let newIndex = currentImageIndex - 1;
