@@ -26,7 +26,7 @@ interface ProjectData {
     images?: Array<{
       src: string;
       alt: string;
-      type?: 'wide' | 'collage'; // wide = 1 per row, collage = 2 per row on mobile
+      type?: 'single' | 'wide' | 'collage'; // single = one image at original size, wide = up to 2 per row, collage = up to 4 per row
     }>;
   }>;
 }
@@ -366,39 +366,79 @@ interface ProjectData {
         font-size: 1.1rem;
       }
 
-      /* Image Grids */
-      .project-images-grid {
-        display: grid;
+      /* Individual Image Layouts Container - Desktop */
+      .project-images-container {
+        display: flex;
+        flex-wrap: wrap;
         gap: 1.5rem;
         margin: 1.5rem 0;
+        width: 100%;
       }
 
-      .project-images-grid.wide {
-        display: grid;
-        gap: 1.5rem;
-      }
-
-      .project-images-grid.wide:has(.project-image:only-child) {
+      /* Image wrapper base styles */
+      .project-image-wrapper {
         display: flex;
         justify-content: center;
-        }
-
-    .project-images-grid.wide .project-image:only-child {
-        max-width: 80%; /* Limit width of single image */
-        }
-
-    .project-images-grid.wide {
-        grid-template-columns: repeat(2, 1fr);
-        }
-
-      .project-images-grid.collage {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1rem;
+        align-items: center;
       }
 
-      .project-images-grid.collage .project-image {
-        min-height: 150px; /* Minimum height for collage items */
+      /* Single image - full width, original size */
+      .project-image-wrapper.image-single {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .project-image-wrapper.image-single .project-image {
+        width: auto;
+        max-width: 100%;
+      }
+
+      .project-image-wrapper.image-single .project-image img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+
+      /* Wide image - takes half width on desktop for multiple, full width for single */
+      .project-image-wrapper.image-wide {
+        width: calc(50% - 0.75rem);
+      }
+
+      /* If there's only one wide image, make it full width with max-width 80% */
+      .project-image-wrapper.image-wide:only-child {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .project-image-wrapper.image-wide:only-child .project-image {
+        max-width: 80%;
+      }
+
+      /* Collage image - takes quarter width on desktop */
+      .project-image-wrapper.image-collage {
+        width: calc(25% - 1.125rem);
+      }
+
+      /* Responsive adjustments for collage */
+      @media (max-width: 1200px) {
+        .project-image-wrapper.image-collage {
+          width: calc(33.333% - 1rem);
         }
+      }
+
+      @media (max-width: 900px) {
+        .project-image-wrapper.image-collage {
+          width: calc(50% - 0.75rem);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .project-image-wrapper.image-collage {
+          width: 100%;
+        }
+      }
 
       .project-image {
         width: 100%;
@@ -574,7 +614,7 @@ interface ProjectData {
       }
 
       /* Mobile Navigation Overlay - FIXED: Position below divider */
-    .project-nav-mobile {
+      .project-nav-mobile {
         position: fixed;
         top: 0; /* Position below the fixed header */
         left: 1rem;
@@ -596,13 +636,13 @@ interface ProjectData {
         height: fit-content;
         max-height: 70vh; /* Limit max height */
         overflow-y: auto;
-    }
+      }
 
-    .project-nav-mobile.active {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-    }
+      .project-nav-mobile.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
 
       .project-nav-list-mobile {
         list-style: none;
@@ -631,7 +671,7 @@ interface ProjectData {
         font-family: 'Inter', sans-serif;
       }
 
-    .project-nav-link-mobile::before {
+      .project-nav-link-mobile::before {
         content: '';
         position: absolute;
         top: 0;
@@ -649,12 +689,12 @@ interface ProjectData {
         box-shadow: 
             0 4px 12px rgba(0, 0, 0, 0.1),
             inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    }
+      }
 
-    .project-nav-link-mobile:hover::before,
-    .project-nav-link-mobile.active::before {
+      .project-nav-link-mobile:hover::before,
+      .project-nav-link-mobile.active::before {
         opacity: 1;
-    }
+      }
 
       .project-nav-link-mobile:hover,
       .project-nav-link-mobile.active {
@@ -723,19 +763,54 @@ interface ProjectData {
         font-size: 1rem;
       }
 
-      /* Mobile Image Grids */
-      .project-images-grid-mobile {
-        display: grid;
+      /* Mobile Individual Image Layouts Container */
+      .project-images-container-mobile {
+        display: flex;
+        flex-wrap: wrap;
         gap: 1rem;
         margin: 1rem 0;
+        width: 100%;
       }
 
-      .project-images-grid-mobile.wide {
-        grid-template-columns: 1fr;
+      /* Mobile image wrapper base styles */
+      .project-image-wrapper-mobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
-      .project-images-grid-mobile.collage {
-        grid-template-columns: repeat(2, 1fr);
+      /* Mobile Single image - full width, original size */
+      .project-image-wrapper-mobile.image-single-mobile {
+        width: 100%;
+      }
+
+      .project-image-wrapper-mobile.image-single-mobile .project-image-mobile {
+        width: auto;
+        max-width: 100%;
+      }
+
+      .project-image-wrapper-mobile.image-single-mobile .project-image-mobile img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+
+      /* Mobile Wide image - full width */
+      .project-image-wrapper-mobile.image-wide-mobile {
+        width: 100%;
+      }
+
+      /* Mobile Collage image - half width on mobile */
+      .project-image-wrapper-mobile.image-collage-mobile {
+        width: calc(50% - 0.5rem);
+      }
+
+      /* If there's only one collage image on mobile, center it */
+      .project-image-wrapper-mobile.image-collage-mobile:only-child {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
       }
 
       .project-image-mobile {
@@ -843,14 +918,31 @@ interface ProjectData {
             </div>
           ))}
 
-          {/* Images */}
+          {/* Images - Individual layouts */}
           {section.images && section.images.length > 0 && (
-            <div class={`project-images-grid ${section.images[0]?.type || 'wide'}`}>
-              {section.images.map(image => (
-                <div class="project-image">
-                  <img src={image.src} alt={image.alt} loading="lazy" />
-                </div>
-              ))}
+            <div class="project-images-container">
+              {section.images.map((image, index) => {
+                // Determine the layout class for this specific image
+                let layoutClass = 'project-image-wrapper';
+                
+                if (image.type === 'single') {
+                  layoutClass += ' image-single';
+                } else if (image.type === 'wide') {
+                  layoutClass += ' image-wide';
+                } else if (image.type === 'collage') {
+                  layoutClass += ' image-collage';
+                } else {
+                  layoutClass += ' image-wide'; // default
+                }
+                
+                return (
+                  <div class={layoutClass}>
+                    <div class="project-image">
+                      <img src={image.src} alt={image.alt} loading="lazy" />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </section>
@@ -934,16 +1026,31 @@ interface ProjectData {
             </div>
           ))}
 
-          {/* Images - Mobile specific layout */}
+          {/* Images - Mobile individual layouts */}
           {section.images && section.images.length > 0 && (
-            <div class={`project-images-grid-mobile ${
-              section.images[0]?.type === 'collage' ? 'collage' : 'wide'
-            }`}>
-              {section.images.map(image => (
-                <div class="project-image-mobile">
-                  <img src={image.src} alt={image.alt} loading="lazy" />
-                </div>
-              ))}
+            <div class="project-images-container-mobile">
+              {section.images.map((image, index) => {
+                // Determine the layout class for this specific image on mobile
+                let layoutClass = 'project-image-wrapper-mobile';
+                
+                if (image.type === 'single') {
+                  layoutClass += ' image-single-mobile';
+                } else if (image.type === 'wide') {
+                  layoutClass += ' image-wide-mobile';
+                } else if (image.type === 'collage') {
+                  layoutClass += ' image-collage-mobile';
+                } else {
+                  layoutClass += ' image-wide-mobile'; // default
+                }
+                
+                return (
+                  <div class={layoutClass}>
+                    <div class="project-image-mobile">
+                      <img src={image.src} alt={image.alt} loading="lazy" />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </section>
@@ -1117,6 +1224,6 @@ interface ProjectData {
         contentSection.addEventListener('scroll', highlightActiveSection);
       }
     });
-</script>
+  </script>
 </body>
 </html>

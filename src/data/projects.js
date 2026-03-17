@@ -616,7 +616,10 @@ Course: IS 628 Research Methods for UX`,
       title: "Menu Design Concepts",
       content: "Explorations for the main menu design, establishing the visual identity and navigation flow for the game's entry point.",
       images: [
-        { src: "/images/projects/spatoo/menu1.JPG", alt: "Spatoo Menu - Design Concept", type: "wide" }
+        { src: "/images/projects/spatoo/menu1.JPG", alt: "Spatoo Menu - Design Concept", type: "single" },
+        { src: "/images/projects/spatoo/uMenu1.png", alt: "Spatoo Menu - Design Concept", type: "wide" },
+        { src: "/images/projects/spatoo/uMenu2.png", alt: "Spatoo Menu - Design Concept", type: "wide" },
+        { src: "/images/projects/spatoo/uMenu3.png", alt: "Spatoo Menu - Design Concept", type: "wide" }
       ]
     }
   ]
@@ -643,21 +646,21 @@ Course: IS 628 Research Methods for UX`,
         title: "",
         content: "",
         images: [
-          { src: "/images/projects/smee/sp3.jpg", alt: "SMEE - Introduction", type: "wide" },
-          { src: "/images/projects/smee/sp4.jpg", alt: "SMEE - Setting", type: "wide" },
-          { src: "/images/projects/smee/sp5.jpg", alt: "SMEE - Timeline 1978", type: "wide" },
-          { src: "/images/projects/smee/sp6.jpg", alt: "SMEE - Timeline 1995", type: "wide" },
-          { src: "/images/projects/smee/sp7.jpg", alt: "SMEE - Character Design", type: "wide" },
-          { src: "/images/projects/smee/sp8.jpg", alt: "SMEE - Isaac Stone", type: "wide" },
-          { src: "/images/projects/smee/sp9.jpg", alt: "SMEE - Darren Crawford", type: "wide" },
-          { src: "/images/projects/smee/sp10.jpg", alt: "SMEE - Other Characters", type: "wide" },
-          { src: "/images/projects/smee/sp11.jpg", alt: "SMEE - Procedural Maze Concept", type: "wide" },
-          { src: "/images/projects/smee/sp12.jpg", alt: "SMEE - Ultimate Goal", type: "wide" },
-          { src: "/images/projects/smee/sp13.jpg", alt: "SMEE - User Interface", type: "wide" },
-          { src: "/images/projects/smee/sp14.jpg", alt: "SMEE - Environment", type: "wide" },
-          { src: "/images/projects/smee/sp15.jpg", alt: "SMEE - Gameplay", type: "wide" },
-          { src: "/images/projects/smee/sp16.jpg", alt: "SMEE - Mechanics", type: "wide" },
-          { src: "/images/projects/smee/sp17.jpg", alt: "SMEE - Inventory System", type: "wide" }
+          { src: "/images/projects/smee/sp3.jpg", alt: "SMEE - Introduction", type: "single" },
+          { src: "/images/projects/smee/sp4.jpg", alt: "SMEE - Setting", type: "single" },
+          { src: "/images/projects/smee/sp5.jpg", alt: "SMEE - Timeline 1978", type: "single" },
+          { src: "/images/projects/smee/sp6.jpg", alt: "SMEE - Timeline 1995", type: "single" },
+          { src: "/images/projects/smee/sp7.jpg", alt: "SMEE - Character Design", type: "single" },
+          { src: "/images/projects/smee/sp8.jpg", alt: "SMEE - Isaac Stone", type: "single" },
+          { src: "/images/projects/smee/sp9.jpg", alt: "SMEE - Darren Crawford", type: "single" },
+          { src: "/images/projects/smee/sp10.jpg", alt: "SMEE - Other Characters", type: "single" },
+          { src: "/images/projects/smee/sp11.jpg", alt: "SMEE - Procedural Maze Concept", type: "single" },
+          { src: "/images/projects/smee/sp12.jpg", alt: "SMEE - Ultimate Goal", type: "single" },
+          { src: "/images/projects/smee/sp13.jpg", alt: "SMEE - User Interface", type: "single" },
+          { src: "/images/projects/smee/sp14.jpg", alt: "SMEE - Environment", type: "single" },
+          { src: "/images/projects/smee/sp15.jpg", alt: "SMEE - Gameplay", type: "single" },
+          { src: "/images/projects/smee/sp16.jpg", alt: "SMEE - Mechanics", type: "single" },
+          { src: "/images/projects/smee/sp17.jpg", alt: "SMEE - Inventory System", type: "single" }
         ]
       }
     ]
@@ -685,13 +688,13 @@ Course: IS 628 Research Methods for UX`,
         title: "",
         content: "",
         images: [
-          { src: "/images/projects/statera/sp1.jpg", alt: "Statera Design - Page 1", type: "wide" },
-          { src: "/images/projects/statera/sp2.jpg", alt: "Statera Design - Page 2", type: "wide" },
-          { src: "/images/projects/statera/sp3.jpg", alt: "Statera Design - Page 3", type: "wide" },
-          { src: "/images/projects/statera/sp4.jpg", alt: "Statera Design - Page 4", type: "wide" },
-          { src: "/images/projects/statera/sp5.jpg", alt: "Statera Design - Page 5", type: "wide" },
-          { src: "/images/projects/statera/sp6.jpg", alt: "Statera Design - Page 6", type: "wide" },
-          { src: "/images/projects/statera/sp7.jpg", alt: "Statera Design - Page 7", type: "wide" }
+          { src: "/images/projects/statera/sp1.jpg", alt: "Statera Design - Page 1", type: "single" },
+          { src: "/images/projects/statera/sp2.jpg", alt: "Statera Design - Page 2", type: "single" },
+          { src: "/images/projects/statera/sp3.jpg", alt: "Statera Design - Page 3", type: "single" },
+          { src: "/images/projects/statera/sp4.jpg", alt: "Statera Design - Page 4", type: "single" },
+          { src: "/images/projects/statera/sp5.jpg", alt: "Statera Design - Page 5", type: "single" },
+          { src: "/images/projects/statera/sp6.jpg", alt: "Statera Design - Page 6", type: "single" },
+          { src: "/images/projects/statera/sp7.jpg", alt: "Statera Design - Page 7", type: "single" }
         ]
       }
     ]
@@ -719,14 +722,14 @@ Course: IS 628 Research Methods for UX`,
         title: "",
         content: "",
         images: [
-          { src: "/images/projects/vizfy/vp1.jpg", alt: "Vizfy Design - Page 1", type: "wide" },
-          { src: "/images/projects/vizfy/vp2.jpg", alt: "Vizfy Design - Page 2", type: "wide" },
-          { src: "/images/projects/vizfy/vp3.jpg", alt: "Vizfy Design - Page 3", type: "wide" },
-          { src: "/images/projects/vizfy/vp4.jpg", alt: "Vizfy Design - Page 4", type: "wide" },
-          { src: "/images/projects/vizfy/vp5.jpg", alt: "Vizfy Design - Page 5", type: "wide" },
-          { src: "/images/projects/vizfy/vp6.jpg", alt: "Vizfy Design - Page 6", type: "wide" },
-          { src: "/images/projects/vizfy/vp7.jpg", alt: "Vizfy Design - Page 7", type: "wide" },
-          { src: "/images/projects/vizfy/vp8.jpg", alt: "Vizfy Design - Page 8", type: "wide" }
+          { src: "/images/projects/vizfy/vp1.jpg", alt: "Vizfy Design - Page 1", type: "single" },
+          { src: "/images/projects/vizfy/vp2.jpg", alt: "Vizfy Design - Page 2", type: "single" },
+          { src: "/images/projects/vizfy/vp3.jpg", alt: "Vizfy Design - Page 3", type: "single" },
+          { src: "/images/projects/vizfy/vp4.jpg", alt: "Vizfy Design - Page 4", type: "single" },
+          { src: "/images/projects/vizfy/vp5.jpg", alt: "Vizfy Design - Page 5", type: "single" },
+          { src: "/images/projects/vizfy/vp6.jpg", alt: "Vizfy Design - Page 6", type: "single" },
+          { src: "/images/projects/vizfy/vp7.jpg", alt: "Vizfy Design - Page 7", type: "single" },
+          { src: "/images/projects/vizfy/vp8.jpg", alt: "Vizfy Design - Page 8", type: "single" }
         ]
       }
     ]
@@ -753,9 +756,9 @@ Course: IS 628 Research Methods for UX`,
         title: "",
         content: "",
         images: [
-          { src: "/images/projects/joyland/jp1.jpg", alt: "Joyland 24' - Title Page", type: "wide" },
-          { src: "/images/projects/joyland/jp2.jpg", alt: "Joyland 24' - Festival Overview", type: "wide" },
-          { src: "/images/projects/joyland/jp3.jpg", alt: "Joyland 24' - Primary Goals", type: "wide" }
+          { src: "/images/projects/joyland/jp1.jpg", alt: "Joyland 24' - Title Page", type: "single" },
+          { src: "/images/projects/joyland/jp2.jpg", alt: "Joyland 24' - Festival Overview", type: "single" },
+          { src: "/images/projects/joyland/jp3.jpg", alt: "Joyland 24' - Primary Goals", type: "single" }
         ]
       }
     ]
