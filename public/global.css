@@ -95,3 +95,36 @@
   --purple-900: #292142;
   --purple-000: #f5f2fc;
 }
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  opacity: 0.85;
+  margin-bottom: -1.5rem;
+  text-align: left;
+  font-family: var(--font-primary);
+  color: var(--white);
+}
+
+.page-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 100%;
+  margin-top: 2.5rem;
+}
+
+.project-card-link {
+  display: contents;
+  text-decoration: none;
+  color: inherit;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+  color: var(--white);
+  font-family: var(--font-primary);
+}

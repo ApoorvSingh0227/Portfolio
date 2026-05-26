@@ -16,12 +16,6 @@ const allProjects = getAllProjects();
     width: 100%;
   }
 
-  .project-card-link {
-    display: contents;
-    text-decoration: none;
-    color: inherit;
-  }
-
   .project-card.standard-card,
   .project-card.featured-card {
     cursor: pointer;
@@ -33,25 +27,6 @@ const allProjects = getAllProjects();
   .project-card.featured-card:hover .featured-title,
   .project-card.featured-card:hover .featured-subtitle {
     color: rgba(255, 255, 255, 1);
-  }
-  
-  .page-title {
-    font-size: 2rem;
-    font-weight: 700;
-    opacity: 85%;
-    margin-bottom: -1.5rem;
-    text-align: left;
-    font-family: var(--font-primary);
-    columns: var(--white);
-  }
-  
-  .page-description {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 100%;
-    margin-top: 2.5rem;
-    padding-right: 0;
   }
 
   .projects-divider {
